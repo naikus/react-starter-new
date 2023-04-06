@@ -1,0 +1,19 @@
+@import "./less/vars.less";
+
+.view {
+  width: 100%;
+  position: absolute;
+  top: @appbar-height;
+  bottom: 0;
+  overflow: auto;
+
+  > .content {
+    box-sizing: border-box;
+    padding: @padding-container;
+    width: 100%;
+  }
+
+  &.no-navbar {
+    top: 0;
+  }
+}

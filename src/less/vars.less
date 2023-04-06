@@ -1,0 +1,26 @@
+@size_none: 0;
+@size_tiny: 4;
+@size_smaller: 8;
+@size_small: 12;
+@size_default: 16;
+@size_medium: 24;
+@size_large: 48;
+
+@base-unit: @size_small + 0px;
+@padding-default: @size_small + 0px;
+@padding-container: @size_default + 0px;
+@base-border-radius: @base-unit - 4;
+
+@appbar-height: 80px;
+
+
+._no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+._border-box {
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}

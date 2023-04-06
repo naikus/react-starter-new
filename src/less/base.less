@@ -1,0 +1,33 @@
+@import "../../node_modules/normalize.css/normalize.css";
+@import "./vars.less";
+
+:root {
+  // color-scheme: light dark;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+
+  font-family: Inter, system-ui, Avenir, Helvetica, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  // color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+::-moz-selection {
+  background-color: var(--selection-bg-color);
+  color: var(--selection-text-color);
+}
+::selection {
+  background-color: var(--selection-bg-color);
+  color: var(--selection-text-color);
+}
+
+button:focus,
+button:focus-visible {
+  /* outline: 4px auto -webkit-focus-ring-color; */
+}
