@@ -10,7 +10,7 @@
 .overlay-backdrop {
   @bezier-func: cubic-bezier(0.19, 1, 0.22, 1);
 
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -72,11 +72,11 @@
 }
 
 .overlay-backdrop > .modal {
-  min-width: 50%;
+  min-width: 300px;
   margin: 8% auto;
   border-radius: @overlay-border-radius;
   // width: 85%;
-  max-width: 400px;
+  max-width: 80%;
   // margin: 0;
   // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
   min-height: 200px;
