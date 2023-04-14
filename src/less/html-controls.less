@@ -1,4 +1,5 @@
 @import "./vars.less";
+@import "./css-helpers.less";
 
 // form controls
 @form-component-border-radius: @base-border-radius - 3;
@@ -80,6 +81,7 @@ textarea {
   cursor: pointer;
   text-align: center;
   text-transform: uppercase;
+  font-weight: bolder;
 
   margin: 8px;
 
@@ -117,7 +119,7 @@ textarea {
 
   &.primary {
     background-color: var(--accent-color);
-    color: var(--alt-text-color);
+    color: var(--accent-text-color);
 
     &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       opacity: .6;
