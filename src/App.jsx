@@ -53,11 +53,16 @@ function App() {
             <a className="action" href="#/about">
               <i className="icon icon-info"></i>
             </a>
-          </AppBar> : 
-          null
-        }
-        {View ? <View context={viewData} /> : null}
-        {isRouteLoading ? <Progress /> : null}
+          </AppBar>
+        : null}
+
+        {View ?
+          <View context={viewData} />
+        : <div />}
+        
+        {isRouteLoading ? 
+          <Progress /> 
+        : null}
       </div>
     </RouterProvider>
   );
