@@ -6,7 +6,7 @@ const Portal = props => {
   const {target = "body", replace = ""} = props,
       portalRef = useRef(document.createElement("div")),
       portalElem = portalRef.current,
-      targetRef = useRef(document.querySelector(target)),
+      targetRef = useRef(typeof target === "string" ? document.querySelector(target) : target),
       targetElem = targetRef.current;
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Portal = props => {
   return createPortal(props.children, portalElem);
 };
 Portal.propTypes = {
-  target: PropTypes.string,
+  target: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   replace: PropTypes.string
 };
 Portal.displayName = "Portal";
