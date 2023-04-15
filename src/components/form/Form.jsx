@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useReducer, useContext, useRef, useCallback} from "react";
 import PropTypes from "prop-types";
+import "./style.less";
 
 const VALID = {valid: true, message: ""},
     objToString = Object.prototype.toString,
@@ -82,14 +83,6 @@ const VALID = {valid: true, message: ""},
     registerFieldType = (type, fieldImpl) => {
       fieldTypes[type] = fieldImpl;
     },
-
-    fieldReducer = (state, action) => {
-      const {type, value} = action;
-      return {
-        ...state,
-        [type]: value
-      };
-    },
     
     FormContext = React.createContext(),
 
@@ -97,6 +90,15 @@ const VALID = {valid: true, message: ""},
       return useContext(FormContext);
     };
 
+
+
+const fieldReducer = (state, action) => {
+  const {type, value} = action;
+  return {
+    ...state,
+    [type]: value
+  };
+};
 const Field = props => {
   const {name, value, defaultValue, label, onInput, type} = props,
       [state, dispatch] = useReducer(fieldReducer, {
@@ -207,7 +209,6 @@ const formReducer = (state, action) => {
   // console.log("New State", action.type, newState);
   return newState;
 };
-
 const Form = props => {
   /**
    * The form state
