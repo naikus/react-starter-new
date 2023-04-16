@@ -2,7 +2,7 @@
   @success-color: rgb(134, 170, 79);
   @warn-color: rgb(221, 156, 64);
   @info-color: rgb(70, 142, 201);
-  @error-color: rgb(201, 76, 76);
+  @error-color: rgb(215, 82, 82);
 
   @accent-color: rgb(22, 121, 203);
   @accent-text-color: #fff;
@@ -33,7 +33,7 @@
   @success-color: rgb(134, 170, 79);
   @warn-color: rgb(221, 156, 64);
   @info-color: rgb(70, 142, 201);
-  @error-color: rgb(201, 76, 76);
+  @error-color: rgb(255, 131, 131);
 
   @accent-color: rgb(240, 71, 119);
   @accent-text-color: #fff;
@@ -44,7 +44,7 @@
   @text-color: rgb(206, 211, 231);
   @alt-text-color: rgb(232, 228, 228);
   @selection-bg-color: @accent-color;
-  @selection-text-color: @bg-color;
+  @selection-text-color: #fff;
   @selected-bg-color:rgba(0,0,0,0.06);
   
   @active-bg-color: rgba(0,0,0,0.06);
@@ -92,7 +92,7 @@
   --input-placeholder-text-color: lighten(@text-color, 15%);
   --input-disabled-bg-color: darken(@bg-color, 3%);
   --input-disabled-text-color: darken(@bg-color, 3%);
-  --input-focus-ring-color: fade(@accent-color, 20%);
+  --input-focus-ring-color: fade(@link-color, 60%);
   --button-bg-color: darken(@bg-color, 10%);
   --button-text-color: @text-color;
   accent-color: var(--accent-color);
@@ -105,11 +105,11 @@
 }
 
 
-/*
+// /*
 @media (prefers-color-scheme: dark) {
   :root {
     .colors-dark;
     .vars();
   }
 }
-*/
+// */

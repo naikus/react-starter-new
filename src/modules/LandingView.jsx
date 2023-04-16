@@ -4,15 +4,17 @@ import {useRouter} from "../components/router";
 import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 
-import {Form, Field} from "../components/form/Form";
-import {rules, ruleBuilder} from "../components/form/rule-builder";
+import {Form, Field, renderField} from "../components/form/Form";
+import {rules, ruleBuilder as rule} from "../components/form/rule-builder";
 
 const validationRules = {
   fullName: [
-    ruleBuilder("required")
+    rule("required"),
+    // ruleBuilder("length", {min: 5, max: 10})
+    rule("fieldCompare", {field: "address"})
   ],
   address: [
-    ruleBuilder("required")
+    rule("required")
   ],
   agreeToTerms: [
     (value, field, context) => {
@@ -45,6 +47,7 @@ const View = props => {
       </Actions>
       <div className="content">
       <Form rules={validationRules}
+        fieldRenderer={renderField}
         onChange={fm => {
           const {data: newSettings, valid, validation} = fm;
           console.log(fm);
@@ -61,13 +64,13 @@ const View = props => {
         <Field type="text"
           name="fullName"
           defaultValue={fullName}
-          label="Full Name"
+          data-label="Full Name"
           data-hint="Your given name and last name" />
 
         <Field type="select"
           name="city"
           defaultValue={city}
-          label="City"
+          data-label="City"
           data-hint="Choose a city">
           <option value="Banglore">Banglore</option>
           <option value="Delhi">Delhi</option>
@@ -80,16 +83,17 @@ const View = props => {
             type="checkbox"
             value={agreeToTerms}
             defaultChecked={agreeToTerms}
-            label="I agree to terms and conditions"
+            data-label="I agree to terms and conditions"
             data-hint="You must agree :D" />
         </label>
-        {/*
+        {
 
         <Field type="textarea" name="address"
-          value={address}
+          defaultValue={address}
           label="Address"
           data-hint="Your street address" />
 
+        /*
         <Field type="range" name="age"
           min={10}
           max={150}
