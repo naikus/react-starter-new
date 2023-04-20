@@ -43,13 +43,13 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       },
-      fieldCompare(value, field, formContext) {
-        const other = formContext.getFieldModel(this.field);
+      fieldCompare(value, field, fields) {
+        const {field: fieldName} = this, other = fields[fieldName];
         if(other.value !== value) {
-          const message = this.message || `${field.name} must be same as ${other.label}`;
+          const message = this.message || `${field.name} must be same as ${other.name}`;
           return invalid(message);
         }else {
-          other.valid = true;
+          return {valid: true, revalidate: [fieldName]};
         }
       },
       pattern(value, field) {

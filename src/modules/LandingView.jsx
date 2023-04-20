@@ -14,7 +14,8 @@ const validationRules = {
     rule("fieldCompare", {field: "address"})
   ],
   address: [
-    rule("required")
+    rule("required"),
+    rule("fieldCompare", {field: "fullName"})
   ],
   agreeToTerms: [
     (value, field, context) => {
