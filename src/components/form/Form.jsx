@@ -143,26 +143,24 @@ const renderField = (field, model, props) => {
         typeRenderer = fieldTypes[type] || fieldTypes.input,
         formContext = useForm();
 
-    // /*
     useEffect(() => {
       if(formContext) {
         const {form, addField} = formContext,
             thisField = form.fields[name];
         if(!thisField) {
-          console.log("[Field] adding field", name);
+          // console.log("[Field] adding field", name);
           addField({name, value, defaultValue, label});
         }
       }
 
       return () => {
         if(formContext) {
-          console.log("[Field] removing field", name);
+          // console.log("[Field] removing field", name);
           const {removeField} = formContext;
           removeField(name);
         }
       };
     }, []);
-    // */
 
 
     if(formContext) {
@@ -207,7 +205,7 @@ function validateField(field, rules, allFields) {
     const v = r(value, field, allFields);
     // console.log("[vaidateField]", r, field.name, v);
     if(typeof (v) !== "undefined" && !v.valid) {
-      console.log("[validatefield]", v);
+      // console.log("[validatefield]", v);
       result = v;
       return true;
     }else {
@@ -242,35 +240,14 @@ const formReducer = (state, action) => {
 
       let newState;
       switch (type) {
-        /*
-        case "validate-fields": {
-          newState = {
-            ...state,
-            fields: Object.values(payload).reduce((acc, f) => {
-              const {valid, message} = validateField(f, rules, payload);
-              console.log("validate-fields", f.name, valid, message);
-              acc[f.name] = {
-                ...f,
-                data: {
-                  ...f.data,
-                  valid,
-                  message
-                }
-              };
-              return acc;
-            }, {})
-          };
-          break;
-        }
-        */
         case "set-fields": {
+          // console.log("[reducer] set-field", payload);
           newState = {
             ...state,
             fields: Object.values(payload).reduce((acc, f) => {
               const {valid, message} = validateField(f, rules, payload),
                   {name} = f;
 
-              console.log("[reducer] set-field", name, valid, message);
               acc[name] = {
                 ...f,
                 valid,
@@ -282,14 +259,17 @@ const formReducer = (state, action) => {
           break;
         }
         case "add-field": {
-          const {name, value, pristine} = payload;
-          console.log("[reducer] add-field", payload);
+          const {name, value, pristine} = payload,
+              {valid, message} = validateField(payload, rules, fields);
+          // console.log("[reducer] add-field", payload);
           newState = {
             ...state,
             fields: {
               ...fields,
               [name]: {
                 name,
+                valid,
+                message,
                 value,
                 pristine
               }
@@ -301,7 +281,7 @@ const formReducer = (state, action) => {
           const {name, value, pristine} = payload, // Here payload is field model
             {fields} = state,
             {valid, message, revalidate} = validateField(payload, rules, fields),
-            field = fields[name],
+            // field = fields[name],
 
             newFields = {
               ...fields,
@@ -315,10 +295,10 @@ const formReducer = (state, action) => {
             };
 
             if(revalidate) {
-              console.log("[reducer] re validating", revalidate);
+              // console.log("[reducer] re validating", revalidate);
               revalidate.forEach(fn => {
                 const f = fields[fn];
-                console.log("[reducer] revalidating", f);
+                // console.log("[reducer] revalidating", f);
                 if(f) {
                   const {valid, message} = validateField(f, rules, newFields);
                   newFields[fn] = {
@@ -330,8 +310,7 @@ const formReducer = (state, action) => {
               });
             }
 
-            console.log("[reducer] update-field", payload);
-
+            // console.log("[reducer] update-field", payload);
             newState = {
               valid: valid ? validateFields(newFields, rules) : false,
               pristine: false,
@@ -341,6 +320,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "remove-field": {
+          // console.log("[reducer] remove-field", payload);
           // here payload is the name of the field
           const {fields} = state, name = payload,
             newFields = {...fields};
@@ -356,7 +336,7 @@ const formReducer = (state, action) => {
           newState = state;
           break;
       }
-      console.log("[reducer] New State", action.type, newState);
+      // console.log("[reducer] New State", action.type, newState);
       return newState;
     },
     Form = props => {
@@ -379,22 +359,50 @@ const formReducer = (state, action) => {
           e.preventDefault();
           const {onSubmit} = props;
           if(typeof onSubmit === "function") {
-            // onSubmit(formContext.getData());
+            const {fields, valid, pristine} = form;
+            onSubmit({
+              valid,
+              pristine,
+              fields: {
+                ...fields
+              }
+            });
           }
           return false;
         }, []);
 
       useEffect(() => {
         const {current} = fields;
-        console.log("[Form] Set fields");
-        dispatch({type: "set-fields", payload: current});
+        if(current) {
+          console.log("[Form] Set fields");
+          dispatch({type: "set-fields", payload: current});
+          fields.current = null;
+        }
       }, []);
+
+      useEffect(() => {
+        const {onChange} = props;
+        // Only fire onchange if fields are set in state (not in fields ref, which means we are still loading)
+        if(typeof onChange === "function" && !fields.current) {
+          const {fields, valid, pristine} = form;
+          // Only fire if the form is not pristine (i.e. don't fire on mount or initially)
+          if(!pristine) {
+            onChange({
+              valid,
+              pristine,
+              fields: {
+                ...fields
+              }
+            });
+          }
+        }
+      }, [form]);
 
       return (
         <FormContext.Provider value={{
           form, 
           addField(field) {
-            console.log("[formcontext] addfield", field.name, fields.current);
+            // console.log("[formcontext] addField", field.name, fields.current);
             if(!fields.current) {
               dispatch({type: "add-field", payload: field});
             }else {
@@ -408,6 +416,7 @@ const formReducer = (state, action) => {
             return form.fields[name];
           },
           removeField(name) {
+            // console.log("[formcontext] removeField", name);
             dispatch({type: "remove-field", payload: name});
           },
           renderer: props.fieldRenderer

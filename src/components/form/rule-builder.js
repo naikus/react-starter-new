@@ -45,6 +45,9 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
       },
       fieldCompare(value, field, fields) {
         const {field: fieldName} = this, other = fields[fieldName];
+        if(!other) {
+          return;
+        }
         if(other.value !== value) {
           const message = this.message || `${field.name} must be same as ${other.name}`;
           return invalid(message);

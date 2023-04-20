@@ -39,6 +39,8 @@ const View = props => {
 
   const {fullName, city, address, agreeToTerms, age} = settings;
 
+  const [valid, setValid] = useState(false);
+
   return (
     <div className="view landing-view">
       <Actions>
@@ -47,76 +49,80 @@ const View = props => {
         </a>
       </Actions>
       <div className="content">
-      <Form rules={validationRules}
-        fieldRenderer={renderField}
-        onChange={fm => {
-          const {data: newSettings, valid, validation} = fm;
-          console.log(fm);
-          if(valid) {
-            // console.log("Form valid");
-            // setSettings(newSettings);
-          }else {
-            // console.log("Form invalid");
-            // setSettings(newSettings);
-            // this.setState({valid, setttings: newSettings});
-          }
-        }}>
+        <Form rules={validationRules}
+          fieldRenderer={renderField}
+          onChange={fm => {
+            const {data: newSettings, valid, validation} = fm;
+            console.log(fm);
+            setValid(valid);
+          }}>
 
-        <Field type="text"
-          name="fullName"
-          defaultValue={fullName}
-          data-label="Full Name"
-          data-hint="Your given name and last name" />
+          <button className="primary" disabled={!valid}>Submit</button>
 
-        <Field type="select"
-          name="city"
-          defaultValue={city}
-          data-label="City"
-          data-hint="Choose a city">
-          <option value="Banglore">Banglore</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Mumbai">Mumbai</option>
-          <option value="Pune">Pune</option>
-        </Field>
+          <Field type="text"
+            name="fullName"
+            defaultValue={fullName}
+            data-label="Full Name"
+            data-hint="Your given name and last name" />
 
-        <label>
+          <Field type="select"
+            name="city"
+            defaultValue={city}
+            data-label="City"
+            data-hint="Choose a city">
+            <option value="Banglore">Banglore</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Pune">Pune</option>
+          </Field>
+
+          <label>
+            <Field name="agreeToTerms"
+              type="checkbox"
+              value={agreeToTerms}
+              defaultChecked={agreeToTerms}
+              data-label="I agree to terms and conditions"
+              data-hint="You must agree :D" />
+          </label>
+
+
+          <Field type="range" name="age"
+            min={10}
+            max={150}
+            data-hint="Between 10 and 150"
+            defaultValue={age}
+            step={1}
+            data-label="Your Age" />
+          
+
+          <Field type="textarea" name="address"
+            defaultValue={address}
+            label="Address"
+            data-hint="Your street address" />
+
+          {/*
+          <Field type="range" name="age"
+            min={10}
+            max={150}
+            data-hint="Between 10 and 150"
+            value={age}
+            step={1}
+            label="Your Age" />
+
           <Field name="agreeToTerms"
             type="checkbox"
             value={agreeToTerms}
-            defaultChecked={agreeToTerms}
-            data-label="I agree to terms and conditions"
+            label="I agree to terms and conditions"
             data-hint="You must agree :D" />
-        </label>
-        {
-
-        <Field type="textarea" name="address"
-          defaultValue={address}
-          label="Address"
-          data-hint="Your street address" />
-
-        /*
-        <Field type="range" name="age"
-          min={10}
-          max={150}
-          data-hint="Between 10 and 150"
-          value={age}
-          step={1}
-          label="Your Age" />
-
-        <Field name="agreeToTerms"
-          type="checkbox"
-          value={agreeToTerms}
-          label="I agree to terms and conditions"
-          data-hint="You must agree :D" />
-        
-        <Field name="myRadio"
-          type="radio"
-          label="Option 1" />
-        <Field name="myRadio"
-          type="radio"
-          label="Option 2" />
-        */}
-      </Form>
+          
+          <Field name="myRadio"
+            type="radio"
+            label="Option 1" />
+          <Field name="myRadio"
+            type="radio"
+            label="Option 2" />
+          */}
+        </Form>
       </div>
       <Overlay className="modal" show={show}>
         <div className="title">Hola!</div>
