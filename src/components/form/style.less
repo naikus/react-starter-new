@@ -1,29 +1,24 @@
 @import "../../less/vars.less";
 
 @field-container-padding: @padding-default*1.5;
+@radio-indictor-size: 20px;
 
 .checkbox-container, .radio-container {
     position: relative;
     display: inline-block;
-    margin-bottom: @field-container-padding;
     input {
-      width: auto;
-      height: auto;
-      margin-right: 8px;
+      width: @radio-indictor-size;
+      height: @radio-indictor-size;
+      margin: 0;
       opacity: 0;
-      // z-index: -1;
-      position: absolute;
-      // top: @field-container-padding;
-      // left: @field-container-padding;
-    }
-    .indicator {
       position: absolute;
       cursor: pointer;
-      // top: @field-container-padding;
-      // left: @field-container-padding;
+    }
+    .indicator {
+      cursor: pointer;
       border-radius: @input-border-radius;
-      width: 20px;
-      height: 20px;
+      width: @radio-indictor-size;
+      height: @radio-indictor-size;
       background-color: var(--input-bg-color);
       border: 1px solid rgba(0,0,0,0.07);
 
@@ -52,7 +47,6 @@
 }
 
 .checkbox-container {
-  display: block;
   .indicator {
     &::after {
       width: 4px;
@@ -60,8 +54,8 @@
       border: solid var(--accent-text-color);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
-      top: 3px;
-      left: 7px;
+      top: 4px;
+      left: 8px;
     }
   }
   input:disabled ~ .indicator {
@@ -75,8 +69,8 @@
   .indicator {
     border-radius: 50%;
     &::after {
-      width: 8px;
-      height: 8px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background-color: var(--accent-text-color);
       border-width: 0;
@@ -129,7 +123,8 @@
   .checkbox-container, .radio-container {
     position: absolute;
     top: @field-container-padding;
-    left:@field-container-padding;  
+    left: @field-container-padding;
+    margin-bottom: @field-container-padding;
   }
 
   .v-msg {

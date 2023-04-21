@@ -27,10 +27,11 @@ const VALID = {valid: true, message: ""},
             events = isIos() ? {onChange: handler, onInput: null} : {onInput: handler},
             newProps = {
               ...props,
-              ...events,
+              ...events
               // checked: props.value,
-              value: `${props.value}`
+              // value: props.value || props.defaultChecked
             };
+            // console.log(newProps);
         return (
           <span className="checkbox-container">
             <input type="checkbox" {...newProps} />
@@ -47,9 +48,9 @@ const VALID = {valid: true, message: ""},
             events = isIos() ? {onClick: handler} : {onInput: handler},
             newProps = {
               ...props,
-              ...events,
-              checked: props.value,
-              value: `${props.value}`
+              ...events
+              // checked: props.value,
+              // value: props.value || props.defaultChecked
             };
         return (
           <span className="radio-container">
@@ -139,7 +140,15 @@ const renderField = (field, model, props) => {
     );
   },
   Field = props => {
-    const {name, defaultValue, value = defaultValue, label, onInput, type} = props,
+    const {
+          name,
+          defaultValue,
+          defaultChecked,
+          value = (defaultValue || defaultChecked),
+          label,
+          onInput,
+          type
+        } = props,
         typeRenderer = fieldTypes[type] || fieldTypes.input,
         formContext = useForm();
 
@@ -217,12 +226,9 @@ function validateField(field, rules, allFields) {
 }
 
 function validateFields(fields, rules) {
-  if(!fields.length) {
-    return true;
-  }
   let valid = true;
   Object.values(fields).some(f => {
-    const v = validateField(f.data, rules, fields);
+    const v = validateField(f, rules, fields);
     if(!v.valid) {
       valid = false;
       return true;
@@ -310,7 +316,6 @@ const formReducer = (state, action) => {
               });
             }
 
-            // console.log("[reducer] update-field", payload);
             newState = {
               valid: valid ? validateFields(newFields, rules) : false,
               pristine: false,
@@ -374,7 +379,7 @@ const formReducer = (state, action) => {
       useEffect(() => {
         const {current} = fields;
         if(current) {
-          console.log("[Form] Set fields");
+          // console.log("[Form] Set fields");
           dispatch({type: "set-fields", payload: current});
           fields.current = null;
         }
@@ -412,9 +417,11 @@ const formReducer = (state, action) => {
           updateField(field) {
             dispatch({type: "update-field", payload: field});
           },
+          /*
           getField(name) {
             return form.fields[name];
           },
+          */
           removeField(name) {
             // console.log("[formcontext] removeField", name);
             dispatch({type: "remove-field", payload: name});
