@@ -5,20 +5,7 @@ import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 
 const View = props => {
-  const router = useRouter();
-  const [show, setShow] = useState(false);
-  const [settings, setSettings] = useState({
-    fullName: "Aniket Naik",
-    city: "Pune",
-    address: "Pune",
-    agreeToTerms: true,
-    age: 30
-  });
-
-  const {fullName, city, address, agreeToTerms, age} = settings;
-
-  const [valid, setValid] = useState(false);
-
+  const router = useRouter(), [show, setShow] = useState(false);
   return (
     <div className="view landing-view">
       <Actions>
