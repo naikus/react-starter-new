@@ -1,0 +1,145 @@
+@import "../../less/vars.less";
+
+@field-container-padding: @padding-default*1.5;
+@radio-indictor-size: 20px;
+
+.checkbox-container, .radio-container {
+    position: relative;
+    display: inline-block;
+    input {
+      width: @radio-indictor-size;
+      height: @radio-indictor-size;
+      margin: 0;
+      opacity: 0;
+      position: absolute;
+      cursor: pointer;
+    }
+    .indicator {
+      cursor: pointer;
+      border-radius: @input-border-radius;
+      width: @radio-indictor-size;
+      height: @radio-indictor-size;
+      background-color: var(--input-bg-color);
+      border: 1px solid rgba(0,0,0,0.07);
+
+      &::after {
+        content: "";
+        position: absolute;        
+        display: none;
+      }
+    }
+
+    input:focus ~ .indicator {
+      box-shadow: 0 0 0px 3px var(--input-focus-ring-color);
+    }
+
+    input:checked ~ .indicator {
+      background-color: var(--accent-color);
+      &::after {
+        display: block;
+      }
+    }
+    input:disabled ~ .indicator {
+      pointer-events: none;
+      background-color: var(--input-disabled-bg-color);
+      cursor: not-allowed;
+    }
+}
+
+.checkbox-container {
+  .indicator {
+    &::after {
+      width: 4px;
+      height: 9px;
+      border: solid var(--accent-text-color);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      top: 4px;
+      left: 8px;
+    }
+  }
+  input:disabled ~ .indicator {
+    &::after {
+      // border-color: darken(@input-disabled-color, 5%);
+    }
+  }
+}
+
+.radio-container {
+  .indicator {
+    border-radius: 50%;
+    &::after {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--accent-text-color);
+      border-width: 0;
+      top: 5px;
+      left: 5px;
+    }
+  }
+  input:disabled ~ .indicator {
+    &::after {
+      // background-color: darken(@input-disabled-color, 7%);
+    }
+  }
+}
+
+
+// Form built-in field renderer styles
+.field-container {
+  padding: @field-container-padding;
+  background-color: var(--base-color);
+  margin-bottom: @base-unit;
+  overflow: auto;
+  
+  .hint, .value {
+    font-size: 0.85em;
+    // ont-weight: 100;
+    color: var(--input-hint-color);
+    margin: 4px 4px 4px 0;
+    float: left;
+  }
+  .value {
+    float: right;
+    color: var(--text-color);
+  }
+  .label {
+    span {
+      display: block;
+    }
+  }
+  input, textarea, select, button {
+    margin-bottom: 5px;
+  }
+
+
+  &.checkbox, &.radio {
+    position: relative;
+    > .label {
+      margin-left: @field-container-padding + @padding-default;
+    }
+  }
+  .checkbox-container, .radio-container {
+    position: absolute;
+    top: @field-container-padding;
+    left: @field-container-padding;
+    margin-bottom: @field-container-padding;
+  }
+
+  .v-msg {
+    margin-bottom: 5px;
+    font-weight: 400;
+    clear: both;
+  }
+
+  &.valid-false {
+    input, textarea, select {
+      // border-bottom-color: var(--error-color);
+    }
+    .v-msg {
+      color: var(--error-color);
+    }
+  }
+  
+}

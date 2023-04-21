@@ -5,8 +5,7 @@ import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 
 const View = props => {
-  const router = useRouter();
-  const [show, setShow] = useState(false);
+  const router = useRouter(), [show, setShow] = useState(false);
   return (
     <div className="view landing-view">
       <Actions>
@@ -15,7 +14,7 @@ const View = props => {
         </a>
       </Actions>
       <div className="content">
-        
+      
       </div>
       <Overlay className="modal" show={show}>
         <div className="title">Hola!</div>
