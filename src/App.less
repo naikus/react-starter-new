@@ -2,20 +2,62 @@
 @import "./less/css-helpers.less";
 
 .view {
-  width: 100%;
-  position: absolute;
-  top: @appbar-height;
-  bottom: 0;
-  overflow: auto;
+  // width: 100%;
+  // position: absolute;
+  // top: @appbar-height;
+  // bottom: 0;
+  // overflow: auto;
+  padding-top: @appbar-height;
 
   > .content {
     box-sizing: border-box;
     padding: @padding-container;
     width: 100%;
   }
-
-  &.no-navbar {
-    top: 0;
-  }
 }
 
+
+
+.view-wrapper {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+
+
+  &.no-appbar {
+    > .view {
+      padding-top: 0;
+    }
+  }
+}
+.fadeup-transitions {
+  -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  -o-transition: -o-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  -ms-transition: -ms-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  transition: transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+}
+.fadeup-enter {
+  opacity: 0;
+  .translate(0, 50px);
+}
+.fadeup-enter.fadeup-enter-active {
+  // position: absolute;
+  .fadeup-transitions;
+  .transformNone;
+  opacity: 1;
+}
+.fadeup-exit {
+  opacity: 1;
+  .transformNone;
+  // .fadeup-transitions;
+}
+.fadeup-exit.fadeup-exit-active {
+  .fadeup-transitions;
+  // position: absolute;
+  // width: 100%;
+  opacity: 0;
+  .translate(0, -50px);
+}

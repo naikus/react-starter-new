@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, forwardRef, memo} from "react";
+import {CSSTransition, SwitchTransition} from "react-transition-group";
 import createRouter, {/*useRouter,*/ RouterProvider} from "./components/router";
 
 import {AppBar} from "./components/appbar/Appbar";
@@ -9,11 +10,28 @@ import "./App.less";
 import Progress from "./components/progress/Progress";
 import Config from "./config";
 
+
+function createViewWrapper(View) {
+  /* eslint-disable react/display-name */
+  const Wrapper = forwardRef((props, ref) => {
+    const {context, className = ""} = props;
+    return (
+      <div className={`view-wrapper ${className}`} ref={ref}>
+        {View ? <View {...context} /> : null}
+      </div>
+    );
+  });
+  Wrapper.displayName = `ViewWrapper(${View.displayName || View.name})`;
+  return Wrapper;
+}
+
 function App() {
   const routerRef = useRef(),
       [routeContext = {}, setRouteContext] = useState(),
       [isRouteLoading, setRouteLoading] = useState(false),
-      {component: View, appBar = true, ...viewData} = routeContext;
+      {component: View, appBar = true, ...viewData} = routeContext,
+      transitionRef = useRef(null),
+      transitionKey = viewData.route ? viewData.route.path : "root";
 
   useEffect(() => {
     const router = createRouter(routes, {
@@ -25,7 +43,10 @@ function App() {
             setRouteLoading(true);
           }),
           router.on("route", (event, context) => {
-            // console.log("Setting route", context);
+            console.log("Setting route", context);
+            if(context.component) {
+              context.component = memo(createViewWrapper(context.component));
+            }
             setRouteLoading(false);
             setRouteContext(context);
           }),
@@ -56,9 +77,17 @@ function App() {
           </AppBar>
         : null}
 
-        {View ?
-          <View context={viewData} />
-        : <div />}
+        <SwitchTransition>
+          <CSSTransition 
+            classNames={"fadeup"}
+            nodeRef={transitionRef} 
+            key={transitionKey} 
+            timeout={{enter: 400, exit: 10}}>
+            {View ? 
+              <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
+            : <div />}
+          </CSSTransition>
+        </SwitchTransition>
         
         {isRouteLoading ? 
           <Progress /> 

@@ -21,7 +21,7 @@ export default [
             component: AboutView,
             appBar: false
           });
-        }, 1000);
+        }, 10);
       });
     }
   }
