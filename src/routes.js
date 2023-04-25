@@ -6,8 +6,9 @@ export default [
   {
     path: "/",
     controller: context => {
+      // console.log(context);
       return {
-        // redirect: "/route-error",
+        // forward: "/route-error",
         component: LandingView
       };
     }
@@ -15,13 +16,17 @@ export default [
   {
     path: "/about",
     controller: context => {
+      // const {route, state} = context;
+      // console.log(context);
       return new Promise((res, rej) => {
         setTimeout(() => {
           res({
             component: AboutView,
-            appBar: false
+            config: {
+              appBar: false
+            }
           });
-        }, 10);
+        }, 1000);
       });
     }
   }

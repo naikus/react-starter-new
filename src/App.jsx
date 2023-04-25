@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState, forwardRef, memo} from "react";
+import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import createRouter, {/*useRouter,*/ RouterProvider} from "./components/router";
 
@@ -14,14 +15,17 @@ import Config from "./config";
 function createViewWrapper(View) {
   /* eslint-disable react/display-name */
   const Wrapper = forwardRef((props, ref) => {
-    const {context, className = ""} = props;
+    const {className} = props;
     return (
       <div className={`view-wrapper ${className}`} ref={ref}>
-        {View ? <View {...context} /> : null}
+        {View ? <View /> : null}
       </div>
     );
   });
   Wrapper.displayName = `ViewWrapper(${View.displayName || View.name})`;
+  Wrapper.propTypes = {
+    className: PropTypes.string
+  };
   return Wrapper;
 }
 
@@ -29,7 +33,8 @@ function App() {
   const routerRef = useRef(),
       [routeContext = {}, setRouteContext] = useState(),
       [isRouteLoading, setRouteLoading] = useState(false),
-      {component: View, appBar = true, ...viewData} = routeContext,
+      {component: View, config = {}, ...viewData} = routeContext,
+      {appBar = true} = config,
       transitionRef = useRef(null),
       transitionKey = viewData.route ? viewData.route.path : "root";
 
@@ -43,7 +48,7 @@ function App() {
             setRouteLoading(true);
           }),
           router.on("route", (event, context) => {
-            console.log("Setting route", context);
+            // console.log("Setting route", context);
             if(context.component) {
               context.component = memo(createViewWrapper(context.component));
             }

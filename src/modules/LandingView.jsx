@@ -14,34 +14,7 @@ const View = props => {
         </a>
       </Actions>
       <div className="content">
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
-        <h1>Hello!</h1>
+        <div className="title">Hola!</div>
         
       </div>
       <Overlay className="modal" show={show}>

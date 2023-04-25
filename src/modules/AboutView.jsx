@@ -8,7 +8,7 @@ const View = props => {
     <div className="view about-view no-navbar">
       <div className="content _text-center">
         <button className="primary inline" onClick={() => router.back()}>
-          <i className="icon icon-arrow-left" /> Back
+          <i className="icon icon-arrow-left" /> Back 89685
         </button>
       </div>
 

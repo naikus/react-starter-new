@@ -1,4 +1,4 @@
-import createRouter from "simple-router"
+import createRouter from "simple-router";
 import RouterContext from "./RouterContext";
 import RouterProvider from  "./RouterProvider";
 import useRouter from "./useRouter";
