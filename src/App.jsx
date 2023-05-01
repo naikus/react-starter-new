@@ -10,6 +10,7 @@ import "./index.less";
 import "./App.less";
 import Progress from "./components/progress/Progress";
 import Config from "./config";
+import {NotificationProvider, Notifications} from "./components/notifications";
 
 
 function createViewWrapper(View) {
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <RouterProvider router={routerRef.current}>
+      <NotificationProvider>
       <div className="app">
         {appBar ? 
           <AppBar logo={Config.logo}
@@ -97,7 +99,10 @@ function App() {
         {isRouteLoading ? 
           <Progress /> 
         : null}
+
+        <Notifications  />
       </div>
+      </NotificationProvider>
     </RouterProvider>
   );
 }

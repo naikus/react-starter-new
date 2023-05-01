@@ -1,0 +1,66 @@
+@import "../../less/vars.less";
+@import "../../less/css-helpers.less";
+
+.notification {
+  display: flex;
+  align-items: stretch;
+  // min-height: 70px;
+  width: 90%;
+  left: 5%;
+  bottom: 16%;
+  margin: 1% auto;
+  position: fixed;
+  z-index: 110;
+  // background-color: fade(@info-color, 80%);
+  background-color: var(--alt-bg-color); // lighten(@base-color, 5%);
+  color: var(--alt-text-color);
+  transform: translate3d(0, 50%, 0);
+  opacity: 0;
+  transition: transform 200ms ease, opacity 200ms ease;
+  border-radius: @base-border-radius;
+
+  // box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.03);
+  // border: 1px solid rgba(0,0,0,0.05);
+  /*
+  & when (@dark-theme = "true") {
+    
+  }
+  */
+
+  > .icon, > .data {
+    display: flex;
+    align-items: center;
+  }
+
+  > .icon {
+    border-radius: @base-border-radius 0 0 @base-border-radius;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: @padding-container;
+    // background: rgba(0,0,0,0.1);
+    color: #fff;
+  }
+
+  > .data {
+    flex: 1;
+    padding: @padding-container;
+  }
+
+  &.show {
+    transform: none;
+    opacity: 1;
+  }
+
+  &.error > .icon {
+    background-color: var(--error-color);
+  }
+  &.success > .icon {
+    background-color: var(--success-color);
+  }
+  &.info > .icon {
+    background-color: var(--info-color);
+  }
+  &.warn > .icon {
+    background-color: var(--warn-color);
+  }
+}
