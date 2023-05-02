@@ -1,15 +1,54 @@
 /* global */
-import React, {useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {useRouter} from "../components/router";
 import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
+import {NotificationContext} from "../components/notifications";
+
+function random(max, min = 0) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+const nTypes = ["success", "info", "warn", "error"];
 
 const View = props => {
-  const router = useRouter(), [show, setShow] = useState(false);
+  const router = useRouter(), 
+      notifications = useContext(NotificationContext),
+      toggleScheme = useCallback(() => {
+        const root = document.firstElementChild,
+            data = root.dataset,
+            theme = data.theme;
+        if(theme === "light") {
+          data.theme = "dark";
+        }else {
+          data.theme = "light";
+        }
+      }, []),
+      [show, setShow] = useState(false);
   return (
     <div className="view landing-view">
+      <style>
+        {`
+          .modal.alert {
+            max-width: 350px;
+          }
+        `}
+      </style>
       <Actions>
         <a className="action" onClick={() => setShow(!show)}>
+          <i className="icon icon-eye"></i>
+        </a>
+        <a className="action" onClick={() => toggleScheme()}>
+          <i className="icon icon-sun"></i>
+        </a>
+        <a className="action" onClick={() => {
+            notifications.show({
+              content: (message) => `This is a ${message.type} message`,
+              type: nTypes[random(nTypes.length)],
+              sticky: true,
+              timeout: 2000
+            });
+          }}>
           <i className="icon icon-bell"></i>
         </a>
       </Actions>
@@ -17,7 +56,7 @@ const View = props => {
         <div className="title">Hola!</div>
         
       </div>
-      <Overlay className="modal" show={show}>
+      <Overlay className="modal alert" show={show}>
         <div className="title">Hola!</div>
         <div className="message">Hello world</div>
         <div className="actions">

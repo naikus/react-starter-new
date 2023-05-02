@@ -10,6 +10,7 @@ import "./index.less";
 import "./App.less";
 import Progress from "./components/progress/Progress";
 import Config from "./config";
+import {NotificationProvider, Notifications} from "./components/notifications";
 
 
 function createViewWrapper(View) {
@@ -71,33 +72,37 @@ function App() {
 
   return (
     <RouterProvider router={routerRef.current}>
-      <div className="app">
-        {appBar ? 
-          <AppBar logo={Config.logo}
-            title={Config.appName}
-            logoAltText="Logo">
-            <a className="action" href="#/about">
-              <i className="icon icon-info"></i>
-            </a>
-          </AppBar>
-        : null}
+      <NotificationProvider>
+        <div className="app">
+          {appBar ? 
+            <AppBar logo={Config.logo}
+              title={Config.appName}
+              logoAltText="Logo">
+              <a className="action" href="#/about">
+                <i className="icon icon-info"></i>
+              </a>
+            </AppBar>
+          : null}
 
-        <SwitchTransition>
-          <CSSTransition 
-            classNames={"fadeup"}
-            nodeRef={transitionRef} 
-            key={transitionKey} 
-            timeout={{enter: 400, exit: 10}}>
-            {View ? 
-              <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
-            : <div />}
-          </CSSTransition>
-        </SwitchTransition>
-        
-        {isRouteLoading ? 
-          <Progress /> 
-        : null}
-      </div>
+          <SwitchTransition>
+            <CSSTransition 
+              classNames={"fadeup"}
+              nodeRef={transitionRef} 
+              key={transitionKey} 
+              timeout={{enter: 400, exit: 10}}>
+              {View ? 
+                <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
+              : <div />}
+            </CSSTransition>
+          </SwitchTransition>
+          
+          {isRouteLoading ? 
+            <Progress /> 
+          : null}
+
+          <Notifications  />
+        </div>
+      </NotificationProvider>
     </RouterProvider>
   );
 }
