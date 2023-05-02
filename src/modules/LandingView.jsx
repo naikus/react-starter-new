@@ -1,13 +1,29 @@
 /* global */
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {useRouter} from "../components/router";
 import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 import {NotificationContext} from "../components/notifications";
 
+function random(max, min = 0) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+const nTypes = ["success", "info", "warn", "error"];
+
 const View = props => {
   const router = useRouter(), 
       notifications = useContext(NotificationContext),
+      toggleScheme = useCallback(() => {
+        const root = document.firstElementChild,
+            data = root.dataset,
+            theme = data.theme;
+        if(theme === "light") {
+          data.theme = "dark";
+        }else {
+          data.theme = "light";
+        }
+      }, []),
       [show, setShow] = useState(false);
   return (
     <div className="view landing-view">
@@ -20,16 +36,20 @@ const View = props => {
       </style>
       <Actions>
         <a className="action" onClick={() => setShow(!show)}>
-          <i className="icon icon-bell"></i>
+          <i className="icon icon-eye"></i>
+        </a>
+        <a className="action" onClick={() => toggleScheme()}>
+          <i className="icon icon-sun"></i>
         </a>
         <a className="action" onClick={() => {
-          notifications.show({
-            content: "Hello world",
-            type: "info"
-            // sticky: true
-          });
-        }}>
-          <i className="icon icon-star"></i>
+            notifications.show({
+              content: (message) => `This is a ${message.type} message`,
+              type: nTypes[random(nTypes.length)],
+              sticky: true,
+              timeout: 2000
+            });
+          }}>
+          <i className="icon icon-bell"></i>
         </a>
       </Actions>
       <div className="content">

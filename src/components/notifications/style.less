@@ -12,8 +12,8 @@
   position: fixed;
   z-index: 110;
   // background-color: fade(@info-color, 80%);
-  background-color: var(--alt-bg-color); // lighten(@base-color, 5%);
-  color: var(--alt-text-color);
+  background-color: rgba(0,0,0,0.05);
+  // color: var(--alt-text-color);
   transform: translate3d(0, 50%, 0);
   opacity: 0;
   transition: transform 200ms ease, opacity 200ms ease;
@@ -62,5 +62,27 @@
   }
   &.warn > .icon {
     background-color: var(--warn-color);
+  }
+}
+
+// /*
+@media (prefers-color-scheme: dark) {
+  .notification {
+    background-color: rgba(0,0,0,0.2);
+    // border: 1px solid rgba(0,0,0,0.2);
+  }
+}
+// */
+
+:root[data-theme="light"] {
+  .notification {
+    background-color: rgba(0,0,0,0.05);
+    // border: 1px solid rgba(0,0,0,0.2);
+  }
+}
+:root[data-theme="dark"] {
+  .notification {
+    background-color: rgba(0,0,0,0.2);
+    // border: 1px solid rgba(0,0,0,0.2);
   }
 }

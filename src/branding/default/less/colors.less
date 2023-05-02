@@ -99,8 +99,13 @@
 }
 
 
-:root {  
+:root, :root[data-theme="light"] {  
   .colors-light;
+  .vars();
+}
+
+:root[data-theme="dark"] {
+  .colors-dark;
   .vars();
 }
 

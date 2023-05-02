@@ -73,35 +73,35 @@ function App() {
   return (
     <RouterProvider router={routerRef.current}>
       <NotificationProvider>
-      <div className="app">
-        {appBar ? 
-          <AppBar logo={Config.logo}
-            title={Config.appName}
-            logoAltText="Logo">
-            <a className="action" href="#/about">
-              <i className="icon icon-info"></i>
-            </a>
-          </AppBar>
-        : null}
+        <div className="app">
+          {appBar ? 
+            <AppBar logo={Config.logo}
+              title={Config.appName}
+              logoAltText="Logo">
+              <a className="action" href="#/about">
+                <i className="icon icon-info"></i>
+              </a>
+            </AppBar>
+          : null}
 
-        <SwitchTransition>
-          <CSSTransition 
-            classNames={"fadeup"}
-            nodeRef={transitionRef} 
-            key={transitionKey} 
-            timeout={{enter: 400, exit: 10}}>
-            {View ? 
-              <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
-            : <div />}
-          </CSSTransition>
-        </SwitchTransition>
-        
-        {isRouteLoading ? 
-          <Progress /> 
-        : null}
+          <SwitchTransition>
+            <CSSTransition 
+              classNames={"fadeup"}
+              nodeRef={transitionRef} 
+              key={transitionKey} 
+              timeout={{enter: 400, exit: 10}}>
+              {View ? 
+                <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
+              : <div />}
+            </CSSTransition>
+          </SwitchTransition>
+          
+          {isRouteLoading ? 
+            <Progress /> 
+          : null}
 
-        <Notifications  />
-      </div>
+          <Notifications  />
+        </div>
       </NotificationProvider>
     </RouterProvider>
   );
