@@ -13,6 +13,17 @@ export default [
       };
     }
   },
+  /*
+  {
+    path: "/landing/:action?",
+    controller: context => {
+      console.log(context);
+      return {
+        
+      };
+    }
+  },
+  */
   {
     path: "/about",
     controller: context => {

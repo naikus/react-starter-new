@@ -4,9 +4,10 @@ import {useRouter} from "../components/router";
 import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 import {NotificationContext} from "../components/notifications";
+import Config from "../config";
 
 function random(max, min = 0) {
-  return Math.floor(Math.random() * (max - min) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 const nTypes = ["success", "info", "warn", "error"];
@@ -32,6 +33,12 @@ const View = props => {
           .modal.alert {
             max-width: 350px;
           }
+
+          .landing-view .content {
+            display: flex;
+            justify-content: center;
+            padding-top: 100px;
+          }
         `}
       </style>
       <Actions>
@@ -44,8 +51,8 @@ const View = props => {
         <a className="action" onClick={() => {
             notifications.show({
               content: (message) => `This is a ${message.type} message`,
-              type: nTypes[random(nTypes.length)],
-              sticky: true,
+              type: nTypes[random(nTypes.length - 1)],
+              sticky: random(1, 0),
               timeout: 2000
             });
           }}>
@@ -53,8 +60,7 @@ const View = props => {
         </a>
       </Actions>
       <div className="content">
-        <div className="title">Hola!</div>
-        
+        <img src={Config.logo} width="300" alt="logo" />
       </div>
       <Overlay className="modal alert" show={show}>
         <div className="title">Hola!</div>
