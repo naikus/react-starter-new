@@ -4,19 +4,6 @@ import PropTypes from "prop-types";
 import Portal from "../Portal";
 import "./style.less";
 
-const OverlayBackdrop = forwardRef(function OverlayBackdrop(props, ref) {
-  const {show} = props;
-  return (
-    <div ref={ref} className={`overlay-backdrop ${show ? "__visible" : ""}`}>
-      {props.children}
-    </div>
-  );
-});
-OverlayBackdrop.propTypes = {
-  show: PropTypes.bool,
-  children: PropTypes.any
-};
-
 const Overlay = props => {
   const {target = "body", show, className: clazz, children} = props,
     [visible, setVisible] = useState(false),
@@ -47,11 +34,11 @@ const Overlay = props => {
 
   return visible ? (
     <Portal target={target}>
-      <OverlayBackdrop ref={overlayRef} show={show}>
+      <div ref={overlayRef} className={`overlay-backdrop ${show ? "__visible" : ""}`}>
         <div className={`overlay ${clazz}`}>
           {children}
         </div>
-      </OverlayBackdrop>
+      </div>
     </Portal>
   ) : null;
 };
