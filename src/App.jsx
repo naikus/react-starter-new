@@ -102,7 +102,7 @@ function App() {
         </SwitchTransition>
         
         {isRouteLoading ? 
-          <Progress /> 
+          <Progress className="global" /> 
         : null}
 
         <Notifications  />

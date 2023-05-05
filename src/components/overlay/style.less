@@ -3,8 +3,8 @@
 
 @overlay-padding: @padding-container;
 @overlay-border-radius: @base-border-radius;
-@overlay-transform: 150%;
-@backdrop-anim-duration: 400ms;
+@overlay-transform: 170%;
+@backdrop-anim-duration: 500ms;
 @overlay-anim-duration: 500ms;
 
 .overlay-backdrop {
@@ -80,7 +80,7 @@
   max-width: 80%;
   // margin: 0;
   // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
-  min-height: 200px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -141,17 +141,21 @@
 
 @keyframes overlay_content_close {
   0% {
+    opacity: 1;
     transform: none;
   }
   100% {
+    opacity: 0;
     transform: translate3d(0, -@overlay-transform, 0);
   }
 }
 @keyframes overlay_content_open {
   0% {
+    opacity: 0;
     transform: translate3d(0, -@overlay-transform, 0);
   }
   100% {
+    opacity: 1;
     transform: none;
   }
 }

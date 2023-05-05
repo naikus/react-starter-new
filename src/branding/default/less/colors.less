@@ -4,7 +4,7 @@
   @info-color: rgb(70, 142, 201);
   @error-color: rgb(215, 82, 82);
 
-  @accent-color: rgb(22, 121, 203);
+  @accent-color: rgb(0, 173, 181);
   @accent-text-color: #fff;
   @base-color: rgb(255, 255, 255);
   @bg-color: rgb(250, 250, 250);
@@ -27,6 +27,9 @@
   @input-label-color: @text-color;
   @button-bg-color: darken(@base-color, 6%);
   @button-text-color: @accent-color;
+
+  @notification-bg-color: darken(@base-color, 6%);
+  @notification-text-color: @text-color;
 }
 
 .colors-dark {
@@ -35,13 +38,13 @@
   @info-color: rgb(70, 142, 201);
   @error-color: rgb(255, 131, 131);
 
-  @accent-color: rgb(240, 71, 119);
+  @accent-color: rgb(0, 173, 181);
   @accent-text-color: #fff;
-  @base-color: rgb(39, 51, 68);
-  @bg-color: rgb(43, 56, 75);
-  @alt-bg-color: rgb(39, 53, 74);
+  @base-color: rgb(30, 39, 51);
+  @bg-color: rgb(36, 43, 55);
+  @alt-bg-color: lighten(@bg-color, 5%);
   @alt-text-color: darken(@bg-color, 10%);
-  @text-color: rgb(206, 211, 231);
+  @text-color: rgb(238, 238, 238);
   @alt-text-color: rgb(232, 228, 228);
   @selection-bg-color: @accent-color;
   @selection-text-color: #fff;
@@ -59,6 +62,9 @@
   @input-label-color: @text-color;
   @button-bg-color: darken(@base-color, 6%);
   @button-text-color: @accent-color;
+
+  @notification-bg-color: darken(@base-color, 1%);
+  @notification-text-color: @text-color;
 
 }
 
@@ -95,6 +101,9 @@
   --input-focus-ring-color: fade(@link-color, 60%);
   --button-bg-color: darken(@bg-color, 10%);
   --button-text-color: @text-color;
+
+  --notification-bg-color: @notification-bg-color;
+  --notification-text-color: @notification-text-color;
   accent-color: var(--accent-color);
 }
 
