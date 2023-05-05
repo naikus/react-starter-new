@@ -6,21 +6,16 @@ import "./style.less";
 
 const Overlay = props => {
   const {target = "body", show, className: clazz, children} = props,
-    [visible, setVisible] = useState(false),
+    [wasShown, setWasShown] = useState(false),
+    [anim, setAnim] = useState(false),
+    [mount, setMount] = useState(false),
     overlayRef = useRef(null),
     {current} = overlayRef,
     animationEndHandler = e => {
-      // console.log(e);
-      if(e.animationName === "overlay_close") {
-        setVisible(false);
+      if(e.animationName === "overlay_content_close") {
+        setMount(false);
       }
     };
-
-  useEffect(() => {
-    if(show) {
-      setVisible(true);
-    }
-  }, [show]);
 
   useEffect(() => {
     if(!current) {
@@ -32,10 +27,28 @@ const Overlay = props => {
     };
   }, [current]);
 
-  return visible ? (
+  // mount
+  useEffect(() => {
+    if(show) {
+      setMount(true);
+      setAnim(true);
+      setWasShown(true);
+    }
+  }, [show]);
+
+  // unmount
+  useEffect(() => {
+    if(!show && wasShown) {
+      setAnim(false);
+    }
+  }, [show]);
+
+  // console.log("Overlay", show, mount, anim);
+
+  return mount ? (
     <Portal target={target}>
-      <div ref={overlayRef} className={`overlay-backdrop ${show ? "__visible" : ""}`}>
-        <div className={`overlay ${clazz}`}>
+      <div className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
+        <div ref={overlayRef} className={`overlay ${clazz}`}>
           {children}
         </div>
       </div>

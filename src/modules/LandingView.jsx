@@ -63,7 +63,7 @@ const View = props => {
       <div className="content">
         <img src={Config.logo} width="300" alt="logo" />
       </div>
-      <Overlay className="modal alert" show={show}>
+      <Overlay className="modal" show={show}>
         <div className="title">Hola!</div>
         <div className="message">Hello world</div>
         <div className="actions">
