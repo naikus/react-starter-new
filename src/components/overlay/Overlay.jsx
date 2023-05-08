@@ -1,5 +1,5 @@
 /* global */
-import React, {useState, useEffect, useRef, forwardRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import Portal from "../Portal";
 import "./style.less";
@@ -12,7 +12,7 @@ const Overlay = props => {
     overlayRef = useRef(null),
     {current} = overlayRef,
     animationEndHandler = e => {
-      if(e.animationName === "overlay_content_close") {
+      if(e.animationName === "overlay_close") {
         setMount(false);
       }
     };
@@ -47,8 +47,8 @@ const Overlay = props => {
 
   return mount ? (
     <Portal target={target}>
-      <div className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
-        <div ref={overlayRef} className={`overlay ${clazz}`}>
+      <div ref={overlayRef} className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
+        <div className={`overlay ${clazz}`}>
           {children}
         </div>
       </div>

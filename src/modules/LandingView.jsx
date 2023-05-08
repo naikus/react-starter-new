@@ -1,6 +1,6 @@
 /* global */
 import React, {useCallback, useContext, useState} from "react";
-import {useRouter} from "../components/router";
+// import {useRouter} from "../components/router";
 import {Actions} from "../components/appbar/Appbar";
 import Overlay from "../components/overlay/Overlay";
 import {NotificationContext} from "../components/notifications";
@@ -13,8 +13,8 @@ function random(max, min = 0) {
 const nTypes = ["success", "info", "warn", "error"];
 
 const View = props => {
-  const router = useRouter(), 
-      notifications = useContext(NotificationContext),
+  const notifications = useContext(NotificationContext),
+      // router = useRouter(), 
       toggleScheme = useCallback(() => {
         const root = document.firstElementChild,
             data = root.dataset,
@@ -30,8 +30,13 @@ const View = props => {
     <div className="view landing-view">
       <style>
         {`
-          .modal.alert {
-            max-width: 350px;
+          .alert {
+            height: 50%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 20px 20px 0 0
           }
 
           .landing-view .content {

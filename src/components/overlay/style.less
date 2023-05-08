@@ -4,7 +4,6 @@
 @overlay-padding: @padding-container;
 @overlay-border-radius: @base-border-radius;
 @overlay-transform: 170%;
-@backdrop-anim-duration: 600ms;
 @overlay-anim-duration: 600ms;
 
 .overlay-backdrop {
@@ -23,7 +22,7 @@
   overflow: hidden;
 
   animation-fill-mode: forwards;
-  animation-duration: @backdrop-anim-duration;
+  animation-duration: @overlay-anim-duration;
   animation-timing-function: @bezier-func;
   animation-name: overlay_close;
 
