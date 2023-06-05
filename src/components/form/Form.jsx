@@ -354,7 +354,7 @@ const formReducer = (state, action) => {
           rules: props.rules || {}
         }),
 
-        fields = useRef({}),
+        fieldsRef = useRef({}),
 
         /**
          * Handles form submit
@@ -375,19 +375,20 @@ const formReducer = (state, action) => {
           return false;
         }, []);
 
+      // Set the fields when the form is mounted
       useEffect(() => {
-        const {current} = fields;
+        const {current} = fieldsRef;
         if(current) {
           // console.log("[Form] Set fields");
           dispatch({type: "set-fields", payload: current});
-          fields.current = null;
+          fieldsRef.current = null;
         }
       }, []);
 
       useEffect(() => {
         const {onChange} = props;
         // Only fire onchange if fields are set in state (not in fields ref, which means we are still loading)
-        if(typeof onChange === "function" && !fields.current) {
+        if(typeof onChange === "function" && !fieldsRef.current) {
           const {fields, valid, pristine} = form;
           // Only fire if the form is not pristine (i.e. don't fire on mount or initially)
           if(!pristine) {
@@ -407,10 +408,10 @@ const formReducer = (state, action) => {
           form, 
           addField(field) {
             // console.log("[formcontext] addField", field.name, fields.current);
-            if(!fields.current) {
+            if(!fieldsRef.current) {
               dispatch({type: "add-field", payload: field});
             }else {
-              fields.current[field.name] = field;
+              fieldsRef.current[field.name] = field;
             }
           },
           updateField(field) {
@@ -427,7 +428,7 @@ const formReducer = (state, action) => {
           },
           renderer: props.fieldRenderer || renderField
         }}>
-          <form name="myForm" onSubmit={handleSubmit}>
+          <form name={props.name} onSubmit={handleSubmit}>
             {/* eslint-disable-next-line react/prop-types */}
             {props.children}
           </form>
@@ -436,6 +437,7 @@ const formReducer = (state, action) => {
     };
 Form.displayName = "Form";
 Form.propTypes = {
+  name: PropTypes.string,
   fieldRenderer: PropTypes.func,
   rules: PropTypes.object,
   onChange: PropTypes.func,

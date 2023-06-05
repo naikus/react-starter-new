@@ -17,7 +17,7 @@ function MultiValInput(props) {
       },
 
       addValues = e => {
-        console.log(data);
+        // console.log(data);
         const {target} = e, inputValue = target.value.trim();
         if(!inputValue) return;
 
@@ -29,7 +29,7 @@ function MultiValInput(props) {
 
         if(uniqueVals.length) {
           const newData = [...data, ...uniqueVals];
-          console.log(newData);
+          // console.log(newData);
           setData(newData);
           onChange && onChange(newData);
         }
@@ -51,6 +51,10 @@ function MultiValInput(props) {
           </span>
         );
       });
+
+  useEffect(() => {
+    setData(value);
+  }, [value]);
 
   return (
     <div className={`multi-val-input`}>

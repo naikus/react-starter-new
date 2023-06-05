@@ -42,6 +42,7 @@ function App() {
       transitionKey = viewData.route ? viewData.route.path : "root",
       notifications = useContext(NotificationContext);
 
+  // Router setup
   useEffect(() => {
     const router = createRouter(routes, {
           defaultRoute: "/",

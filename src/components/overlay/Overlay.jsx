@@ -6,6 +6,7 @@ import "./style.less";
 
 const Overlay = props => {
   const {target = "body", show, className: clazz, onClose, children} = props,
+    [prevShow, setPrevShow] = useState(show),
     [wasShown, setWasShown] = useState(false),
     [anim, setAnim] = useState(false),
     [mount, setMount] = useState(false),
@@ -29,6 +30,7 @@ const Overlay = props => {
   }, [current]);
 
   // mount
+  /*
   useEffect(() => {
     if(show) {
       setMount(true);
@@ -36,13 +38,26 @@ const Overlay = props => {
       setWasShown(true);
     }
   }, [show]);
+  */
+  if(show !== prevShow && show) {
+    setPrevShow(show);
+    setMount(true);
+    setAnim(true);
+    setWasShown(true);
+  }
 
   // unmount
+  /*
   useEffect(() => {
     if(!show && wasShown) {
       setAnim(false);
     }
   }, [show]);
+  */
+  if(show !== prevShow && !show && wasShown) {
+    setPrevShow(show);
+    setAnim(false);
+  }
 
   // console.log("Overlay", show, mount, anim);
 

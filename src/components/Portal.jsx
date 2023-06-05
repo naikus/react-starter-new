@@ -14,8 +14,14 @@ const Portal = props => {
       const existing = targetElem.querySelector(replace);
       existing && existing.parentNode.removeChild(existing);
     }
+    portalElem.className = "portal";
+    targetElem.appendChild(portalElem);
+    return () => {
+      targetElem.removeChild(portalElem);
+    };
   }, []);
 
+  /*
   useEffect(() => {
     portalElem.className = "portal";
     targetElem.appendChild(portalElem);
@@ -23,6 +29,8 @@ const Portal = props => {
       targetElem.removeChild(portalElem);
     };
   }, []);
+  */
+
   // render
   return createPortal(props.children, portalElem);
 };
