@@ -12,9 +12,8 @@ const AppBar = props => {
         <img alt={logoAltText} src={logo} />
         <h2 className="title">{title}</h2>
       </div>
-      <div className="actions">
-        <div className="global-actions">{children}</div>
-      </div>
+      <div className="actions"></div>
+      <div className="actions global-actions">{children}</div>
     </div>
   );
 };
@@ -27,7 +26,7 @@ AppBar.propTypes = {
 
 
 const Actions = props => {
-  const {target = ".app-bar", className} = props,
+  const {target = ".app-bar", className = ""} = props,
       element = useRef(document.createElement("div")),
       {current} = element;
 
@@ -42,7 +41,7 @@ const Actions = props => {
     };
   }, []);
 
-  current.className = `actions ${className}`;
+  current.className = `action-group ${className}`;
   return createPortal(props.children, current);
 };
 Actions.displayName = "Actions";

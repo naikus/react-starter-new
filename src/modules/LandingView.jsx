@@ -1,10 +1,10 @@
 /* global */
 import React, {useCallback, useContext, useState} from "react";
-// import {useRouter} from "../components/router";
-import {Actions} from "../components/appbar/Appbar";
-import Overlay from "../components/overlay/Overlay";
-import {NotificationContext} from "../components/notifications";
-import Config from "../config";
+// import {useRouter} from "@components/router";
+import {Actions} from "@components/appbar/Appbar";
+import Overlay from "@components/overlay/Overlay";
+import {NotificationContext} from "@components/notifications";
+import Config from "@config";
 
 function random(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1) + min);

@@ -24,6 +24,12 @@ const useNotifications = () => {
 
   return {
     show: enqueue,
+    toast(message) {
+      enqueue({
+        // type: "info",
+        content: message
+      });
+    },
     next,
     current,
     setCurrent

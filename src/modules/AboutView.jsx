@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import {useRouter} from "../components/router";
-import Config from "../config";
+import {useRouter} from "@components/router";
+import Config from "@config";
 
 const View = props => {
   const router = useRouter();

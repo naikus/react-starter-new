@@ -1,4 +1,4 @@
-@import "../../less/vars.less";
+@import "@less/vars.less";
 
 @field-container-padding: @padding-default*1.5;
 @radio-indictor-size: 20px;
@@ -142,4 +142,37 @@
     }
   }
   
+}
+
+
+.multi-val-input {
+  .values {
+    display: flex;
+    flex-wrap: wrap;
+    .value-item {
+      display: flex;
+      float: left;
+      align-items: center;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      padding: 6px;
+      min-width: 30px;
+      background-color: var(--accent-color);
+      border-radius: @base-border-radius - 4;
+      color: var(--accent-text-color);
+      opacity: 0.7;
+
+      .icon {
+        padding-left: @base-unit;
+        cursor: pointer;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  .value-input {
+    margin-top: @base-unit - 4;
+  }
 }

@@ -1,16 +1,18 @@
 import React, {useEffect, useRef, useState, useContext, forwardRef, memo} from "react";
 import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
-import createRouter, {/*useRouter,*/ RouterProvider} from "./components/router";
 
-import {AppBar} from "./components/appbar/Appbar";
-
-import routes from "./routes";
-import "./index.less";
 import "./App.less";
-import Progress from "./components/progress/Progress";
-import Config from "./config";
-import {Notifications, NotificationContext} from "./components/notifications";
+
+import createRouter, {/*useRouter,*/ RouterProvider} from "@components/router";
+import {AppBar} from "@components/appbar/Appbar";
+import Progress from "@components/progress/Progress";
+import Config from "@config";
+import {Notifications, NotificationContext} from "@components/notifications";
+import routes from "./routes";
+
+// import top level styles
+import "./index.less";
 
 
 function createViewWrapper(View) {

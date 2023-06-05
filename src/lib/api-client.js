@@ -83,7 +83,7 @@ const ObjectToString = Object.prototype.toString,
      * @return {Array} The array representation of query parameters that can be then
      *                 joined by join("&")
      */
-    asQueryParameters = (objParams = {}) => {
+    toQueryParams = (objParams = {}) => {
       if(!objParams) {
         return "";
       }
@@ -222,16 +222,16 @@ const createApiClient = opts => {
       }
     });
   },
-  asJson = (response) => {
+  responseAsJson = (response) => {
     if(response.status >= 200 && response.status < 400) {
       return response.json();
     }else {
       return Promise.reject(response);
     }
-  }
+  };
 
 export {
   createApiClient as create,
-  asQueryParameters,
-  asJson
-}
+  toQueryParams,
+  responseAsJson
+};

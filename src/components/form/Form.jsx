@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useReducer, useContext, useRef, useCallback} from "react";
 import PropTypes from "prop-types";
 import "./style.less";
-import { flushSync } from "react-dom";
 
 const VALID = {valid: true, message: ""},
     objToString = Object.prototype.toString,
@@ -352,7 +351,7 @@ const formReducer = (state, action) => {
           fields: {},
           valid: true,
           pristine: true,
-          rules: props.rules
+          rules: props.rules || {}
         }),
 
         fields = useRef({}),
@@ -426,7 +425,7 @@ const formReducer = (state, action) => {
             // console.log("[formcontext] removeField", name);
             dispatch({type: "remove-field", payload: name});
           },
-          renderer: props.fieldRenderer
+          renderer: props.fieldRenderer || renderField
         }}>
           <form name="myForm" onSubmit={handleSubmit}>
             {/* eslint-disable-next-line react/prop-types */}

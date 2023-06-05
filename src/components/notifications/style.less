@@ -1,5 +1,5 @@
-@import "../../less/vars.less";
-@import "../../less/css-helpers.less";
+@import "@less/vars.less";
+@import "@less/css-helpers.less";
 
 .notification {
   display: flex;
@@ -7,7 +7,7 @@
   // min-height: 70px;
   width: 90%;
   left: 5%;
-  bottom: 16%;
+  bottom: 5%;
   margin: 1% auto;
   position: fixed;
   z-index: 110;
@@ -37,8 +37,8 @@
     font-size: 1.3rem;
     font-weight: bold;
     padding: @padding-container;
-    // background: rgba(0,0,0,0.1);
-    color: #fff;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--text-color);
   }
 
   > .data {
@@ -65,6 +65,13 @@
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .notification {
+    width: 50%;
+    left: 25%;
+  }
+}
+
 // /*
 @media (prefers-color-scheme: dark) {
   .notification {
@@ -76,6 +83,9 @@
 
 :root[data-theme="light"] {
   .notification {
+    > .icon {
+      color: #fff;
+    }
     // background-color: var(--alt-bg-color); // rgba(0,0,0,0.05);
     // border: 1px solid rgba(0,0,0,0.2);
   }

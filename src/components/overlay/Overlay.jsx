@@ -5,7 +5,7 @@ import Portal from "../Portal";
 import "./style.less";
 
 const Overlay = props => {
-  const {target = "body", show, className: clazz, children} = props,
+  const {target = "body", show, className: clazz, onClose, children} = props,
     [wasShown, setWasShown] = useState(false),
     [anim, setAnim] = useState(false),
     [mount, setMount] = useState(false),
@@ -14,6 +14,7 @@ const Overlay = props => {
     animationEndHandler = e => {
       if(e.animationName === "overlay_close") {
         setMount(false);
+        onClose && onClose();
       }
     };
 
@@ -57,6 +58,7 @@ const Overlay = props => {
 };
 Overlay.propTypes = {
   show: PropTypes.bool,
+  onClose: PropTypes.func,
   target: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.any

@@ -21,7 +21,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@branding": resolve(__dirname, `src/branding/${APP_BRANDING}`)
+      "@branding": resolve(__dirname, `src/branding/${APP_BRANDING}`),
+      "@less": resolve(__dirname, "src/less"),
+      "@components": resolve(__dirname, "src/components"),
+      "@lib": resolve(__dirname, "src/lib"),
+      "@config": resolve(__dirname, "src/config")
     }
   },
   css: {

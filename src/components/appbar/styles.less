@@ -1,5 +1,5 @@
 
-@import "../../less/vars.less";
+@import "@less/vars.less";
 
 .app-bar {
   box-sizing: border-box;
@@ -45,6 +45,11 @@
     align-items: center;
     flex-direction: row-reverse;
     // padding: @padding-default;
+
+    .action-group {
+      display: flex;
+    }
+
     .action {
       display: flex;
       padding: @base-unit;
