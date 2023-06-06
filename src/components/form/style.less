@@ -176,3 +176,107 @@
     margin-top: @base-unit - 4;
   }
 }
+
+
+.file-upload-input {
+  position: relative;
+
+  > .content {
+    background-color: var(--bg-color);
+    border-radius: @input-border-radius;
+    > .actions {
+      padding: @padding-smaller;
+      display: flex;
+      flex-direction: row-reverse;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      > .action {
+        padding: @padding-smaller;
+        margin: 0 2px;
+        cursor: pointer;
+        border-radius: @input-border-radius;
+        font-size: 1.1rem;
+        &:hover {
+          color: var(--accent-color);
+          background-color: rgba(0,0,0,0.04);
+        }
+
+        &[disabled] {
+          opacity: 0.4;
+          cursor: not-allowed;
+          &:hover {
+            color: inherit;
+            background-color: inherit;
+          }
+        }
+      }
+    }
+    > .files {
+      padding: 0;
+      margin: 0 0 @base-unit * 2 0;
+      color: var(--text-color);
+      max-height: 225px;
+      overflow-y: auto;
+  
+      > .file-item {
+        display: flex;
+        // justify-content: space-between;
+        margin: 0;
+        padding: @base-unit @base-unit + 4;
+        font-size: 0.9rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+
+        &:hover {
+          background-color: rgba(0,0,0,0.04);
+        }
+  
+        > .icon-file {
+          font-size: 1.1rem;
+          margin: auto 1px;
+          padding: @base-unit;
+          background-color: rgba(0,0,0,0.04);
+          border-radius: @input-border-radius;
+        }
+  
+        > .file-details {
+          flex: 1;
+          padding: @padding-smaller;
+          text-overflow: hidden;
+          .file-name {
+          }
+          .file-meta {
+            .pill {
+              padding: 3px @padding-smaller;
+              background-color: var(--base-color);
+              border-radius: @base-border-radius - 2;
+              margin-right: 2px;
+            }
+          }
+        }
+  
+        > .icon {
+          margin: auto 1px;
+          cursor: pointer;
+          padding: @base-unit;
+          &:hover {
+            color: var(--warn-color);
+          }
+        }
+      }
+    }
+  }
+  
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .file-upload-actions {
+    text-align: right;
+  }
+
+  button {
+    display: inline;
+    width: auto;
+    margin: 0;
+  }
+}

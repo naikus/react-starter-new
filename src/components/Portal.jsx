@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 import PropTypes from "prop-types";
 
 const Portal = props => {
-  const {target = "body", replace = ""} = props,
+  const {target = "body", replace = "", children} = props,
       portalRef = useRef(document.createElement("div")),
       portalElem = portalRef.current,
       targetRef = useRef(typeof target === "string" ? document.querySelector(target) : target),
@@ -19,7 +19,7 @@ const Portal = props => {
     return () => {
       targetElem.removeChild(portalElem);
     };
-  }, []);
+  }, [children]);
 
   /*
   useEffect(() => {
