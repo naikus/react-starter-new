@@ -42,6 +42,17 @@ function App() {
       transitionKey = viewData.route ? viewData.route.path : "root",
       notifications = useContext(NotificationContext);
 
+  /*
+  // Set theme based on system preference
+  useEffect(() => {
+    if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.firstElementChild.dataset.theme = "dark";
+    }else {
+      document.firstElementChild.dataset.theme = "light";
+    }
+  }, []);
+  */
+
   // Router setup
   useEffect(() => {
     const router = createRouter(routes, {
@@ -86,7 +97,7 @@ function App() {
           <AppBar logo={Config.logo}
             title={Config.appName}
             logoAltText="Logo">
-            <a className="action" href="#/about">
+            <a className="action" title={`About ${Config.appName}`} href="#/about">
               <i className="icon icon-info"></i>
             </a>
           </AppBar>

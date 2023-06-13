@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import {registerFieldType} from "./Form";
 
 function MultiValInput(props) {
-  const {value, defaultValue, onChange, delimiter = "," /*"/\s|\n|\r\n/"*/} = props;
-  const inputRef = useRef(null), 
-      [data, setData] = useState(value || defaultValue || []),
+  const {value, defaultValue, onChange, placeholder, delimiter = "," /*"/\s|\n|\r\n/"*/, disabled} = props;
+  const [data, setData] = useState(value || defaultValue || []),
       removeValue = e => {
+        if(disabled) {return;}
         const {target} = e,
             value = target.dataset ? target.dataset.value : target.getAttribute("data-value"),
             newData = data.filter(item => item !== value);
@@ -45,7 +45,7 @@ function MultiValInput(props) {
       values = data.map(value => {
         const key = value;
         return (
-          <span key={key} className="value-item">
+          <span key={key} className={`value-item${disabled ? " disabled" : ""}`}>
             {value}
             <i data-value={value} className="icon icon-x-circle" onClick={removeValue} />
           </span>
@@ -53,22 +53,25 @@ function MultiValInput(props) {
       });
 
   useEffect(() => {
-    setData(value);
+    setData(value || []);
   }, [value]);
 
   return (
     <div className={`multi-val-input`}>
       <div className="values">{values}</div>
-      <input ref={inputRef} type="text" className="value-input" onBlur={addValues} onKeyUp={handleKeyEnter} />
+      <input type="text" placeholder={placeholder}
+          className="value-input" onBlur={addValues} onKeyUp={handleKeyEnter} disabled={disabled} />
     </div>
   );
 }
 MultiValInput.displayName = "MultiValInput";
 MultiValInput.propTypes = {
   delimiter: PropTypes.string,
+  placeholder: PropTypes.string,
   value: PropTypes.arrayOf(PropTypes.string),
   defaultValue: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 registerFieldType("multi-val", MultiValInput);

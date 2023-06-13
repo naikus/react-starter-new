@@ -19,7 +19,8 @@ const Portal = props => {
     return () => {
       targetElem.removeChild(portalElem);
     };
-  }, [children]);
+  }, []);
+  // }, [children]); @TODO: this is causing the portal to be removed and re-added on every render
 
   /*
   useEffect(() => {

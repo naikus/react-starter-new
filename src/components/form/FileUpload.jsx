@@ -28,7 +28,7 @@ FileItem.propTypes = {
 
 
 function FileUpload(props) {
-  const {value, onChange, multiple, accept} = props,
+  const {value, onChange, multiple, accept, disabled} = props,
       inputRef = useRef(), 
       NO_DISPLAY = {display: "none"},
       [data, setData] = useState(value || []),
@@ -55,6 +55,11 @@ function FileUpload(props) {
         }
         setData(files);
         onChange && onChange(files);
+      },
+      removeAll = () => {
+        if(disabled) {return;}
+        setData([]);
+        onChange && onChange([]);
       };
 
   return (
@@ -64,11 +69,12 @@ function FileUpload(props) {
           type="file" 
           className="file-input"
           multiple={multiple}
-          accept={accept} />
+          accept={accept}
+          disabled={disabled} />
       <div className="content">
         <div className="actions">
-          <span className={`action icon-trash`} onClick={() => setData([])} disabled={data.length === 0} />
-          <span className="action icon-folder" onClick={() => inputRef.current.click()} />
+          <span className={`action icon-trash`} onClick={removeAll} disabled={data.length === 0 || disabled} />
+          <span className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
         </div>
         <div className="files">
           {files}
@@ -82,7 +88,8 @@ FileUpload.propTypes = {
   accept: PropTypes.string,
   multiple: PropTypes.bool,
   value: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 registerFieldType("file-upload", FileUpload);

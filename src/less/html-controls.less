@@ -12,6 +12,7 @@ input,
       button,
       select,
       textarea,
+      .input,
       .button {
   padding: @padding-default;
   font-size: 1em;
@@ -52,6 +53,7 @@ input,
   &.inline {
     display: inline-block;
     width: auto;
+    margin: 0 2px;
   }
 }
 select {
@@ -62,6 +64,14 @@ select {
   background-repeat: no-repeat;
   background-position: 99% 50%;
   background-size: 25px;
+
+  &[multiple] {
+    padding: @base-unit - 4px;
+    background-image: none;
+    > option {
+      padding: @base-unit;
+    }
+  }
 }
 a.button {
   text-decoration: none;
@@ -70,6 +80,7 @@ textarea {
   min-height: 100px;
 }
 .button, input[type=button], button, input[type=reset], input[type=submit] {
+  padding: @padding-default + 2px @padding-default @padding-default - 2px;
   background-color: var(--button-bg-color);
   opacity: 0.9;
   color: var(--button-text-color);
