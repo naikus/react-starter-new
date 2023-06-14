@@ -32,7 +32,7 @@ function createViewWrapper(View) {
   return Wrapper;
 }
 
-function App() {
+function App({appBarPosition = "left"}) {
   const routerRef = useRef(),
       [routeContext = {}, setRouteContext] = useState(),
       [isRouteLoading, setRouteLoading] = useState(false),
@@ -92,9 +92,10 @@ function App() {
 
   return (
     <RouterProvider router={routerRef.current}>
-      <div className="app">
+      <div className={`app appbar-${appBarPosition}`}>
         {appBar ? 
           <AppBar logo={Config.logo}
+            // position="top"
             title={Config.appName}
             logoAltText="Logo">
             <a className="action" title={`About ${Config.appName}`} href="#/about">
@@ -124,5 +125,9 @@ function App() {
     </RouterProvider>
   );
 }
+App.displayName = "App";
+App.propTypes = {
+  appBarPosition: PropTypes.oneOf(["top", "left"])
+};
 
 export default App;

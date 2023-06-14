@@ -10,20 +10,21 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-
-  height: @appbar-height;
-  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  padding: 10px;
+  // padding: 10px;
   z-index: 2;
 
+  height: @appbar-height;
+  width: 100%;
+
   .branding {
-    flex: 2 0;
+    flex: 1;
+    padding: 0 @padding-default;
     display: flex;
     align-items: center;
-    img {
+    img.logo {
       width: 45px;
       height: 45px;
     }
@@ -38,7 +39,7 @@
   }
 
   .actions {
-    //flex: 1;
+    // flex: 2;
     padding: 0;
     box-sizing: border-box;
     display: flex;
@@ -60,6 +61,7 @@
 
       > .icon {
         font-size: 1.5em;
+        color: var(--text-color);
       }
 
       &:active > .icon {
@@ -67,4 +69,40 @@
       }
     }
   }
+}
+
+.app.appbar-left {
+  .app-bar {
+    // &.left {
+      align-items: unset;
+      // justify-content: space-between;
+      flex-direction: column;
+      height: 100%;
+      width: @appbar-width;
+      border-right: 1px solid rgba(0, 0, 0, 0.06);
+  
+      .branding {
+        flex: unset;
+        flex-direction: column;
+        align-items: center;
+        padding: @padding-default 0;
+        background-color: rgba(0, 0, 0, 0.03);
+  
+        .title {
+          display: none;
+        }
+      }
+  
+      .actions, .action-group {
+        flex-direction: column;
+        flex: 2;
+      }
+  
+      .global-actions {
+        // flex: 1;
+        display: flex;
+        flex-direction: column-reverse;
+      }
+    }
+  // }
 }

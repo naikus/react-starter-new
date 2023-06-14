@@ -17,11 +17,19 @@
   // bottom: 0;
   // overflow: auto;
   padding-top: @appbar-height;
+  padding-left: 0;
 
   > .content {
     box-sizing: border-box;
     padding: @padding-container;
     width: 100%;
+  }
+}
+
+.appbar-left {
+  .view {
+    padding-top: 0;
+    padding-left: @appbar-width;
   }
 }
 
@@ -38,6 +46,7 @@
   &.no-appbar {
     > .view {
       padding-top: 0;
+      padding-left: 0;
     }
   }
 }

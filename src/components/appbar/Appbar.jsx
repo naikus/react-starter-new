@@ -7,9 +7,9 @@ import "./styles.less";
 const AppBar = props => {
   const {title = "App", logo, logoAltText = "Logo", children} = props;
   return (
-    <div className="app-bar">
+    <div className={`app-bar`}>
       <div className="branding">
-        <img alt={logoAltText} src={logo} />
+        <img className="logo" alt={logoAltText} src={logo} />
         <h2 className="title">{title}</h2>
       </div>
       <div className="actions"></div>
