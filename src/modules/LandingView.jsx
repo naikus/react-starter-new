@@ -48,13 +48,13 @@ const View = props => {
         `}
       </style>
       <Actions>
-        <a className="action" onClick={() => setShow(!show)}>
+        <button className="action" onClick={() => setShow(!show)}>
           <i className="icon icon-eye"></i>
-        </a>
-        <a className="action" onClick={() => toggleScheme()}>
+        </button>
+        <button className="action" onClick={() => toggleScheme()}>
           <i className="icon icon-sun"></i>
-        </a>
-        <a className="action" onClick={() => {
+        </button>
+        <button className="action" onClick={() => {
             notifications.show({
               content: (message) => `This is a ${message.type} message`,
               type: nTypes[random(nTypes.length - 1)],
@@ -63,7 +63,7 @@ const View = props => {
             });
           }}>
           <i className="icon icon-bell"></i>
-        </a>
+        </button>
       </Actions>
       <div className="content">
         <img src={Config.logo} width="300" alt="logo" />
