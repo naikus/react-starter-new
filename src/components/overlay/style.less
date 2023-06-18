@@ -29,8 +29,6 @@
   > .overlay {
     // min-height: 200px;
     // padding: @overlay-padding;
-    background-color: var(--overlay-bg-color);
-    color: var(--overlay-text-color);
     // border: 1px solid rgba(0,0,0,0.04);
     // border-radius: @overlay-border-radius;
     // text-align: center;
@@ -66,45 +64,17 @@
   }
 }
 
-.overlay-backdrop > .modal {
+.overlay {
+  background-color: var(--overlay-bg-color);
+  color: var(--overlay-text-color);
+}
+
+.modal {
   min-width: 300px;
-  margin: 8% auto;
+  margin: 4% auto;
   border-radius: @overlay-border-radius;
-  // width: 85%;
   max-width: 80%;
-  // margin: 0;
-  // border-radius: @overlay-border-radius @overlay-border-radius 0 0;
   min-height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  // justify-content: center;
-
-  > .title, > .message, > .actions {
-    display: flex;
-    justify-content: center;
-  }
-
-  > .title {
-    border-radius: @overlay-border-radius @overlay-border-radius 0 0;
-    padding: @padding-container;
-    font-weight: 500;
-    background-color: rgba(0,0,0,0.04);
-  }
-
-  > .message {
-    padding: @padding-container @padding-container*2;
-    color: var(--overlay-text-color);
-    // background-color: rgba(0,0,0,0.03);
-  }
-
-  > .actions {
-    padding: @padding-container;
-    border-radius: 0 0 @overlay-border-radius @overlay-border-radius;
-    .button, button {
-      margin-right: 8px;
-    }
-  }
 }
 
 

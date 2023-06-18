@@ -3,6 +3,15 @@ import PropTypes from "prop-types";
 
 import {registerFieldType} from "./Form";
 
+
+function createEvent(value) {
+  return {
+    target: {
+      value
+    }
+  };
+}
+
 function MultiValInput(props) {
   const {value, defaultValue, onChange, placeholder, delimiter = "," /*"/\s|\n|\r\n/"*/, disabled} = props;
   const [data, setData] = useState(value || defaultValue || []),
@@ -12,7 +21,7 @@ function MultiValInput(props) {
             value = target.dataset ? target.dataset.value : target.getAttribute("data-value"),
             newData = data.filter(item => item !== value);
 
-        onChange && onChange(newData);
+        onChange && onChange(createEvent(newData));
         setData(newData);
       },
 
@@ -31,7 +40,7 @@ function MultiValInput(props) {
           const newData = [...data, ...uniqueVals];
           // console.log(newData);
           setData(newData);
-          onChange && onChange(newData);
+          onChange && onChange(createEvent(newData));
         }
         target.value = "";
       },

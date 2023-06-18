@@ -289,3 +289,38 @@
     margin: 0;
   }
 }
+
+
+.multi-select {
+  min-height: 100px;
+  overflow: auto;
+  padding: @padding-smaller !important;
+
+  > .multi-select-item {
+    padding: @padding-smaller - 2;
+    cursor: pointer;
+    border-radius: @input-border-radius;
+    margin-bottom: @size_tiny + 0px;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.04);
+    }
+    &.selected {
+      background-color: var(--accent-color);
+      color: var(--selection-text-color);
+    }
+  }
+
+  &.disabled, [disabled] {
+    cursor: not-allowed;
+    opacity: 0.8;
+
+    > .multi-select-item {
+      cursor: not-allowed;
+      &:hover {
+        background-color: inherit;
+        color: inherit;
+      }
+    }
+  }
+}

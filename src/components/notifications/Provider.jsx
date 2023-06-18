@@ -26,6 +26,7 @@ const useNotifications = () => {
     show: enqueue,
     toast(message) {
       enqueue({
+        timeout: 700,
         // type: "info",
         content: message
       });

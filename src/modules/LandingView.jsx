@@ -1,5 +1,5 @@
 /* global */
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 // import {useRouter} from "@components/router";
 import {Actions} from "@components/appbar/Appbar";
 import Overlay from "@components/overlay/Overlay";
@@ -10,7 +10,9 @@ function random(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const nTypes = ["success", "info", "warn", "error"];
+const nTypes = ["success", "info", "warn", "error", "toast"];
+
+
 
 const View = props => {
   const notifications = useContext(NotificationContext),
@@ -26,19 +28,23 @@ const View = props => {
         }
       }, []),
       [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const close = e => {
+      if(e.key === "Escape") {
+        setShow(false);
+      }
+    };
+    document.addEventListener("keyup", close);
+    return () => {
+      document.removeEventListener("keyup", close);
+    };
+  }, []);
+
   return (
     <div className="view landing-view">
       <style>
         {`
-          .alert {
-            height: 50%;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            border-radius: 20px 20px 0 0
-          }
-
           .landing-view .content {
             display: flex;
             justify-content: center;
@@ -68,9 +74,14 @@ const View = props => {
       <div className="content">
         <img src={Config.logo} width="300" alt="logo" />
       </div>
-      <Overlay className="modal" show={show}>
-        <div className="title">Hola!</div>
-        <div className="message">Hello world</div>
+      <Overlay className="modal alert" show={show}>
+        <div className="title">
+          <h4><i className="icon icon-alert-circle" /> Alert!</h4>
+        </div>
+        <div className="content">
+          This is a sample alert message. You can close this by clicking the close button 
+          below or by pressing the escape key.
+        </div>
         <div className="actions">
           <button className="primary inline" onClick={() => setShow(!show)}>Close</button>
         </div>
