@@ -11,8 +11,8 @@ function FileItem({file, onRemove}) {
       <div className="file-details">
         <span className="file-name">{name}</span>
         <div className="file-meta">
-          {type ? <span className="pill file-type">{type}</span> : null}
-          <span className="pill file-size">{size}b</span>
+          {type ? <span className="badge file-type">{type}</span> : null}
+          <span className="badge file-size">{size}b</span>
         </div>
       </div>
       

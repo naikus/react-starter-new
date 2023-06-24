@@ -1,7 +1,13 @@
 @import "@less/vars.less";
 
-@field-container-padding: @padding-default*1.5;
+@field-container-padding: @padding-container;
 @radio-indictor-size: 20px;
+
+form {
+  label {
+    font-weight: normal;
+  }
+}
 
 .checkbox-container, .radio-container {
     position: relative;
@@ -89,6 +95,7 @@
 // Form built-in field renderer styles
 .field-container {
   padding: @field-container-padding;
+  border-radius: @input-border-radius;
   background-color: var(--base-color);
   margin-bottom: @base-unit + 4px;
   overflow: auto;
@@ -106,6 +113,7 @@
   }
   .label {
     color: var(--text-color);
+    margin-bottom: @base-unit - 2;
     span {
       display: block;
     }
@@ -253,11 +261,12 @@
           .file-name {
           }
           .file-meta {
-            .pill {
+            .badge {
               padding: 3px @padding-smaller;
-              background-color: var(--base-color);
-              border-radius: @base-border-radius - 2;
-              margin-right: 2px;
+              background-color: var(--selection-bg-color);
+              color: var(--selection-text-color);
+              border-radius: @input-border-radius;
+              margin-right: 3px;
             }
           }
         }
@@ -294,7 +303,7 @@
 .multi-select {
   min-height: 100px;
   overflow: auto;
-  padding: @padding-smaller !important;
+  // padding: @padding-smaller !important;
 
   > .multi-select-item {
     padding: @padding-smaller - 2;
@@ -306,7 +315,7 @@
       background-color: rgba(0,0,0,0.04);
     }
     &.selected {
-      background-color: var(--accent-color);
+      background-color: var(--selection-bg-color);
       color: var(--selection-text-color);
     }
   }

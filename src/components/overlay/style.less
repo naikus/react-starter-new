@@ -3,7 +3,7 @@
 
 @overlay-padding: @padding-container;
 @overlay-border-radius: @base-border-radius;
-@overlay-transform: 170%;
+@overlay-transform: 150%;
 @overlay-anim-duration: 600ms;
 
 .overlay-backdrop {
@@ -32,7 +32,6 @@
     // border: 1px solid rgba(0,0,0,0.04);
     // border-radius: @overlay-border-radius;
     // text-align: center;
-    box-shadow: 0 0 10px 0 rgba(0,0,0,0.06);
     
     transform: translate3d(0, -@overlay-transform, 0);
     // transition: transform 400ms @bezier-func 150ms;
@@ -67,6 +66,7 @@
 .overlay {
   background-color: var(--overlay-bg-color);
   color: var(--overlay-text-color);
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.06);
 }
 
 .modal {
@@ -128,17 +128,21 @@
 
 @keyframes overlay_bottom_content_close {
   0% {
+    opacity: 1;
     transform: none;
   }
   100% {
+    opacity: 0;
     transform: translate3d(0, @overlay-transform, 0);
   }
 }
 @keyframes overlay_bottom_content_open {
   0% {
+    opacity: 0;
     transform: translate3d(0, @overlay-transform, 0);
   }
   100% {
+    opacity: 1;
     transform: none;
   }
 }

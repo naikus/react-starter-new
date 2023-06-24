@@ -131,7 +131,7 @@ const renderField = (field, model, props) => {
       );
 
     return (
-      <label className={`field-container ${name} ${type} pristine-${pristine} valid-${valid} ${className}`}>
+      <label className={`field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`}>
         {labelComp}
         {field}
         {messageComp}

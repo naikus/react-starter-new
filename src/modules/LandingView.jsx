@@ -32,7 +32,9 @@ const View = props => {
   useEffect(() => {
     const close = e => {
       if(e.key === "Escape") {
-        setShow(false);
+        setTimeout(() => {
+          setShow(false);
+        }, 50);
       }
     };
     document.addEventListener("keyup", close);
