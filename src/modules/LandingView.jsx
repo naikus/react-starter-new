@@ -43,6 +43,7 @@ const View = props => {
     };
   }, []);
 
+  // console.log("Landing");
   return (
     <div className="view landing-view">
       <style>
