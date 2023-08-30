@@ -123,7 +123,7 @@ form {
   }
 
 
-  &.checkbox, &.radio {
+  &.field-container-checkbox, &.field-container-radio {
     position: relative;
     > .label {
       margin-left: @field-container-padding + @padding-default;
@@ -149,6 +149,10 @@ form {
     .v-msg {
       color: var(--error-color);
     }
+  }
+
+  &.inline {
+    display: inline-block;
   }
   
 }
@@ -331,5 +335,12 @@ form {
         color: inherit;
       }
     }
+  }
+}
+
+
+:root[data-theme="light"], :root[data-theme=""] {
+  .field-container {
+    background-color: rgba(0,0,0,0.05);
   }
 }

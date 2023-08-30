@@ -7,7 +7,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           val = val.trim();
         }
         if(!val) {
-          const message = this.message || `${field.name} is required`;
+          const message = this.message || `${field.label} is required`;
           return invalid(message);
         }
       },
@@ -17,12 +17,12 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
             len = val.length;
         if(min && len < min) {
           const message =
-              this.message || `${field.name} must be a minimum of ${min} characters`;
+              this.message || `${field.label} must be a minimum of ${min} characters`;
           return invalid(message);
         }
         if(max && len > max) {
           const message =
-              this.message || `${field.name} must be a maxinum of ${max} characters`;
+              this.message || `${field.label} must be a maxinum of ${max} characters`;
           return invalid(message);
         }
       },
@@ -31,7 +31,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
             strVal = stringValue(value),
             val = Number(strVal);
         if(isNaN(val) || val < min || val > max) {
-          const message = this.message || `${field.name} is an invalid number`;
+          const message = this.message || `${field.label} is an invalid number`;
           return invalid(message);
         }
       },
@@ -39,7 +39,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
         const reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,6}(?:\.[a-zA-Z]{2,3})?)$/,
             val = stringValue(value);
         if(!reEmail.test(val)) {
-          const message = this.message || `${field.name} must be a valid email`;
+          const message = this.message || `${field.label} must be a valid email`;
           return invalid(message);
         }
       },
@@ -49,7 +49,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return;
         }
         if(other.value !== value) {
-          const message = this.message || `${field.name} must be same as ${other.name}`;
+          const message = this.message || `${field.label} must be same as ${other.name}`;
           return invalid(message);
         }else {
           return {valid: true, revalidate: [fieldName]};
@@ -58,7 +58,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
       pattern(value, field) {
         const regExp = this.pattern, val = stringValue(value);
         if(!regExp.test(val)) {
-          const message = this.message || `${field.name} must match pattern: ${regExp}`;
+          const message = this.message || `${field.label} must match pattern: ${regExp}`;
           return invalid(message);
         }
       }

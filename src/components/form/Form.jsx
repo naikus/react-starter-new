@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useReducer, useContext, useRef, useCallback} from "react";
 import PropTypes from "prop-types";
+import {rules, ruleBuilder} from "./rule-builder";
 import "./style.less";
 
 const VALID = {valid: true, message: ""},
@@ -113,10 +114,10 @@ const VALID = {valid: true, message: ""},
 
 
 const renderField = (field, model, props) => {
-    const {name, type, "data-label": label, "data-hint": hint, className} = props,
+    const {name, type, label, hint, className} = props,
       {valid = true, message, pristine = true, value=""} = model,
       messageComp = (
-        !valid ?
+        !valid && !pristine ?
           <span className="v-msg hint">{message}</span>
         : null
       ),
@@ -157,7 +158,12 @@ const renderField = (field, model, props) => {
             thisField = form.fields[name];
         if(!thisField) {
           // console.log("[Field] adding field", name);
-          addField({name, value, defaultValue, label});
+          addField({
+            name, 
+            value, 
+            defaultValue, 
+            label: label || name
+          });
         }
       }
 
@@ -182,8 +188,12 @@ const renderField = (field, model, props) => {
             updateField({name, value});
             onInput && onInput(e);
           }
-        };
-        const fieldComp = typeRenderer(newProps, formContext);
+        },
+        fieldComp = typeRenderer(newProps, formContext);
+
+      if(type === "hidden") {
+        return fieldComp;
+      }
       return renderer(fieldComp, fieldModel, newProps);
     }else {
       return typeRenderer(props, formContext);
@@ -264,7 +274,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "add-field": {
-          const {name, value, pristine} = payload,
+          const {name, value, label} = payload,
               {valid, message} = validateField(payload, rules, fields);
           // console.log("[reducer] add-field", payload);
           newState = {
@@ -273,29 +283,29 @@ const formReducer = (state, action) => {
               ...fields,
               [name]: {
                 name,
-                valid,
-                message,
+                label,
                 value,
-                pristine
+                pristine: true,
+                valid,
+                message
               }
             }
           };
           break;
         }
         case "update-field": {
-          const {name, value, pristine} = payload, // Here payload is field model
-            {fields} = state,
-            {valid, message, revalidate} = validateField(payload, rules, fields),
-            // field = fields[name],
-
+          const {fields} = state,
+            {name, value} = payload, // Here payload is field model
+            fld = fields[name],
+            {valid, message, revalidate} = validateField({...fld, value}, rules, fields),
             newFields = {
               ...fields,
               [name]: {
-                name,
+                ...fld,
                 value,
                 valid,
                 message,
-                pristine
+                pristine: false
               }
             };
 
@@ -369,7 +379,11 @@ const formReducer = (state, action) => {
               pristine,
               fields: {
                 ...fields
-              }
+              },
+              data: Object.keys(fields).reduce((acc, name) => {
+                acc[name] = fields[name].value;
+                return acc;
+              }, {})
             });
           }
           return false;
@@ -397,7 +411,11 @@ const formReducer = (state, action) => {
               pristine,
               fields: {
                 ...fields
-              }
+              },
+              data: Object.keys(fields).reduce((acc, name) => {
+                acc[name] = fields[name].value;
+                return acc;
+              }, {})
             });
           }
         }
@@ -407,7 +425,7 @@ const formReducer = (state, action) => {
         <FormContext.Provider value={{
           form, 
           addField(field) {
-            // console.log("[formcontext] addField", field.name, fields.current);
+            // console.log("[formcontext] addField", field.name, fieldsRef.current);
             if(!fieldsRef.current) {
               dispatch({type: "add-field", payload: field});
             }else {
@@ -428,7 +446,7 @@ const formReducer = (state, action) => {
           },
           renderer: props.fieldRenderer || renderField
         }}>
-          <form name={props.name} onSubmit={handleSubmit}>
+          <form className={props.className} name={props.name} onSubmit={handleSubmit}>
             {/* eslint-disable-next-line react/prop-types */}
             {props.children}
           </form>
@@ -438,6 +456,7 @@ const formReducer = (state, action) => {
 Form.displayName = "Form";
 Form.propTypes = {
   name: PropTypes.string,
+  className: PropTypes.string,
   fieldRenderer: PropTypes.func,
   rules: PropTypes.object,
   onChange: PropTypes.func,
@@ -445,5 +464,5 @@ Form.propTypes = {
 };
 
 export {
-  Form, Field, registerFieldType, renderField
+  Form, Field, registerFieldType, renderField, rules, ruleBuilder
 };
