@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef, memo, useCallback, useContext} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import NotificationContext from "./Context";
+import {useNotifications} from "./Context";
 import "./style.less";
 
 const ICONS = {
@@ -59,8 +59,9 @@ Notification.propTypes = {
 
 
 const Notifications = props => {
-  const notifications = useContext(NotificationContext),
-      {current, next} = notifications,
+  const {onCurrent, next} = useNotifications(),
+      [current, setCurrent] = useState(null),
+      // {current, next} = notifications,
       timer = useRef(null),
       onDismiss = () => {
         clearTimeout(timer);
@@ -71,6 +72,15 @@ const Notifications = props => {
       notification = current ? 
         <Notification key={current.key} message={current.message} onDismiss={onDismiss} /> : 
         null;
+
+  useEffect(() => {
+    const unsub = onCurrent(message => {
+      setCurrent(message);
+    });
+    () => {
+      unsub();
+    };
+  });
 
   return (
     <div className="notifications">

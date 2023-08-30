@@ -1,28 +1,38 @@
-import React, {useState, useEffect, useRef, memo, useCallback, useContext} from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import NotificationContext from "./Context";
+import {NotificationContext} from "./Context";
 
-const useNotifications = () => {
-  const messages = useRef([]),
-      [current, setCurrent] = useState(null),
+function createNotificationService() {
+  let current, handler;
+  const messages = [],
       next = () => {
-        if(messages.current.length) {
+        if(messages.length) {
           setCurrent({
             key: new Date().getTime(),
-            message: messages.current.shift()
+            message: messages.shift()
           });
         }else {
           setCurrent(null);
         }
       },
       enqueue = message => {
-        messages.current.push(message);
+        messages.push(message);
         if(!current) {
           next();
         }
+      },
+      setCurrent = message => {
+        current = message;
+        handler && handler(message);
       };
 
   return {
+    onCurrent: cb => {
+      handler = cb;
+      return () => {
+        cb = null;
+      };
+    },
     show: enqueue,
     toast(message) {
       enqueue({
@@ -31,15 +41,13 @@ const useNotifications = () => {
         content: message
       });
     },
-    next,
-    current,
-    setCurrent
+    next
   };
-};
+}
 
 const NotificationProvider = props => {
   const {children} = props,
-      notifications = useNotifications();
+      notifications = createNotificationService();
 
   return (
     <NotificationContext.Provider value={notifications}>
