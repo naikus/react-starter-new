@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext, forwardRef, memo} from "react";
+import React, {useEffect, useRef, useState, useContext, forwardRef, memo, useCallback} from "react";
 import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 
@@ -40,7 +40,10 @@ function App({appBarPosition = "left"}) {
       {appBar = true} = config,
       transitionRef = useRef(null),
       transitionKey = viewData.route ? viewData.route.path : "root",
-      notifications = useContext(NotificationContext);
+      notifications = useContext(NotificationContext),
+      goAbout = useCallback(() => {
+        routerRef.current.route("/about");
+      }, []);
 
   /*
   // Set theme based on system preference
@@ -98,9 +101,9 @@ function App({appBarPosition = "left"}) {
             // position="top"
             title={Config.appName}
             logoAltText="Logo">
-            <a className="action" title={`About ${Config.appName}`} href="#/about">
+            <button className="action" title={`About ${Config.appName}`} onClick={goAbout}>
               <i className="icon icon-info"></i>
-            </a>
+            </button>
           </AppBar>
         : null}
 

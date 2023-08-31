@@ -74,8 +74,8 @@ const View = props => {
           <i className="icon icon-bell"></i>
         </button>
       </Actions>
-      <div className="content">
-        <img src={Config.logo} width="300" alt="logo" />
+      <div className="content anim">
+        <img style={{animationDuration: "30s"}} className="spin" src={Config.logo} width="300" alt="logo" />
       </div>
       <Overlay className="modal alert" show={show}>
         <div className="title">
