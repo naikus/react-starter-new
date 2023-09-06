@@ -16,8 +16,8 @@
   // top: @appbar-height;
   // bottom: 0;
   // overflow: auto;
-  padding-top: @appbar-height;
   padding-left: 0;
+  padding-top: @appbar-width;
 
   > .content {
     box-sizing: border-box;
@@ -27,13 +27,30 @@
 }
 
 .appbar-left {
-  .view {
-    padding-top: 0;
-    padding-left: @appbar-width;
+  .view-wrapper {
+    .view {
+      padding-top: 0;
+      padding-left: @appbar-width;
+    }
+  }
+}
+.appbar-top {
+  .view-wrapper {
+    .view {
+      padding-top: @appbar-height;
+      padding-left: 0;
+    }
   }
 }
 
-
+.appbar-left, .appbar-top {
+  .view-wrapper {
+    .view.no-appbar {
+      padding-top: 0;
+      padding-left: 0;
+    }
+  }
+}
 
 .view-wrapper {
   width: 100%;
@@ -41,15 +58,9 @@
   top: 0;
   bottom: 0;
   overflow: auto;
-
-
-  &.no-appbar {
-    > .view {
-      padding-top: 0;
-      padding-left: 0;
-    }
-  }
 }
+
+
 .fadeup-transitions {
   -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
   -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
@@ -87,8 +98,8 @@
   width: 350px;
 
   > .title {
-    padding: @padding-container;
-    background-color: rgba(0,0,0,0.05);
+    padding: @padding-default @padding-container;
+    // background-color: rgba(0,0,0,0.05);
     border-radius: @base-border-radius @base-border-radius 0 0;
     > h4, > p {
       margin: @base-unit 0;
@@ -98,21 +109,31 @@
     }
   }
   > .content {
-    padding: @padding-container @padding-container @base-unit;
+    padding: 0 @padding-container + 4px @padding-container;
     flex: 3;
-    min-height: 100px;
+    // min-height: 100px;
   }
   > .actions {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    padding: @padding-container;
+    padding: @padding-default @padding-container;
     background-color: rgba(0,0,0,0.05);
     border-radius: 0 0 @base-border-radius @base-border-radius;
-    > .button {
+    > .button, button {
       margin: 0;
       margin-left: @base-unit;
+    }
+  }
+}
+:root[data-theme="dark"] {
+  .alert {
+    > .title {
+      // background-color: rgba(255,255,255,0.05);
+    }
+    > .actions {
+      background-color: rgba(0,0,0,0.2);
     }
   }
 }

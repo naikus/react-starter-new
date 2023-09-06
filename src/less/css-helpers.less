@@ -70,6 +70,7 @@
  }
 
 
+
  @-moz-keyframes spin {
    0% {
        -moz-transform: rotate(0deg);
@@ -96,40 +97,49 @@
  }
  
  
- 
- @-moz-keyframes pulse {
-   0% {
-       -moz-transform: scale(0.7, 0.7);
-   }
-   50% {
-       -moz-transform: scale(1.2, 1.2);
-   }
-   100% {
-       -moz-transform: scale(0.7, 0.7);
-   }
- }
- @-webkit-keyframes pulse {
-   0% {
-       -webkit-transform: scale(0.7, 0.7);
-   }
-   50% {
-       -webkit-transform: scale(1.2, 1.2);
-   }
-   100% {
-       -webkit-transform: scale(0.7, 0.7);
-   }
- }
- @keyframes pulse {
-   0% {
-       transform: scale(0.7, 0.7);
-   }
-   50% {
-       transform: scale(1.2, 1.2);
-   }
-   100% {
-       transform: scale(0.7, 0.7);
-   }
- }
+
+@-moz-keyframes pulse {
+  0% {
+      -moz-transform: scale(0.95, 0.95);
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+  }
+  50% {
+      -moz-transform: scale(1, 1);
+      box-shadow: 0 0 0 16px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+      -moz-transform: scale(0.95, 0.95);
+      box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.95, 0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    -webkit-transform: scale(1, 1);
+    box-shadow: 0 0 0 16px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    -webkit-transform: scale(0.95, 0.95);
+    box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.95, 0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1, 1);
+    box-shadow: 0 0 0 16px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(0.95, 0.95);
+    box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+  }
+}
  
  .spin {
   -moz-transform: translateZ(0);
@@ -143,7 +153,7 @@
    animation: 1.5s linear 0s normal none infinite spin;
  }
  .anim .pulse {
-   -webkit-animation: 1s linear 0s normal none infinite pulse;
-   -moz-animation: 1s linear 0s normal none infinite pulse;
-   animation: 1s linear 0s normal none infinite pulse;
+   -webkit-animation: 2s linear 0s normal none infinite pulse;
+   -moz-animation: 2s linear 0s normal none infinite pulse;
+   animation: 2s linear 0s normal none infinite pulse;
  }

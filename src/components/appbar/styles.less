@@ -58,7 +58,6 @@
       cursor: pointer;
       width: auto;
       display: flex;
-      align-items: center;
       padding: @base-unit + 4;
       margin: 0;
       border-radius: 0;
@@ -96,40 +95,38 @@
   }
 }
 
-.app.appbar-left {
+.appbar-left {
   .app-bar {
-    // &.left {
-      align-items: unset;
-      // justify-content: space-between;
+    align-items: unset;
+    // justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    width: @appbar-width;
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+
+    .branding {
+      flex: unset;
       flex-direction: column;
-      height: 100%;
-      width: @appbar-width;
-      border-right: 1px solid rgba(0, 0, 0, 0.06);
-  
-      .branding {
-        flex: unset;
-        flex-direction: column;
-        align-items: center;
-        padding: @padding-default 0;
-        background-color: rgba(0, 0, 0, 0.03);
-  
-        .title {
-          display: none;
-        }
-      }
-  
-      .actions, .action-group {
-        flex-direction: column;
-        flex: 2;
-      }
-  
-      .global-actions {
-        // flex: 1;
-        display: flex;
-        flex-direction: column-reverse;
-        padding: 0;
-        padding-bottom: @padding-smaller;
+      align-items: center;
+      padding: @padding-default 0;
+      // background-color: rgba(0, 0, 0, 0.03);
+
+      .title {
+        display: none;
       }
     }
-  // }
+
+    .actions, .action-group {
+      flex-direction: column;
+      flex: 2;
+    }
+
+    .global-actions {
+      // flex: 1;
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 0;
+      padding-bottom: @padding-smaller;
+    }
+  }
 }

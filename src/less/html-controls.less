@@ -54,6 +54,7 @@ input,
     display: inline-block;
     width: auto;
     margin: 0 2px;
+    //min-width: 70px;
   }
 }
 select {
@@ -64,6 +65,7 @@ select {
   background-repeat: no-repeat;
   background-position: 99% 50%;
   background-size: 25px;
+  padding-right: 25px;
 
   &[multiple] {
     padding: @base-unit - 4px;
@@ -92,7 +94,7 @@ textarea {
   cursor: pointer;
   text-align: center;
   text-transform: uppercase;
-  font-weight: bolder;
+  // font-weight: bolder;
 
   // margin: 8px;
 
@@ -129,8 +131,8 @@ textarea {
   }
 
   &.primary {
-    background-color: var(--accent-color);
-    color: var(--accent-text-color);
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
 
     &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       opacity: .6;
@@ -141,7 +143,7 @@ textarea {
     display: inline-block;
     margin-right: 7px;
   }
-   
+
 }
 label {
   display: block;

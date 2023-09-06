@@ -92,6 +92,14 @@ const ObjectToString = Object.prototype.toString,
       return collector.join("&");
     },
 
+    callInterceptor = (interceptor, context) => {
+      const ret = interceptor(context);
+      if(ret && typeof ret.then === "function") {
+        return ret;
+      }
+      return Promise.resolve();
+    },
+
 
     /**
      * ApiClient prototype object used in create function
@@ -119,39 +127,34 @@ const ObjectToString = Object.prototype.toString,
         }
         const request = new Request(url, options), context = {path, options, request, response: null};
 
-        let promise = Promise.resolve(context);
+        let promise = Promise.resolve();
         promise.catch(err => {
           console.log(err);
           throw err;
         });
-        this.interceptors.reduce((promise, interceptor) => {
+        promise = this.interceptors.reduce((promise, interceptor) => {
           // here interceptors can modify request headers, etc.
-          return promise.then(ctx => {
-            const ret = interceptor(ctx) || ctx;
-            return (typeof ret.then === "function") ? ret : Promise.resolve(ret);
-          });
+          return promise.then(callInterceptor.bind(null, interceptor, context));
         }, promise);
 
-        return promise.then(ctx => {
-          ctx = ctx || context;
+        return promise.then(() => {
+          // ctx = ctx || context;
           return fetch(request)
               .then(response => {
-                let resPromise = Promise.resolve(response);
+                context.response = response;
+                let resPromise = Promise.resolve();
                 resPromise.catch(err => {
                   console.log(err);
                   throw err;
                 });
-
                 // const context = {path, options, request, response: resPromise};
-                ctx.response = resPromise;
-                this.interceptors.forEach(interceptor => {
-                  const promise = interceptor(ctx);
-                  // console.log("Interceptor returned", promise);
-                  if(promise) {
-                    ctx.response = promise;
-                  }
+                resPromise = this.interceptors.reduce((promise, interceptor) => {
+                  return promise.then(callInterceptor.bind(null, interceptor, context));
+                }, resPromise);
+
+                return resPromise.then(() => {
+                  return context.response;
                 });
-                return ctx.response;
               });
         });
       },
@@ -222,16 +225,31 @@ const createApiClient = opts => {
       }
     });
   },
-  responseAsJson = (response) => {
+  responseAsJson = async (response) => {
     if(response.status >= 200 && response.status < 400) {
       return response.json();
     }else {
-      return Promise.reject(response);
+      return new Promise((_, reject) => {
+        response.json().then(json => {
+          const err = new Error(json.message);
+          err.code = json.code;
+          err.status = response.status;
+          reject(err);
+        }).catch(error => {
+          return response.text().then(text => {
+            const err = new Error(text);
+            error.code = response.code;
+            error.status = response.status;
+            reject(err);
+          });
+        });
+      });
     }
   };
 
+export default createApiClient;
+
 export {
-  createApiClient as create,
   toQueryParams,
   responseAsJson
 };

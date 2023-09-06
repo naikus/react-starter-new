@@ -3,25 +3,26 @@ import {useRef, useState} from "react";
 function useAsyncCall(asyncCall) {
   const [busy, setBusy] = useState(false),
       [error, setError] = useState(null);
-  return {
-    busy,
-    error,
-    execute: async (...args) => {
+  return [
+    async (...args) => {
       setBusy(true);
       try {
         return await asyncCall(...args);
       }catch(err) {
         setError(err);
+        throw err;
       }finally {
         setBusy(false);
       }
-    }
-  };
+    },
+    busy,
+    error
+  ];
 }
 
 
 function useAsyncCallImmediate(asyncCall, ...args) {
-  const [busy, setBusy] = useState(false),
+  const [busy, setBusy] = useState(true),
       [error, setError] = useState(null),
       [result, setResult] = useState(null),
       ref = useRef(),
@@ -30,12 +31,13 @@ function useAsyncCallImmediate(asyncCall, ...args) {
           return;
         }
         ref.current = true;
-        setBusy(true);
+        // setBusy(true);
         try {
           const res = await asyncCall(...args);
           setResult(res);
         }catch(err) {
           setError(err);
+          throw err;
         }finally {
           setBusy(false);
         }
@@ -43,11 +45,11 @@ function useAsyncCallImmediate(asyncCall, ...args) {
 
   execute();
 
-  return {
+  return [
+    result,
     busy,
-    error,
-    result
-  };
+    error
+  ];
 }
 
 
