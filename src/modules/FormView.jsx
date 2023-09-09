@@ -8,6 +8,7 @@ import MultiSelect from "../components/form/MultiSelect";
 
 const formRules = {
   name: [rb("required")],
+  // Validation for MultiValInut "hobbies"
   hobbies: [(value, field, fields) => {
     if(!value || value.length < 1) {
       return {valid: false, message: "At least one hobby is required"};
@@ -16,6 +17,7 @@ const formRules = {
       return {valid: false, message: "Only 4 hobbies allowed"};
     }
   }],
+  // Validation for MultiSelect "sports"
   sports: [(value, field, fields) => {
     if(!value || value.length < 1) {
       return {valid: false, message: "At least one sport is required"};
@@ -33,6 +35,7 @@ const View = props => {
 
   return (
     <div className="view form-view">
+      {/* eslint-disable-next-line react/no-unknown-property */}
       <style scoped>
         {`
           .form-view .content {
@@ -78,7 +81,7 @@ const View = props => {
           <div className="row">
             <Field name="name" label="Name" />
             <Field name="hobbies" label="Hobbies" type="multival-input" />
-            </div>
+          </div>
           <Field name="sports" label="Sports" type="multiselect" options={[
             {label: "Basketball", value: "basketball"},
             {label: "Soccer", value: "soccer"},
