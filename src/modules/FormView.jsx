@@ -39,7 +39,7 @@ const View = props => {
       {/* eslint-disable-next-line react/no-unknown-property */}
       <style scoped>
         {`
-          .form-view .content {
+          .content {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -47,17 +47,22 @@ const View = props => {
             position: relative;
             align-items: center;
           }
-          .form-view .row {
+          .row {
             display: flex;
-            flex-direction: row;
+            flex-direction: row; 
           }
-          .form-view .row > .field-container:first-child {
-            margin-right: 16px;
+          .row > .field-container {
+            flex: 1;
+          }
+          .row > .field-container:last-child {
+            margin-left: 16px;
+            flex: 2;
           }
 
           .message {
             padding: 16px;
-            margin: 20px;
+            margin: 0px;
+            margin-bottom: 24px;
             background-color: rgba(0, 173, 181, 0.13);
             border-radius: 8px;
           }
@@ -80,14 +85,16 @@ const View = props => {
           }
         }}>
           <div className="row">
-            <Field name="name" label="Name" />
-            <Field name="hobbies" label="Hobbies" type="multival-input" />
+            <Field name="name" hint="Enter your full name" label="Name" />
+            <Field name="hobbies" hint="Enter upto four" label="Hobbies" type="multival-input" />
           </div>
-          <Field name="sports" label="Sports" type="multiselect" options={[
-            {label: "Basketball", value: "basketball"},
-            {label: "Soccer", value: "soccer"},
-            {label: "Hockey", value: "hockey"}
-          ]} />
+          <Field name="sports" type="multiselect" label="Sports"
+            hint="Choose all that apply"
+            options={[
+              {label: "Basketball", value: "basketball"},
+              {label: "Soccer", value: "soccer"},
+              {label: "Hockey", value: "hockey"}
+            ]} />
         </Form>
         <button className="primary inline" disabled={!valid} onClick={() => {
             notifications.show({
