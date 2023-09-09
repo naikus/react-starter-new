@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import {registerFieldType} from "./Form";
+// import {registerFieldType} from "./Form";
 
 function createEvent(value) {
   return {
@@ -90,6 +90,6 @@ MultiSelect.propTypes = {
   className: PropTypes.string
 };
 
-registerFieldType("multi-select", MultiSelect);
+// registerFieldType("multi-select", MultiSelect);
 
 export default MultiSelect;

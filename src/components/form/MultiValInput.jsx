@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
 
-import {registerFieldType} from "./Form";
+// import {registerFieldType} from "./Form";
 
 
 function createEvent(value) {
@@ -88,6 +88,6 @@ MultiValInput.propTypes = {
   disabled: PropTypes.bool
 };
 
-registerFieldType("multi-val", MultiValInput);
+// registerFieldType("multi-val", MultiValInput);
 
 export default MultiValInput;

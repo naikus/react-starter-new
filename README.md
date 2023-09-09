@@ -6,8 +6,8 @@ A modern reactjs starter with vite based build
 - Custom branding (Logo, colors, etc)
 - Basic components 
   - Appbar (App bar top or left with global actions and route specific actions)
-  - Form with basic styling, validation (supports integration of custom components)
-  - Portal
+  - Form with out of the box styling, validation (supports integration of custom components)
+  - Portal component
   - MultiValInput (Supports form)
   - MultiSelect (Supports form)
   - File Upload component

@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import PropTypes from "prop-types";
 
-import {registerFieldType} from "./Form";
+// import {registerFieldType} from "./Form";
 
 function FileItem({file, onRemove}) {
   const {name, size, type} = file;
@@ -92,6 +92,6 @@ FileUpload.propTypes = {
   disabled: PropTypes.bool
 };
 
-registerFieldType("file-upload", FileUpload);
+// registerFieldType("file-upload", FileUpload);
 
 export default FileUpload;

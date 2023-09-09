@@ -25,6 +25,7 @@ const formRules = {
   }]
 };
 
+// Register these with Form (to support validation, form data)
 registerFieldType("multival-input", MultiValInput);
 registerFieldType("multiselect", MultiSelect);
 
