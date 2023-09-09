@@ -1,6 +1,6 @@
 /* global */
 import React, {useCallback, useContext, useEffect, useState} from "react";
-// import {useRouter} from "@components/router";
+import {useRouter} from "@components/router";
 import {Actions} from "@components/appbar/Appbar";
 import Overlay from "@components/overlay/Overlay";
 import {NotificationContext} from "@components/notifications";
@@ -16,7 +16,7 @@ const nTypes = ["success", "info", "warn", "error", "toast"];
 
 const View = props => {
   const notifications = useContext(NotificationContext),
-      // router = useRouter(), 
+      router = useRouter(), 
       toggleScheme = useCallback(() => {
         const root = document.firstElementChild,
             data = root.dataset,
@@ -26,6 +26,9 @@ const View = props => {
         }else {
           data.theme = "light";
         }
+      }, []),
+      showForm = useCallback(() => {
+        router.route("/form");
       }, []),
       [show, setShow] = useState(false);
 
@@ -57,6 +60,9 @@ const View = props => {
         `}
       </style>
       <Actions>
+        <button title="Sample Form" className="action" onClick={showForm}>
+          <i className="icon icon-clipboard"></i>
+        </button>
         <button className="action" onClick={() => setShow(!show)}>
           <i className="icon icon-eye"></i>
         </button>
