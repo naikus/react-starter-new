@@ -132,7 +132,9 @@ const renderField = (field, model, props) => {
       );
 
     return (
-      <label className={`field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`}>
+      <label className={
+          `field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`
+        }>
         {labelComp}
         {field}
         {messageComp}
@@ -147,7 +149,8 @@ const renderField = (field, model, props) => {
           value = (defaultValue || defaultChecked),
           label,
           onInput,
-          type
+          // onChange,
+          type = "text"
         } = props,
         typeRenderer = fieldTypes[type] || fieldTypes.input,
         formContext = useForm();
@@ -188,6 +191,14 @@ const renderField = (field, model, props) => {
             updateField({name, value});
             onInput && onInput(e);
           }
+          /*
+          onChange: e => {
+            const value = e.target.value, {name} = props;
+            // console.log("Dispatching", name, value);
+            updateField({name, value});
+            onChange && onChange(e);
+          }
+          */
         },
         fieldComp = typeRenderer(newProps, formContext);
 
@@ -202,7 +213,7 @@ const renderField = (field, model, props) => {
 Field.displayName = "Field";
 Field.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.any,
   defaultValue: PropTypes.any,
   label: PropTypes.string,

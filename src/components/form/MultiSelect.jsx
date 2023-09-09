@@ -18,6 +18,7 @@ function MultiSelect(props) {
       value,
       defaultValue,
       onChange,
+      onInput,
       disabled,
       className = ""
     } = props,
@@ -39,10 +40,12 @@ function MultiSelect(props) {
         newData = data.filter(item => item !== value);
       }
       setData(newData);
+      // if we are part fo the form component, call the onInput prop function
+      onInput && onInput(createEvent(newData));
       onChange && onChange(createEvent(newData));
     };
 
-  if(value !== data) {
+  if(value && value !== data) {
     setData(value);
   }
 
@@ -81,6 +84,7 @@ MultiSelect.propTypes = {
   value: PropTypes.array,
   defaultValue: PropTypes.array,
   comparator: PropTypes.func,
+  onInput: PropTypes.func, // only required for the Form component
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string

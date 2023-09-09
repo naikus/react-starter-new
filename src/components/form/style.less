@@ -163,6 +163,7 @@ form {
     display: flex;
     flex-wrap: wrap;
     .value-item {
+      font-size: 0.9rem;
       display: flex;
       float: left;
       align-items: center;
@@ -310,6 +311,7 @@ form {
   // padding: @padding-smaller !important;
 
   > .multi-select-item {
+    font-size: 0.9rem;
     padding: @padding-smaller - 2;
     cursor: pointer;
     border-radius: @input-border-radius;
@@ -321,6 +323,10 @@ form {
     &.selected {
       background-color: var(--selection-bg-color);
       color: var(--selection-text-color);
+      opacity: 0.8;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

@@ -13,16 +13,18 @@ function createEvent(value) {
 }
 
 function MultiValInput(props) {
-  const {value, defaultValue, onChange, placeholder, delimiter = "," /*"/\s|\n|\r\n/"*/, disabled} = props;
+  const {value, defaultValue, onChange, onInput, placeholder, delimiter = "," /*"/\s|\n|\r\n/"*/, disabled} = props;
   const [data, setData] = useState(value || defaultValue || []),
       removeValue = e => {
         if(disabled) {return;}
         const {target} = e,
             value = target.dataset ? target.dataset.value : target.getAttribute("data-value"),
-            newData = data.filter(item => item !== value);
+            newData = data.filter(item => item !== value),
+            event = createEvent(newData);
 
-        onChange && onChange(createEvent(newData));
         setData(newData);
+        onInput && onInput(event); // This is for when this component is part of a form
+        onChange && onChange(event);
       },
 
       addValues = e => {
@@ -37,10 +39,12 @@ function MultiValInput(props) {
             });
 
         if(uniqueVals.length) {
-          const newData = [...data, ...uniqueVals];
+          const newData = [...data, ...uniqueVals],
+              event = createEvent(newData)
           // console.log(newData);
           setData(newData);
-          onChange && onChange(createEvent(newData));
+          onInput && onInput(event); // This is for when this component is part of a form
+          onChange && onChange(event);
         }
         target.value = "";
       },
@@ -68,7 +72,7 @@ function MultiValInput(props) {
   return (
     <div className={`multi-val-input`}>
       <div className="values">{values}</div>
-      <input type="text" placeholder={placeholder}
+      <input type="text" placeholder={placeholder} name="__input"
           className="value-input" onBlur={addValues} onKeyUp={handleKeyEnter} disabled={disabled} />
     </div>
   );
@@ -80,6 +84,7 @@ MultiValInput.propTypes = {
   value: PropTypes.arrayOf(PropTypes.string),
   defaultValue: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func,
+  onInput: PropTypes.func,
   disabled: PropTypes.bool
 };
 
