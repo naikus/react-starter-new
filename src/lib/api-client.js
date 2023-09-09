@@ -232,13 +232,13 @@ const createApiClient = opts => {
       return new Promise((_, reject) => {
         response.json().then(json => {
           const err = new Error(json.message);
-          err.code = json.code;
+          err.code = json.code || json.statusCode;
           err.status = response.status;
           reject(err);
         }).catch(error => {
           return response.text().then(text => {
             const err = new Error(text);
-            error.code = response.code;
+            error.code = response.code || response.statusCode;
             error.status = response.status;
             reject(err);
           });

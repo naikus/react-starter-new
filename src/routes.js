@@ -1,6 +1,7 @@
 import {createElement as h} from "react";
 import AboutView from "./modules/AboutView";
 import LandingView from "./modules/LandingView";
+import FormView from "./modules/FormView";
 
 export default [
   {
@@ -10,6 +11,16 @@ export default [
       return {
         // forward: "/route-error",
         component: LandingView
+      };
+    }
+  },
+  {
+    path: "/form",
+    controller: context => {
+      // console.log(context);
+      return {
+        // forward: "/route-error",
+        component: FormView
       };
     }
   },

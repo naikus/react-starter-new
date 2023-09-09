@@ -34,7 +34,9 @@ function createViewWrapper(View) {
 
 function App({appBarPosition = "left"}) {
   const routerRef = useRef(),
-      [routeContext = {}, setRouteContext] = useState(),
+      [routeContext = {
+        config: {appBar: false}
+      }, setRouteContext] = useState(),
       [isRouteLoading, setRouteLoading] = useState(false),
       {component: View, config = {}, ...viewData} = routeContext,
       {appBar = true} = config,
