@@ -188,9 +188,12 @@ form {
         opacity: 1;
       }
 
-      &.disabled {
+      &.disabled, &[disabled] {
         opacity: 0.5;
         cursor: not-allowed;
+        > .icon {
+          cursor: not-allowed;
+        }
         &:hover {
           opacity: 0.5;
         }
@@ -206,8 +209,8 @@ form {
 .file-upload-input {
   position: relative;
 
-  > .content {
-    background-color: var(--bg-color);
+  > .fu-content {
+    background-color: var(--input-bg-color);
     border-radius: @input-border-radius;
     > .actions {
       padding: @padding-smaller;
@@ -331,17 +334,26 @@ form {
         opacity: 1;
       }
     }
+    &[disabled] {
+      opacity: 0.5;
+      background-color: transparent;
+    }
   }
 
   &.disabled, [disabled] {
+    background-color: var(--input-disabled-bg-color);
     cursor: not-allowed;
-    opacity: 0.8;
+    opacity: 0.5;
 
     > .multi-select-item {
       cursor: not-allowed;
       &:hover {
         background-color: inherit;
         color: inherit;
+      }
+
+      &[disabled] {
+        opacity: 1;
       }
     }
   }

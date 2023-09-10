@@ -114,7 +114,7 @@ const VALID = {valid: true, message: ""},
 
 
 const renderField = (field, model, props) => {
-    const {name, type, label, hint, className} = props,
+    const {name, type, label, hint, className, id} = props,
       {valid = true, message, pristine = true, value=""} = model,
       messageComp = (
         !valid && !pristine ?
@@ -123,22 +123,22 @@ const renderField = (field, model, props) => {
       ),
       labelComp = (
         label ?
-          <div className="label">
+          <label className="label" htmlFor={id}>
             <span className="title">{label}</span>
             {hint ? <span className="hint">{hint}</span> : null}
             {type === "range" ? <span className="value">{value}</span> : null}
-          </div>
+          </label>
         : null
       );
 
     return (
-      <label className={
+      <div className={
           `field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`
         }>
         {labelComp}
         {field}
         {messageComp}
-      </label>
+      </div>
     );
   },
   Field = props => {

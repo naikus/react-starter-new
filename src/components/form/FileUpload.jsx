@@ -1,7 +1,15 @@
-import React, {useRef, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import PropTypes from "prop-types";
 
 // import {registerFieldType} from "./Form";
+
+function createEvent(value) {
+  return {
+    target: {
+      value
+    }
+  };
+}
 
 function FileItem({file, onRemove}) {
   const {name, size, type} = file;
@@ -28,10 +36,15 @@ FileItem.propTypes = {
 
 
 function FileUpload(props) {
-  const {value, onChange, multiple, accept, disabled} = props,
+  const {value, onChange, onInput, multiple, accept, disabled} = props,
       inputRef = useRef(), 
       NO_DISPLAY = {display: "none"},
       [data, setData] = useState(value || []),
+      fireChange = useCallback(data => {
+        const evt = createEvent(data);
+        onInput && onInput(evt);
+        onChange && onChange(evt);
+      }, []),
       files = data.map(file => {
         return (
           <FileItem key={file.name}
@@ -39,7 +52,7 @@ function FileUpload(props) {
               onRemove={() => {
                 const newData = data.filter(f => f.name !== file.name);
                 setData(newData);
-                onChange && onChange(newData);
+                fireChange(newData);
               }} />
         );
       }),
@@ -54,12 +67,12 @@ function FileUpload(props) {
           files.push(fileList[i]);
         }
         setData(files);
-        onChange && onChange(files);
+        fireChange(files);
       },
       removeAll = () => {
         if(disabled) {return;}
         setData([]);
-        onChange && onChange([]);
+        fireChange([]);
       };
 
   return (
@@ -71,7 +84,7 @@ function FileUpload(props) {
           multiple={multiple}
           accept={accept}
           disabled={disabled} />
-      <div className="content">
+      <div className="fu-content">
         <div className="actions">
           <span className={`action icon-trash`} onClick={removeAll} disabled={data.length === 0 || disabled} />
           <span className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
@@ -89,6 +102,7 @@ FileUpload.propTypes = {
   multiple: PropTypes.bool,
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func,
+  onInput: PropTypes.func,
   disabled: PropTypes.bool
 };
 

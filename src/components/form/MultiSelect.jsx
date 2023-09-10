@@ -30,8 +30,11 @@ function MultiSelect(props) {
       // If this is a keyup event, ignore all keys except Space
       if(e.type === "keyup" && e.code !== "Space") {return;}
 
-      const {target} = e,
-        value = target.dataset ? target.dataset.value : target.getAttribute("data-value");
+      const {target} = e;
+      if(target.hasAttribute("disabled")) {
+        return;
+      }
+      const value = target.dataset ? target.dataset.value : target.getAttribute("data-value");
 
       let newData;
       if(data.indexOf(value) === -1) {
@@ -50,7 +53,7 @@ function MultiSelect(props) {
   }
 
   const items = options.map((option, index) => {
-    const {value} = option,
+    const {value, disabled} = option,
         selected = data.some(item => comparator(item, option));
 
     return (
@@ -59,7 +62,8 @@ function MultiSelect(props) {
           data-value={value}
           onClick={toggleSelectItem}
           onKeyUp={toggleSelectItem}
-          className={`multi-select-item${selected ? " selected" : ""}`}>
+          className={`multi-select-item${selected ? " selected" : ""}`}
+          disabled={disabled}>
         {option.label}
       </div>
     );
@@ -67,6 +71,7 @@ function MultiSelect(props) {
 
   return (
     <div tabIndex={0} ref={listElemRef}
+        data-name={name}
         className={`input multi-select ${disabled ? " disabled": ""} ${className}`}>
       {items}
     </div>

@@ -13,7 +13,10 @@ function createEvent(value) {
 }
 
 function MultiValInput(props) {
-  const {value, defaultValue, onChange, onInput, placeholder, delimiter = "," /*"/\s|\n|\r\n/"*/, disabled} = props;
+  const {
+    value, defaultValue, onChange, onInput, placeholder,
+    delimiter = "," /*"/\s|\n|\r\n/"*/, disabled
+  } = props;
   const [data, setData] = useState(value || defaultValue || []),
       removeValue = e => {
         if(disabled) {return;}
@@ -40,7 +43,7 @@ function MultiValInput(props) {
 
         if(uniqueVals.length) {
           const newData = [...data, ...uniqueVals],
-              event = createEvent(newData)
+              event = createEvent(newData);
           // console.log(newData);
           setData(newData);
           onInput && onInput(event); // This is for when this component is part of a form
@@ -53,21 +56,21 @@ function MultiValInput(props) {
         if(e.keyCode === 13) {
           addValues(e);
         }
-      },
+      };
 
-      values = data.map(value => {
-        const key = value;
-        return (
-          <span key={key} className={`value-item${disabled ? " disabled" : ""}`}>
-            {value}
-            <i data-value={value} className="icon icon-x-circle" onClick={removeValue} />
-          </span>
-        );
-      });
+  if(value && value !== data) {
+    setData(value);
+  }
 
-  useEffect(() => {
-    setData(value || []);
-  }, [value]);
+  const values = data.map(value => {
+    const key = value;
+    return (
+      <span key={key} className={`value-item${disabled ? " disabled" : ""}`}>
+        {value}
+        <i data-value={value} className="icon icon-x-circle" onClick={removeValue} />
+      </span>
+    );
+  });
 
   return (
     <div className={`multi-val-input`}>
