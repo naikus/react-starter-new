@@ -4,7 +4,8 @@ import React, {useCallback, useContext, useEffect, useState} from "react";
 import {NotificationContext} from "@components/notifications";
 import {Form, Field, registerFieldType, ruleBuilder as rb} from "@components/form/Form";
 import MultiValInput from "@components/form/MultiValInput";
-import MultiSelect from "../components/form/MultiSelect";
+import MultiSelect from "@components/form/MultiSelect";
+import FileUpload from "@components/form/FileUpload";
 
 const formRules = {
   name: [rb("required")],
@@ -26,8 +27,9 @@ const formRules = {
 };
 
 // Register these with Form (to support validation, form data)
-registerFieldType("multival-input", MultiValInput);
+registerFieldType("multival", MultiValInput);
 registerFieldType("multiselect", MultiSelect);
+registerFieldType("fileupload", FileUpload);
 
 const View = props => {
   const notifications = useContext(NotificationContext),
@@ -85,20 +87,39 @@ const View = props => {
           }
         }}>
           <div className="row">
-            <Field name="name" hint="Enter your full name" label="Name" />
-            <Field name="hobbies" hint="Enter upto four" label="Hobbies" type="multival-input" />
+            <Field id="name" name="name" hint="Enter your full name" label="Name" />
+            <Field name="hobbies" 
+              defaultValue={["Walking", "Web Development"]}
+              hint="Enter upto four"
+              disabled={true}
+              label="Hobbies" type="multival" />
           </div>
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
+            // disabled={true}
+            // defaultValue={["basketball"]}
             options={[
               {label: "Basketball", value: "basketball"},
               {label: "Soccer", value: "soccer"},
-              {label: "Hockey", value: "hockey"}
+              {label: "Hockey", value: "hockey", disabled: true}
             ]} />
+
+          <Field name="files" type="fileupload" multiple={true} label="Files" />
         </Form>
         <button className="primary inline" disabled={!valid} onClick={() => {
+            let inFiles = false;
+            const json = JSON.stringify(
+              data,
+              (k, v) => {
+                if(k === "files") {
+                  return v.map(f => f.name);
+                }
+                return v;
+              },
+              "  "
+            );
             notifications.show({
-              content: () => <pre>{JSON.stringify(data, null, " ")}</pre>,
+              content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
               type: "success"
             });
           }}>
