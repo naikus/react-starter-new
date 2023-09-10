@@ -107,12 +107,11 @@ const View = props => {
           <Field name="files" type="fileupload" multiple={true} label="Files" />
         </Form>
         <button className="primary inline" disabled={!valid} onClick={() => {
-            let inFiles = false;
             const json = JSON.stringify(
               data,
               (k, v) => {
                 if(k === "files") {
-                  return v.map(f => f.name);
+                  return v ? v.map(f => f.name) : [];
                 }
                 return v;
               },
