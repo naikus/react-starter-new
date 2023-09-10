@@ -1,5 +1,5 @@
 # React Starter
-A eactjs starter written in ES with [Vite](https://vitejs.dev/) based build
+A Reactjs starter written in ES with [Vite](https://vitejs.dev/) based build
 
 ### Features
 - SPA
