@@ -1,6 +1,7 @@
 /* global */
 import React, {useCallback, useContext, useEffect, useState} from "react";
 // import {useRouter} from "@components/router";
+import {Actions} from "@components/appbar/Appbar";
 import {NotificationContext} from "@components/notifications";
 import {Form, Field, registerFieldType, ruleBuilder as rb} from "@components/form/Form";
 import MultiValInput from "@components/form/MultiValInput";
@@ -67,17 +68,29 @@ const View = props => {
             margin-bottom: 24px;
             background-color: rgba(0, 173, 181, 0.13);
             border-radius: 8px;
+            /* font-size: .9em; */
           }
           .message code {
-            font-size: 0.9rem;
+            /* font-size: 0.9em; */
           }
         `}
       </style>
+      <Actions>
+        <button title="Disabled if the form is invalid"
+            className="action"
+            onClick={() => notifications.show({
+              type: "info",
+              content: "This action is disabled if the form is invalid"
+            })}
+            disabled={!valid}>
+          <i className="icon icon-smile"></i>
+        </button>
+      </Actions>
       <div className="content">
         <p className="message">
           Below is an example of the form with support for custom components 
-          like MultiValInput input and MultiSelect. See
-          (<code>src/components/forms</code>) for these component
+          like MultiValInput, MultiSelect and FileUpload. See
+          (<code>src/components/forms</code>) for these components.
         </p>
         <Form rules={formRules} onChange={form => {
           const {valid, data} = form;

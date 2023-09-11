@@ -78,8 +78,9 @@
       }
 
       &[disabled]:hover {
+        cursor: not-allowed;
         background-color: transparent;
-        color: var(--disabled-text-color);
+        color: var(--input-disabled-text-color);
       }
 
       .icon {
@@ -127,6 +128,24 @@
       flex-direction: column-reverse;
       padding: 0;
       padding-bottom: @padding-smaller;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 512px) {
+  .app-bar {
+    .branding {
+      .title {
+        font-size: 0.9em;
+      }
+    }
+    .actions {
+      .action {
+        .icon {
+          font-size: 1.3em;
+        }
+      }
     }
   }
 }
