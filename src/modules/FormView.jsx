@@ -35,7 +35,10 @@ registerFieldType("fileupload", FileUpload);
 const View = props => {
   const notifications = useContext(NotificationContext),
       [valid, setValid] = useState(false),
-      [data, setData] = useState({});
+      [data, setData] = useState({
+        sports: [],
+        files: []
+      });
 
   return (
     <div className="view form-view">
@@ -80,10 +83,10 @@ const View = props => {
             className="action"
             onClick={() => notifications.show({
               type: "info",
-              content: "This action is disabled if the form is invalid"
+              content: "The form is valid!"
             })}
             disabled={!valid}>
-          <i className="icon icon-smile"></i>
+          <i className={`icon icon-message-square`}></i>
         </button>
       </Actions>
       <div className="content">
@@ -102,22 +105,26 @@ const View = props => {
           <div className="row">
             <Field id="name" name="name" hint="Enter your full name" label="Name" />
             <Field name="hobbies" 
-              defaultValue={["Walking", "Web Development"]}
+              type="multival"
+              label="Hobbies"
               hint="Enter upto four"
-              disabled={true}
-              label="Hobbies" type="multival" />
+              defaultValue={["Walking", "Web Development"]} />
           </div>
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
             // disabled={true}
-            // defaultValue={["basketball"]}
+            defaultValue={data.sports}
             options={[
               {label: "Basketball", value: "basketball"},
               {label: "Soccer", value: "soccer"},
               {label: "Hockey", value: "hockey", disabled: true}
             ]} />
 
-          <Field name="files" type="fileupload" multiple={true} label="Files" />
+          <Field name="files"
+              type="fileupload"
+              label="Files"
+              defaultValue={data.files}
+              disabled={data.sports.length !== 2} />
         </Form>
         <button className="primary inline" disabled={!valid} onClick={() => {
             const json = JSON.stringify(

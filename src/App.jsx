@@ -120,7 +120,7 @@ function App({appBarPosition = "left"}) {
             : <div />}
           </CSSTransition>
         </SwitchTransition>
-        
+
         {isRouteLoading ? 
           <Progress className="global" /> 
         : null}

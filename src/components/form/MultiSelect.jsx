@@ -50,7 +50,11 @@ function MultiSelect(props) {
 
   if(value && value !== data) {
     setData(value);
+    // onInput && onInput(createEvent(value || []));
+    // onChange && onChange(createEvent(value || []));
   }
+
+  // @Todo Mount useEffect for notifying form context if there is one.
 
   const items = options.map((option, index) => {
     const {value, disabled} = option,
