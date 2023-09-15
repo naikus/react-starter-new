@@ -36,10 +36,13 @@ function MultiValInput(props) {
         if(!inputValue) return;
 
         const newValues = inputValue.split(delimiter),
-            uniqueVals = newValues.filter(val => {
+            uniqueVals = newValues.reduce((acc, val) => {
               const trimmed = val.trim();
-              return trimmed && data.indexOf(trimmed) === -1;
-            });
+              if(trimmed && acc.indexOf(trimmed) === -1 && data.indexOf(trimmed) === -1) {
+                acc.push(trimmed);
+              }
+              return acc;
+            }, []);
 
         if(uniqueVals.length) {
           const newData = [...data, ...uniqueVals],

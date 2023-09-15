@@ -174,7 +174,7 @@ form {
       margin-bottom: @base-unit - 2;
       padding: 5px 6px 3px;
       min-width: 30px;
-      background-color: var(--accent-color);
+      background-color: var(--selection-bg-color);
       border-radius: @base-border-radius - 4;
       color: var(--accent-text-color);
       opacity: 0.8;
@@ -215,17 +215,25 @@ form {
     > .actions {
       padding: @padding-smaller;
       display: flex;
-      flex-direction: row-reverse;
+      // flex-direction: row-reverse;
+      justify-content: flex-end;
       border-bottom: 1px solid rgba(0,0,0,0.04);
       > .action {
         padding: @padding-smaller;
         margin: 0 2px;
         cursor: pointer;
-        border-radius: @input-border-radius;
-        font-size: 1.1rem;
+        border: none;
+        // border-radius: @input-border-radius;
+        background-color: transparent;
+        // font-size: 1.1rem;
         &:hover {
           color: var(--accent-color);
-          background-color: rgba(0,0,0,0.04);
+          // background-color: rgba(0,0,0,0.04);
+        }
+
+        &:focus {
+          background-color: var(--active-bg-color);
+          box-shadow: none;
         }
 
         &[disabled] {
@@ -288,6 +296,19 @@ form {
           padding: @base-unit;
           &:hover {
             color: var(--warn-color);
+          }
+        }
+      }
+
+      &[disabled] {
+        > .file-item {
+          opacity: 0.5;
+
+          > .icon {
+            cursor: not-allowed;
+            &:hover {
+              color: var(--text-color);
+            }
           }
         }
       }
@@ -362,6 +383,6 @@ form {
 
 :root[data-theme="light"], :root[data-theme=""] {
   .field-container {
-    background-color: rgba(0,0,0,0.05);
+    // background-color: rgba(0,0,0,0.05);
   }
 }

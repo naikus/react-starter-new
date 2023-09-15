@@ -38,7 +38,8 @@ const View = props => {
       notifications = useContext(NotificationContext),
       [valid, setValid] = useState(false),
       [data, setData] = useState({
-        sports: [],
+        name: "Dead Pool",
+        sports: ["soccer", "hockey"],
         files: []
       });
 
@@ -97,15 +98,15 @@ const View = props => {
           like MultiValInput, MultiSelect and FileUpload. See
           (<code>src/components/forms</code>) for these components.
         </p>
-        <Form title={formTitle} rules={formRules} onChange={form => {
-          const {valid, data} = form;
-          setValid(valid);
-          if(valid) {
-            setData(data);
-          }
-        }}>
+        <Form title={formTitle}
+            rules={formRules} 
+            onChange={form => {
+              const {valid, data} = form;
+              setValid(valid);
+              setData(data);
+            }}>
           <div className="row">
-            <Field id="name" name="name" hint="Enter your full name" label="Name" />
+            <Field defaultValue={data.name} id="name" name="name" hint="Enter your full name" label="Name" />
             <Field name="hobbies" 
               type="multival"
               label="Hobbies"
@@ -124,9 +125,9 @@ const View = props => {
 
           <Field name="files"
               type="fileupload"
-              label="Files"
+              label="Basketball Files"
               defaultValue={data.files}
-              disabled={data.sports.length !== 2} />
+              disabled={data.sports.indexOf("basketball") === -1} />
         </Form>
         <button className="primary inline" disabled={!valid} onClick={() => {
             const json = JSON.stringify(

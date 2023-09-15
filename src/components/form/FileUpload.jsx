@@ -50,6 +50,9 @@ function FileUpload(props) {
           <FileItem key={file.name}
               file={file}
               onRemove={() => {
+                if(disabled) {
+                  return;
+                }
                 const newData = data.filter(f => f.name !== file.name);
                 setData(newData);
                 fireChange(newData);
@@ -86,10 +89,10 @@ function FileUpload(props) {
           disabled={disabled} />
       <div className="fu-content">
         <div className="actions">
-          <span className={`action icon-trash`} onClick={removeAll} disabled={data.length === 0 || disabled} />
           <span className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
+          <span className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled} />
         </div>
-        <div className="files">
+        <div className="files" disabled={disabled}>
           {files}
         </div>
       </div>
