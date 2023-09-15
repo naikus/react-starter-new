@@ -20,7 +20,11 @@ export default [
       // console.log(context);
       return {
         // forward: "/route-error",
-        component: FormView
+        component: FormView,
+        // data passed to form view (can be fetched from server)
+        data: {
+          formTitle: "Hobby Form"
+        }
       };
     }
   },

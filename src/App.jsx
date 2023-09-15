@@ -17,17 +17,19 @@ import "./index.less";
 
 function createViewWrapper(View) {
   /* eslint-disable react/display-name */
+  // Forward ref is for CSSTransition
   const Wrapper = forwardRef((props, ref) => {
     const {className} = props;
     return (
       <div className={`view-wrapper ${className}`} ref={ref}>
-        {View ? <View /> : null}
+        {View ? <View context={props.context} /> : null}
       </div>
     );
   });
   Wrapper.displayName = `ViewWrapper(${View.displayName || View.name})`;
   Wrapper.propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    context: PropTypes.object
   };
   return Wrapper;
 }
@@ -38,10 +40,10 @@ function App({appBarPosition = "left"}) {
         config: {appBar: false}
       }, setRouteContext] = useState(),
       [isRouteLoading, setRouteLoading] = useState(false),
-      {component: View, config = {}, ...viewData} = routeContext,
+      {component: View, config = {}, route, data = {}} = routeContext,
       {appBar = true} = config,
       transitionRef = useRef(null),
-      transitionKey = viewData.route ? viewData.route.path : "root",
+      transitionKey = route ? route.path : "root",
       notifications = useContext(NotificationContext),
       goAbout = useCallback(() => {
         routerRef.current.route("/about");
@@ -116,7 +118,7 @@ function App({appBarPosition = "left"}) {
             key={transitionKey} 
             timeout={{enter: 400, exit: 10}}>
             {View ? 
-              <View className={!appBar ? "no-appbar" : ""} context={viewData} ref={transitionRef} /> 
+              <View className={!appBar ? "no-appbar" : ""} context={data} ref={transitionRef} /> 
             : <div />}
           </CSSTransition>
         </SwitchTransition>

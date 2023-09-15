@@ -1,5 +1,6 @@
 /* global */
 import React, {useCallback, useContext, useEffect, useState} from "react";
+import PropTypes from "prop-types";
 // import {useRouter} from "@components/router";
 import {Actions} from "@components/appbar/Appbar";
 import {NotificationContext} from "@components/notifications";
@@ -33,7 +34,8 @@ registerFieldType("multiselect", MultiSelect);
 registerFieldType("fileupload", FileUpload);
 
 const View = props => {
-  const notifications = useContext(NotificationContext),
+  const {context: {formTitle}} = props, 
+      notifications = useContext(NotificationContext),
       [valid, setValid] = useState(false),
       [data, setData] = useState({
         sports: [],
@@ -95,7 +97,7 @@ const View = props => {
           like MultiValInput, MultiSelect and FileUpload. See
           (<code>src/components/forms</code>) for these components.
         </p>
-        <Form rules={formRules} onChange={form => {
+        <Form title={formTitle} rules={formRules} onChange={form => {
           const {valid, data} = form;
           setValid(valid);
           if(valid) {
@@ -149,5 +151,8 @@ const View = props => {
   );
 };
 View.displayName = "FormView";
+View.propTypes = {
+  context: PropTypes.object
+};
 
 export default View;

@@ -457,7 +457,7 @@ const formReducer = (state, action) => {
           },
           renderer: props.fieldRenderer || renderField
         }}>
-          <form className={props.className} name={props.name} onSubmit={handleSubmit}>
+          <form className={props.className} title={props.title} name={props.name} onSubmit={handleSubmit}>
             {/* eslint-disable-next-line react/prop-types */}
             {props.children}
           </form>
@@ -467,6 +467,7 @@ const formReducer = (state, action) => {
 Form.displayName = "Form";
 Form.propTypes = {
   name: PropTypes.string,
+  title: PropTypes.string,
   className: PropTypes.string,
   fieldRenderer: PropTypes.func,
   rules: PropTypes.object,
