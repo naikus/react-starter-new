@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useReducer, useContext, useRef, useCallback} from "react";
 import PropTypes from "prop-types";
-import {rules, ruleBuilder} from "./rule-builder";
 import "./style.less";
 
 const VALID = {valid: true, message: ""},
@@ -14,6 +13,7 @@ const VALID = {valid: true, message: ""},
           <input type={props.type} {...props} />
         );
       },
+      // /*
       checkbox(props, context) {
         const onInput = props.onInput,
             handler = e => {
@@ -59,6 +59,7 @@ const VALID = {valid: true, message: ""},
           </span>
         );
       },
+      // */
       button(props, context) {
         return (
           <button {...props}>
@@ -90,6 +91,17 @@ const VALID = {valid: true, message: ""},
 
     useForm = () => {
       return useContext(FormContext);
+    },
+
+    useOnMount = (callback) => {
+      const ref = useRef(false);
+      useEffect(() => {
+        if(ref.current) {
+          return;
+        }
+        ref.current = true;
+        return callback();
+      }, []);
     },
 
     useStateCallback = initialstate => {
@@ -155,7 +167,7 @@ const renderField = (field, model, props) => {
         typeRenderer = fieldTypes[type] || fieldTypes.input,
         formContext = useForm();
 
-    useEffect(() => {
+    useOnMount(() => {
       if(formContext) {
         const {form, addField} = formContext,
             thisField = form.fields[name];
@@ -169,16 +181,7 @@ const renderField = (field, model, props) => {
           });
         }
       }
-
-      return () => {
-        if(formContext) {
-          // console.log("[Field] removing field", name);
-          const {removeField} = formContext;
-          removeField(name);
-        }
-      };
-    }, []);
-
+    });
 
     if(formContext) {
       const {form: {fields}, updateField, renderer} = formContext,
@@ -262,29 +265,35 @@ function validateFields(fields, rules) {
  */
 const formReducer = (state, action) => {
     const {type, payload} = action,
-        {fields, rules} = state;
+        {fields, rules, initialized} = state;
 
       let newState;
       switch (type) {
         case "set-fields": {
-          // console.log("[reducer] set-field", payload);
+          // console.log("[reducer] set-fields");
+          let flds = {}, formValid = true;
+          Object.values(payload).forEach(f => {
+            const {valid, message} = validateField(f, rules, payload), {name} = f;
+            flds[name] = {
+              ...f,
+              valid,
+              message
+            };
+            if(!valid) {
+              formValid = false;
+            }
+          });
+
           newState = {
             ...state,
-            fields: Object.values(payload).reduce((acc, f) => {
-              const {valid, message} = validateField(f, rules, payload),
-                  {name} = f;
-
-              acc[name] = {
-                ...f,
-                valid,
-                message
-              };
-              return acc;
-            }, {})
+            valid: formValid,
+            initialized: true, // Used to track when all the fields have been added to the form
+            fields: flds
           };
           break;
         }
         case "add-field": {
+          console.log("[reducer] add-field", payload.name);
           const {name, value, label} = payload,
               {valid, message} = validateField(payload, rules, fields);
           // console.log("[reducer] add-field", payload);
@@ -345,7 +354,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "remove-field": {
-          // console.log("[reducer] remove-field", payload);
+          console.log("[reducer] remove-field", payload);
           // here payload is the name of the field
           const {fields} = state, name = payload,
             newFields = {...fields};
@@ -375,7 +384,33 @@ const formReducer = (state, action) => {
           rules: props.rules || {}
         }),
 
+        {initialized} = form,
+
+        /**
+         * A ref to the fields object that is used to set the fields when the form is mounted
+         * This is used to track that all the fields have been added to the form. On mount, the
+         * form will dispatch set-fields event to the reducer
+         * When in dev mode:
+         * 
+         */
         fieldsRef = useRef({}),
+
+        getFormData = (form, fields = form.fields) => {
+          const {valid, pristine} = form;
+          return {
+            valid,
+            pristine,
+            /*
+            fields: {
+              ...fields
+            },
+            */
+            data: Object.keys(fields).reduce((acc, name) => {
+              acc[name] = fields[name].value;
+              return acc;
+            }, {})
+          };
+        },
 
         /**
          * Handles form submit
@@ -404,30 +439,30 @@ const formReducer = (state, action) => {
       useEffect(() => {
         const {current} = fieldsRef;
         if(current) {
-          // console.log("[Form] Set fields");
+          // console.debug("[Form] Set fields");
           dispatch({type: "set-fields", payload: current});
           fieldsRef.current = null;
         }
       }, []);
 
       useEffect(() => {
+        if(initialized) {
+          // console.debug("Form initialized with fields", form.fields);
+          const {onChange} = props;
+          if(typeof onChange === "function") {
+            onChange(getFormData(form));
+          }
+        }
+      }, [initialized]);
+
+      useEffect(() => {
         const {onChange} = props;
         // Only fire onchange if fields are set in state (not in fields ref, which means we are still loading)
-        if(typeof onChange === "function" && !fieldsRef.current) {
-          const {fields, valid, pristine} = form;
+        if(typeof onChange === "function"/* && !fieldsRef.current */) {
+          const {pristine} = form;
           // Only fire if the form is not pristine (i.e. don't fire on mount or initially)
           if(!pristine) {
-            onChange({
-              valid,
-              pristine,
-              fields: {
-                ...fields
-              },
-              data: Object.keys(fields).reduce((acc, name) => {
-                acc[name] = fields[name].value;
-                return acc;
-              }, {})
-            });
+            onChange(getFormData(form));
           }
         }
       }, [form]);
@@ -436,10 +471,11 @@ const formReducer = (state, action) => {
         <FormContext.Provider value={{
           form, 
           addField(field) {
-            // console.log("[formcontext] addField", field.name, fieldsRef.current);
             if(!fieldsRef.current) {
+              // console.log("Add dispatch field", field.name);
               dispatch({type: "add-field", payload: field});
             }else {
+              // console.log("Add fieldref field", field.name);
               fieldsRef.current[field.name] = field;
             }
           },
@@ -476,5 +512,5 @@ Form.propTypes = {
 };
 
 export {
-  Form, Field, registerFieldType, renderField, rules, ruleBuilder
+  Form, Field, registerFieldType
 };

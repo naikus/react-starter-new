@@ -4,10 +4,15 @@ import PropTypes from "prop-types";
 // import {useRouter} from "@components/router";
 import {Actions} from "@components/appbar/Appbar";
 import {NotificationContext} from "@components/notifications";
-import {Form, Field, registerFieldType, ruleBuilder as rb} from "@components/form/Form";
-import MultiValInput from "@components/form/MultiValInput";
-import MultiSelect from "@components/form/MultiSelect";
-import FileUpload from "@components/form/FileUpload";
+import {
+  Form,
+  Field,
+  registerFieldType,
+  ruleBuilder as rb,
+  MultiValInput,
+  MultiSelect,
+  FileUpload
+} from "@components/form";
 
 const formRules = {
   name: [rb("required")],
@@ -101,6 +106,7 @@ const View = props => {
         <Form title={formTitle}
             rules={formRules} 
             onChange={form => {
+              // console.log(form);
               const {valid, data} = form;
               setValid(valid);
               setData(data);
@@ -110,6 +116,7 @@ const View = props => {
             <Field name="hobbies" 
               type="multival"
               label="Hobbies"
+              disabled={true}
               hint="Enter upto four"
               defaultValue={["Walking", "Web Development"]} />
           </div>
@@ -122,7 +129,6 @@ const View = props => {
               {label: "Soccer", value: "soccer"},
               {label: "Hockey", value: "hockey", disabled: true}
             ]} />
-
           <Field name="files"
               type="fileupload"
               label="Basketball Files"

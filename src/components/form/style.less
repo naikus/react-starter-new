@@ -36,7 +36,7 @@ form {
     }
 
     input:focus ~ .indicator {
-      box-shadow: 0 0 0px 3px var(--input-focus-ring-color);
+      box-shadow: 0 0 0px 2px var(--input-focus-ring-color);
     }
 
     input:checked ~ .indicator {
@@ -94,6 +94,7 @@ form {
 
 // Form built-in field renderer styles
 .field-container {
+  @disabled-opacity: 0.5;
   padding: @field-container-padding;
   border-radius: @input-border-radius;
   background-color: var(--base-color);
@@ -161,6 +162,8 @@ form {
 
 
 .multi-val-input {
+  @disabled-opacity: 0.5;
+
   display: block;
   .values {
     display: flex;
@@ -189,13 +192,13 @@ form {
       }
 
       &.disabled, &[disabled] {
-        opacity: 0.5;
+        opacity: @disabled-opacity;
         cursor: not-allowed;
         > .icon {
           cursor: not-allowed;
         }
         &:hover {
-          opacity: 0.5;
+          opacity: @disabled-opacity;
         }
       }
     }
@@ -207,7 +210,11 @@ form {
 
 
 .file-upload-input {
+  @disabled-opacity: 0.5;
   position: relative;
+  > input[type="file"] {
+    display: none;
+  }
 
   > .fu-content {
     background-color: var(--input-bg-color);
@@ -237,7 +244,7 @@ form {
         }
 
         &[disabled] {
-          opacity: 0.4;
+          opacity: @disabled-opacity;
           cursor: not-allowed;
           &:hover {
             color: inherit;
@@ -299,40 +306,35 @@ form {
           }
         }
       }
+    }
+  }
 
-      &[disabled] {
+  &[disabled] {
+    > .fu-content {
+      background-color: var(--input-disabled-bg-color);
+
+      > .files {
         > .file-item {
-          opacity: 0.5;
+          opacity: @disabled-opacity;
+          &:hover {
+            background-color: inherit;
+          }
 
           > .icon {
-            cursor: not-allowed;
             &:hover {
-              color: var(--text-color);
+              color: inherit;
+              cursor: not-allowed;
             }
           }
         }
       }
     }
   }
-  
-
-  input[type="file"] {
-    display: none;
-  }
-
-  .file-upload-actions {
-    text-align: right;
-  }
-
-  button {
-    display: inline;
-    width: auto;
-    margin: 0;
-  }
 }
 
 
 .multi-select {
+  @disabled-opacity: 0.5;
   min-height: 100px;
   overflow: auto;
   // padding: @padding-smaller !important;
@@ -356,26 +358,32 @@ form {
       }
     }
     &[disabled] {
-      opacity: 0.5;
+      opacity: @disabled-opacity;
       background-color: transparent;
+
+      &:hover {
+        opacity: @disabled-opacity;
+      }
+
+      &.selected {
+        background-color: var(--selection-bg-color);
+      }
     }
   }
 
   &.disabled, [disabled] {
     background-color: var(--input-disabled-bg-color);
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: @disabled-opacity;
 
     > .multi-select-item {
       cursor: not-allowed;
       &:hover {
         background-color: inherit;
         color: inherit;
+        opacity: @disabled-opacity;
       }
 
-      &[disabled] {
-        opacity: 1;
-      }
     }
   }
 }

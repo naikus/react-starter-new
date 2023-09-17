@@ -79,7 +79,7 @@ function FileUpload(props) {
       };
 
   return (
-    <div className="file-upload-input">
+    <div className="file-upload-input" disabled={disabled}>
       <input style={NO_DISPLAY} onChange={handleChange} 
           ref={inputRef} 
           type="file" 
@@ -92,7 +92,7 @@ function FileUpload(props) {
           <span className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
           <span className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled} />
         </div>
-        <div className="files" disabled={disabled}>
+        <div className="files">
           {files}
         </div>
       </div>
