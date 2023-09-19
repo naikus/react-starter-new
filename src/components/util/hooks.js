@@ -1,4 +1,15 @@
-import {useRef, useState} from "react";
+import {useRef, useState, useEffect} from "react";
+
+function useOnMount(callback) {
+  const ref = useRef();
+  useEffect(() => {
+    const {current} = ref;
+    if(!current) {
+      ref.current = callback() || (() => {});
+    }
+    return current;
+  }, []);
+}
 
 function useAsyncCall(asyncCall) {
   const [busy, setBusy] = useState(false),
@@ -43,7 +54,9 @@ function useAsyncCallImmediate(asyncCall, ...args) {
         }
       };
 
+  // setTimeout(() => {
   execute();
+  // }, 1000);
 
   return [
     result,
@@ -54,6 +67,7 @@ function useAsyncCallImmediate(asyncCall, ...args) {
 
 
 export {
+  useOnMount,
   useAsyncCall,
   useAsyncCallImmediate
 };

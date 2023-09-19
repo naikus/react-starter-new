@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import {useRouter} from "@components/router";
+import {useOnMount} from "@components/util/hooks";
 import Config from "@config";
 
 const View = props => {
   const router = useRouter();
+
+  useOnMount(() => {
+    console.log("About view mounted");
+    return () => {
+      console.log("About view un-mounted");
+    };
+  });
+
   return (
     <div className="view about-view no-navbar">
       <style>

@@ -94,13 +94,13 @@ const VALID = {valid: true, message: ""},
     },
 
     useOnMount = (callback) => {
-      const ref = useRef(false);
+      const ref = useRef();
       useEffect(() => {
-        if(ref.current) {
-          return;
+        const {current} = ref;
+        if(!current) {
+          ref.current = callback() || (() => {});
         }
-        ref.current = true;
-        return callback();
+        return current;
       }, []);
     },
 

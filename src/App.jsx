@@ -9,6 +9,7 @@ import {AppBar} from "@components/appbar/Appbar";
 import Progress from "@components/progress/Progress";
 import Config from "@config";
 import {Notifications, NotificationContext} from "@components/notifications";
+import {useOnMount} from "@components/util/hooks";
 import routes from "./routes";
 
 // import top level styles
@@ -61,7 +62,7 @@ function App({appBarPosition = "left"}) {
   */
 
   // Router setup
-  useEffect(() => {
+  useOnMount(() => {
     const router = createRouter(routes, {
           defaultRoute: "/",
           errorRoute: "/~error"
@@ -95,7 +96,7 @@ function App({appBarPosition = "left"}) {
       subs.forEach(sub => sub.dispose());
       router.stop();
     };
-  }, []);
+  });
 
   return (
     <RouterProvider router={routerRef.current}>
