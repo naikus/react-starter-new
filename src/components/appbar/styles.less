@@ -44,14 +44,12 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    flex-direction: row-reverse;
+    // flex-direction: row-reverse;
     // padding: @padding-default;
 
     .action-group {
       display: flex;
     }
-
-
 
     .action {
       text-decoration: none;
@@ -79,8 +77,8 @@
 
       &[disabled]:hover {
         cursor: not-allowed;
-        background-color: transparent;
-        color: var(--input-disabled-text-color);
+        // background-color: transparent;
+        color: var(--input-text-color);
       }
 
       .icon {
@@ -125,7 +123,8 @@
     .global-actions {
       // flex: 1;
       display: flex;
-      flex-direction: column-reverse;
+      justify-content: flex-end;
+      // flex-direction: column-reverse;
       padding: 0;
       padding-bottom: @padding-smaller;
     }
