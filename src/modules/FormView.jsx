@@ -14,7 +14,7 @@ import {
   FileUpload
 } from "@components/form";
 
-const formRules = {
+const validationRules = {
   name: [rb("required")],
   // Validation for MultiValInut "hobbies"
   hobbies: [(value, field, fields) => {
@@ -104,7 +104,7 @@ const View = props => {
           (<code>src/components/forms</code>) for these components.
         </p>
         <Form title={formTitle}
-            rules={formRules} 
+            rules={validationRules} 
             onChange={form => {
               // console.log(form);
               const {valid, data} = form;
@@ -114,6 +114,7 @@ const View = props => {
           <div className="row">
             <Field defaultValue={data.name} id="name" name="name" hint="Enter your full name" label="Name" />
             <Field name="hobbies" 
+              placeholder="Enter multiple separated by comma"
               type="multival"
               label="Hobbies"
               disabled={true}
