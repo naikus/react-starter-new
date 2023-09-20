@@ -73,6 +73,23 @@ const View = props => {
             flex: 2;
           }
 
+          .my-form {
+            background-color: var(--base-color);
+            padding: 16px;
+            border-radius: 12px;
+
+            .fu-content {
+              > .files {
+                max-height: 200px;
+              }
+            }
+          }
+
+          button.my-button {
+            margin-top: 16px;
+            display: inline-block;
+          }
+
           .message {
             padding: 16px;
             margin: 0px;
@@ -105,6 +122,7 @@ const View = props => {
         </p>
         <Form title={formTitle}
             rules={validationRules} 
+            className="my-form"
             onChange={form => {
               // console.log(form);
               const {valid, data} = form;
@@ -121,6 +139,7 @@ const View = props => {
               hint="Enter upto four"
               defaultValue={["Walking", "Web Development"]} />
           </div>
+          <div className="row">
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
             // disabled={true}
@@ -133,10 +152,12 @@ const View = props => {
           <Field name="files"
               type="fileupload"
               label="Basketball Files"
+              multiple={true}
               defaultValue={data.files}
               disabled={data.sports.indexOf("basketball") === -1} />
+          </div>
         </Form>
-        <button className="primary inline" disabled={!valid} onClick={() => {
+        <button className="my-button primary inline" disabled={!valid} onClick={() => {
             const json = JSON.stringify(
               data,
               (k, v) => {
