@@ -181,6 +181,13 @@ const renderField = (field, model, props) => {
           });
         }
       }
+      return () => {
+        if(formContext) {
+          // console.log("[Field] removing field", name);
+          const {removeField} = formContext;
+          removeField(name);
+        }
+      };
     });
 
     if(formContext) {
