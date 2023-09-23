@@ -21,7 +21,7 @@ function useAsyncCall(asyncCall) {
         return await asyncCall(...args);
       }catch(err) {
         setError(err);
-        throw err;
+        // throw err;
       }finally {
         setBusy(false);
       }
@@ -48,7 +48,7 @@ function useAsyncCallImmediate(asyncCall, ...args) {
           setResult(res);
         }catch(err) {
           setError(err);
-          throw err;
+          // throw err;
         }finally {
           setBusy(false);
         }

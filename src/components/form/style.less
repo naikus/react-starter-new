@@ -123,6 +123,16 @@ form {
   }
   input, textarea, select, button {
     margin-bottom: 5px;
+    display: block;
+    width: 100%;
+
+    &.inline {
+      display: inline-block;
+      width: auto;
+      // margin: 0 2px;
+      margin: 0;
+      //min-width: 70px;
+    }
   }
 
 
@@ -140,12 +150,13 @@ form {
   }
 
   .v-msg {
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
     font-weight: 400;
-    clear: both;
+    // clear: both;
   }
 
   &.valid-false {
+    // background: color-mix(in srgb, var(--error-color) 5%, transparent 95%);
     input, textarea, select {
       // border-bottom-color: var(--error-color);
     }
@@ -171,16 +182,16 @@ form {
     .value-item {
       font-size: 0.9rem;
       display: flex;
-      float: left;
+      // float: left;
       align-items: center;
       margin-right: @base-unit - 2;
       margin-bottom: @base-unit - 2;
-      padding: 5px 6px 3px;
-      min-width: 30px;
+      padding: @padding-smaller - 2 @padding-smaller;
+      // min-width: 30px;
       background-color: var(--selection-bg-color);
       border-radius: @base-border-radius - 4;
-      color: var(--accent-text-color);
-      opacity: 0.8;
+      color: var(--selection-text-color);
+      opacity: 0.9;
 
       .icon {
         padding-left: @base-unit + 4px;
@@ -211,6 +222,7 @@ form {
 
 .file-upload-input {
   @disabled-opacity: 0.5;
+  min-width: 200px;
   position: relative;
   > input[type="file"] {
     display: none;
@@ -341,7 +353,7 @@ form {
 
   > .multi-select-item {
     font-size: 0.95rem;
-    padding: @padding-smaller - 2;
+    padding: @padding-smaller - 2 @padding-smaller;
     cursor: pointer;
     border-radius: @input-border-radius - 2;
     margin-bottom: @size_tiny + 0px;
@@ -352,7 +364,7 @@ form {
     &.selected {
       background-color: var(--selection-bg-color);
       color: var(--selection-text-color);
-      opacity: 0.8;
+      opacity: 0.9;
       &:hover {
         opacity: 1;
       }

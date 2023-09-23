@@ -277,7 +277,7 @@ const formReducer = (state, action) => {
       let newState;
       switch (type) {
         case "set-fields": {
-          // console.log("[reducer] set-fields");
+          // console.debug("[reducer] set-fields");
           let flds = {}, formValid = true;
           Object.values(payload).forEach(f => {
             const {valid, message} = validateField(f, rules, payload), {name} = f;
@@ -300,7 +300,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "add-field": {
-          console.log("[reducer] add-field", payload.name);
+          // console.debug("[reducer] add-field", payload.name);
           const {name, value, label} = payload,
               {valid, message} = validateField(payload, rules, fields);
           // console.log("[reducer] add-field", payload);
@@ -321,6 +321,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "update-field": {
+          // console.debug("[reducer] update-field", payload.name);
           const {fields} = state,
             {name, value} = payload, // Here payload is field model
             fld = fields[name],
@@ -361,7 +362,7 @@ const formReducer = (state, action) => {
           break;
         }
         case "remove-field": {
-          console.log("[reducer] remove-field", payload);
+          // console.debug("[reducer] remove-field", payload);
           // here payload is the name of the field
           const {fields} = state, name = payload,
             newFields = {...fields};
@@ -397,8 +398,6 @@ const formReducer = (state, action) => {
          * A ref to the fields object that is used to set the fields when the form is mounted
          * This is used to track that all the fields have been added to the form. On mount, the
          * form will dispatch set-fields event to the reducer
-         * When in dev mode:
-         * 
          */
         fieldsRef = useRef({}),
 
@@ -446,9 +445,8 @@ const formReducer = (state, action) => {
       useEffect(() => {
         const {current} = fieldsRef;
         if(current) {
-          // console.debug("[Form] Set fields");
-          dispatch({type: "set-fields", payload: current});
           fieldsRef.current = null;
+          dispatch({type: "set-fields", payload: current});
         }
       }, []);
 

@@ -76,7 +76,7 @@ const View = props => {
           .my-form {
             background-color: var(--base-color);
             padding: 16px;
-            border-radius: 12px;
+            /* border-radius: 12px; */
 
             .fu-content {
               > .files {
@@ -94,7 +94,7 @@ const View = props => {
             padding: 16px;
             margin: 0px;
             margin-bottom: 24px;
-            background-color: rgba(0, 173, 181, 0.13);
+            background-color: color-mix(in srgb, var(--accent-color) 15%, var(--base-color) 40%);
             border-radius: 8px;
             /* font-size: .9em; */
           }
@@ -118,10 +118,10 @@ const View = props => {
         <p className="message">
           Below is an example of the form with support for custom components 
           like MultiValInput, MultiSelect and FileUpload. See
-          (<code>src/components/forms</code>) for these components.
+          (<code>src/components/form</code>) for these components.
         </p>
         <Form title={formTitle}
-            rules={validationRules} 
+            rules={validationRules}
             className="my-form"
             onChange={form => {
               // console.log(form);
@@ -135,7 +135,7 @@ const View = props => {
               placeholder="Enter multiple separated by comma"
               type="multival"
               label="Hobbies"
-              disabled={true}
+              // disabled={true}
               hint="Enter upto four"
               defaultValue={["Walking", "Web Development"]} />
           </div>

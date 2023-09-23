@@ -13,6 +13,38 @@ function random(max, min = 0) {
 const nTypes = ["success", "info", "warn", "error", "toast"];
 
 
+/**
+ * Adds an escape key listener to close the overlays
+ * @param {boolean} show 
+ * @param {Function} onCancel 
+ */
+function useEscapeClose(show, onCancel) {
+  const [wasShown, setWasShown] = React.useState(false),
+  close = e => {
+    if(e.key === "Escape") {
+      setTimeout(() => {
+        onCancel();
+      }, 30);
+    }
+  };
+
+  useEffect(() => {
+    if(show) {
+      // console.log("Adding listener");
+      document.addEventListener("keyup", close);
+      setWasShown(true);
+    }else {
+      if(wasShown) {
+        // console.log("Removing listener");
+        document.removeEventListener("keyup", close);
+        setTimeout(() => {
+          onCancel();
+        }, 30);
+      }
+    }
+  }, [show]);
+}
+
 
 const View = props => {
   const notifications = useContext(NotificationContext),
@@ -30,21 +62,9 @@ const View = props => {
       showForm = useCallback(() => {
         router.route("/form");
       }, []),
-      [show, setShow] = useState(false);
+      [showOverlay, setShowOverlay] = useState(false);
 
-  useEffect(() => {
-    const close = e => {
-      if(e.key === "Escape") {
-        setTimeout(() => {
-          setShow(false);
-        }, 50);
-      }
-    };
-    document.addEventListener("keyup", close);
-    return () => {
-      document.removeEventListener("keyup", close);
-    };
-  }, []);
+  useEscapeClose(showOverlay, () => setShowOverlay(false));
 
   // console.log("Landing");
   return (
@@ -63,7 +83,7 @@ const View = props => {
         <button title="Sample Form" className="action" onClick={showForm}>
           <i className="icon icon-clipboard"></i>
         </button>
-        <button className="action" onClick={() => setShow(!show)}>
+        <button className="action" onClick={() => setShowOverlay(!showOverlay)}>
           <i className="icon icon-eye"></i>
         </button>
         <button className="action" onClick={() => toggleScheme()}>
@@ -84,7 +104,7 @@ const View = props => {
         <img style={{animationDuration: "30s"}}
           className="spin" src={Config.logo} width="120" alt="logo" />
       </div>
-      <Overlay className="modal alert" show={show}>
+      <Overlay className="modal alert" show={showOverlay}>
         <div className="title">
           <h4><i className="icon icon-alert-circle" /> Alert!</h4>
         </div>
@@ -93,7 +113,7 @@ const View = props => {
           below or by pressing the escape key.
         </div>
         <div className="actions">
-          <button className="primary inline" onClick={() => setShow(!show)}>Close</button>
+          <button className="primary inline" onClick={() => setShowOverlay(!showOverlay)}>Close</button>
         </div>
       </Overlay>
     </div>
