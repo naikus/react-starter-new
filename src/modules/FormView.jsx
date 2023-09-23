@@ -14,8 +14,13 @@ import {
   FileUpload
 } from "@components/form";
 
+import {FieldGroup} from "../components/form/Form";
+
 const validationRules = {
-  name: [rb("required")],
+  name: [
+    rb("required", {message: "Name is required"})
+    // rb("length", {min: 3, message: "Name must be at least 3 characters"})
+  ],
   // Validation for MultiValInut "hobbies"
   hobbies: [(value, field, fields) => {
     if(!value || value.length < 1) {
@@ -71,6 +76,20 @@ const View = props => {
           .row > .field-container:last-child {
             margin-left: 16px;
             flex: 2;
+          }
+
+          .name-email {
+            .field-group-content {
+              .row {
+                padding: 0;
+                display: flex;
+                flex-direction: row;
+                input {
+                  width: 150px;
+                  margin-right: 4px;
+                }
+              }
+            }
           }
 
           .my-form {
@@ -130,7 +149,13 @@ const View = props => {
               setData(data);
             }}>
           <div className="row">
-            <Field defaultValue={data.name} id="name" name="name" hint="Enter your full name" label="Name" />
+            <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
+              <div className="row">
+                <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
+                <Field placeholder="Email" name="email" type="email" />
+              </div>
+              <Field id="subscribe" type="checkbox" name="subscribe" label="Subscribe" />
+            </FieldGroup>
             <Field name="hobbies" 
               placeholder="Enter multiple separated by comma"
               type="multival"
@@ -149,13 +174,15 @@ const View = props => {
               {label: "Soccer", value: "soccer"},
               {label: "Hockey", value: "hockey", disabled: true}
             ]} />
+
           <Field name="files"
               type="fileupload"
               label="Basketball Files"
               multiple={true}
               defaultValue={data.files}
-              disabled={data.sports.indexOf("basketball") === -1} />
+              disabled={data.sports && data.sports.indexOf("basketball") === -1} />
           </div>
+          
         </Form>
         <button className="my-button primary inline" disabled={!valid} onClick={() => {
             const json = JSON.stringify(

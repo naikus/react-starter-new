@@ -35,7 +35,7 @@ const VALID = {valid: true, message: ""},
         return (
           <span className="checkbox-container">
             <input type="checkbox" {...newProps} />
-            <div className="indicator"></div>
+            <span className="indicator"></span>
           </span>
         );
       },
@@ -125,31 +125,79 @@ const VALID = {valid: true, message: ""},
 
 
 
+function FieldLabel(props) {
+  const {label, hint, htmlFor, value, type} = props;
+
+  if(label) {
+    return (
+      <label className="label" htmlFor={htmlFor}>
+        <span className="title">{label}</span>
+        {hint ? <span className="hint">{hint}</span> : null}
+        {type === "range" ? <span className="value">{value}</span> : null}
+      </label>
+    );
+  }
+  return null;
+}
+FieldLabel.displayName = "FieldLabel";
+FieldLabel.propTypes = {
+  htmlFor: PropTypes.string,
+  label: PropTypes.string,
+  hint: PropTypes.string,
+  value: PropTypes.any,
+  type: PropTypes.string
+};
+
+
+function VMessage(props) {
+  const {valid, message, pristine} = props;
+  if(!valid && !pristine) {
+    return (
+      <span className="v-msg hint">{message}</span>
+    );
+  }
+  return null;
+}
+VMessage.displayName = "VMessage";
+VMessage.propTypes = {
+  valid: PropTypes.bool,
+  message: PropTypes.string,
+  pristine: PropTypes.bool
+};
+
+function FieldGroup(props) {
+  const {label, hint, className = "", children} = props;
+  return (
+    <div className={`field-group ${className}`}>
+      <FieldLabel label={label} hint={hint} />
+      <div className="field-group-content">
+        {children}
+      </div>
+    </div>
+  );
+}
+FieldGroup.displayName = "FieldGroup";
+FieldGroup.propTypes = {
+  label: PropTypes.string,
+  hint: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node
+};
+
+
 const renderField = (field, model, props) => {
-    const {name, type, label, hint, className, id} = props,
-      {valid = true, message, pristine = true, value=""} = model,
-      messageComp = (
-        !valid && !pristine ?
-          <span className="v-msg hint">{message}</span>
-        : null
-      ),
-      labelComp = (
-        label ?
-          <label className="label" htmlFor={id}>
-            <span className="title">{label}</span>
-            {hint ? <span className="hint">{hint}</span> : null}
-            {type === "range" ? <span className="value">{value}</span> : null}
-          </label>
-        : null
-      );
+    const {name = "", type, label, hint, className = "", id} = props,
+      {valid = true, message, pristine = true, value=""} = model;
 
     return (
-      <div className={
-          `field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`
-        }>
-        {labelComp}
+      <div className={`field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`}>
+        <FieldLabel label={label}
+            hint={hint}
+            htmlFor={id}
+            value={value}
+            type={type} />
         {field}
-        {messageComp}
+        <VMessage valid={valid} message={message} pristine={pristine} />
       </div>
     );
   },
@@ -517,5 +565,5 @@ Form.propTypes = {
 };
 
 export {
-  Form, Field, registerFieldType
+  Form, Field, FieldGroup, registerFieldType
 };
