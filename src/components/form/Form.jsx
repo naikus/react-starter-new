@@ -82,7 +82,7 @@ const VALID = {valid: true, message: ""},
         );
       },
       "radio-group": function radioGroup(props, context) {
-        const {onInput, name, options = [], defaultValue} = props,
+        const {onInput, name, options = [], defaultValue, disabled: groupDisabled} = props,
           {radio} = fieldTypes,
           clickHandler = e => {
             const v = e.target.value;
@@ -91,9 +91,10 @@ const VALID = {valid: true, message: ""},
           items = options.map((o, i) => {
             const {label, value, disabled} = o,
             rProps = {
+              tabIndex: 0,
               name,
               value,
-              disabled,
+              disabled: groupDisabled || disabled,
               onChange: clickHandler,
               defaultChecked: value === defaultValue
             };
@@ -106,9 +107,9 @@ const VALID = {valid: true, message: ""},
           });
 
         return (
-          <div className="radio-group">
+          <fieldset className="radio-group" disabled={groupDisabled}>
             {items}
-          </div>
+          </fieldset>
         );
       }
     },
@@ -196,14 +197,14 @@ VMessage.propTypes = {
 };
 
 function FieldGroup(props) {
-  const {label, hint, className = "", children} = props;
+  const {label, hint, className = "", children, disabled} = props;
   return (
-    <div className={`field-group ${className}`}>
+    <fieldset className={`field-group ${className}`} disabled={disabled}>
       <FieldLabel label={label} hint={hint} />
       <div className="field-group-content">
         {children}
       </div>
-    </div>
+    </fieldset>
   );
 }
 FieldGroup.displayName = "FieldGroup";
@@ -211,6 +212,7 @@ FieldGroup.propTypes = {
   label: PropTypes.string,
   hint: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   children: PropTypes.node
 };
 

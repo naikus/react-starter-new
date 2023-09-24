@@ -37,8 +37,8 @@ const validationRules = {
   }],
   // Validation for MultiSelect "sports"
   sports: [(value, field, fields) => {
-    if(!value || value.length < 1) {
-      return {valid: false, message: "At least one sport is required"};
+    if(!value || value.length !== 2) {
+      return {valid: false, message: "Choose any two sports"};
     }
   }]
 };
@@ -92,12 +92,13 @@ const View = props => {
             <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
               <div className="row">
                 <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
-                <Field placeholder="Email" name="email" type="email" />
+                <Field placeholder="Email" name="email" type="" />
               </div>
               <Field defaultValue={"option1"} type="radio-group" name="option" options={[
                 {label: "Option 1", value: "option1"},
                 {label: "Option 2", value: "option2"}
               ]} />
+              <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
             </FieldGroup>
             <Field name="hobbies" 
               placeholder="Enter multiple separated by comma"
@@ -125,26 +126,27 @@ const View = props => {
               defaultValue={data.files}
               disabled={data.sports && data.sports.indexOf("basketball") === -1} />
           </div>
-          
+          <div className="row">
+            <button className="my-button primary" disabled={!valid} onClick={() => {
+              const json = JSON.stringify(
+                data,
+                (k, v) => {
+                  if(k === "files") {
+                    return v ? v.map(f => f.name) : [];
+                  }
+                  return v;
+                },
+                " "
+              );
+              notifications.show({
+                content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
+                type: "success"
+              });
+            }}>
+            Submit
+          </button>
+          </div>
         </Form>
-        <button className="my-button primary inline" disabled={!valid} onClick={() => {
-            const json = JSON.stringify(
-              data,
-              (k, v) => {
-                if(k === "files") {
-                  return v ? v.map(f => f.name) : [];
-                }
-                return v;
-              },
-              "  "
-            );
-            notifications.show({
-              content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
-              type: "success"
-            });
-          }}>
-          Submit
-        </button>
       </div>
     </div>
   );

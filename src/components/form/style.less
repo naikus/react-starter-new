@@ -48,7 +48,8 @@ form {
     }
     input:disabled ~ .indicator {
       pointer-events: none;
-      background-color: var(--input-disabled-bg-color);
+      // background-color: var(--input-disabled-bg-color);
+      opacity: 0.4;
       cursor: not-allowed;
     }
 }
@@ -76,13 +77,13 @@ form {
   .indicator {
     border-radius: 50%;
     &::after {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background-color: var(--accent-text-color);
       border-width: 0;
-      top: 5px;
-      left: 5px;
+      top: 6px;
+      left: 6px;
     }
   }
   input:disabled ~ .indicator {
@@ -123,6 +124,18 @@ form {
   }
 }
 
+.field-group {
+  &[disabled] {
+    opacity: 0.6;
+    * {
+      cursor: not-allowed;
+    }
+    input {
+      background-color: var(--input-disabled-bg-color);
+    }
+  }
+}
+
 
 .field-container {
   .value {
@@ -148,9 +161,13 @@ form {
   &.field-container-checkbox, &.field-container-radio {
     flex-direction: row-reverse;
     justify-content: flex-end;
+
+    > label {
+      margin-left: @padding-smaller;
+    }
   }
   .checkbox-container, .radio-container {
-    margin-right: @padding-smaller;
+    // margin-right: @padding-smaller;
     margin-top: @base-unit - 4;
   }
 
@@ -177,6 +194,7 @@ form {
 }
 
 .field-group {
+  border: none;
   > .field-group-content {
     .field-container {
       padding: 0;
@@ -185,9 +203,19 @@ form {
   }
 }
 
+.radio-group {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
 .radio-group-item {
   display: inline-flex;
   align-items: center;
+  // margin: 0 @padding-tiny;  
+}
+.radio-group-label {
+  cursor: pointer;
+  margin-left: @padding-smaller;
 }
 .field-container {
   &.field-container-radio-group {
