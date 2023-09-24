@@ -100,7 +100,7 @@ form {
   padding: @field-container-padding;
   border-radius: @input-border-radius;
   background-color: var(--bg-color);
-  margin-bottom: @base-unit + 4px;
+  // margin-bottom: @base-unit + 4px;
   // overflow: auto; // Enabling this will clip focus ring on input fields
   display: flex;
   flex-direction: column;
@@ -181,6 +181,19 @@ form {
     .field-container {
       padding: 0;
       margin-bottom: @base-unit - 4px;
+    }
+  }
+}
+
+.radio-group-item {
+  display: inline-flex;
+  align-items: center;
+}
+.field-container {
+  &.field-container-radio-group {
+    .radio-group-item {
+      margin-right: @padding-smaller;
+      // margin-top: @base-unit - 4;
     }
   }
 }

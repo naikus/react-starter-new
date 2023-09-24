@@ -55,7 +55,7 @@ const VALID = {valid: true, message: ""},
         return (
           <span className="radio-container">
             <input type="radio" {...newProps} />
-            <div className="indicator"></div>
+            <span className="indicator"></span>
           </span>
         );
       },
@@ -79,6 +79,36 @@ const VALID = {valid: true, message: ""},
           <textarea {...props}>
             {props.children}
           </textarea>
+        );
+      },
+      "radio-group": function radioGroup(props, context) {
+        const {onInput, name, options = [], defaultValue} = props,
+          {radio} = fieldTypes,
+          clickHandler = e => {
+            const v = e.target.value;
+            onInput && onInput({target: {value: v}});
+          },
+          items = options.map((o, i) => {
+            const {label, value, disabled} = o,
+            rProps = {
+              name,
+              value,
+              disabled,
+              onChange: clickHandler,
+              defaultChecked: value === defaultValue
+            };
+            return (
+              <label className="radio-group-item" key={`${name}-${i}`}>
+                {radio(rProps, context)}
+                <span className="radio-group-label">{label}</span>
+              </label>
+            );
+          });
+
+        return (
+          <div className="radio-group">
+            {items}
+          </div>
         );
       }
     },
