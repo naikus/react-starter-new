@@ -88,7 +88,7 @@ const View = props => {
               setValid(valid);
               setData(data);
             }}>
-          <div className="row">
+          
             <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
               <div className="row">
                 <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
@@ -107,8 +107,7 @@ const View = props => {
               // disabled={true}
               hint="Enter upto four"
               defaultValue={["Walking", "Web Development"]} />
-          </div>
-          <div className="row">
+
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
             // disabled={true}
@@ -125,7 +124,7 @@ const View = props => {
               multiple={true}
               defaultValue={data.files}
               disabled={data.sports && data.sports.indexOf("basketball") === -1} />
-          </div>
+          
           <div className="row">
             <button className="my-button primary" disabled={!valid} onClick={() => {
               const json = JSON.stringify(

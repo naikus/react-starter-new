@@ -10,17 +10,6 @@
     position: relative;
     align-items: center;
   }
-  .row {
-    display: flex;
-    flex-direction: row; 
-  }
-  .row > .field-container {
-    flex: 1;
-  }
-  .row > .field-container:last-child {
-    // margin-left: 16px;
-    flex: 2;
-  }
 
   .name-email {
     .field-group-content {
@@ -38,11 +27,11 @@
 
   .my-form {
     background-color: var(--base-color);
-    padding: @padding-smaller;
+    // padding: @padding-smaller;
     border-radius: @base-border-radius * 2;
 
-    >.row >.field-container, .field-group {
-      margin: 6px;
+    > .field-container, .field-group {
+      margin: 12px;
     }
     .fu-content {
       > .files {
@@ -52,7 +41,7 @@
   }
 
   button.my-button {
-    margin-top: 16px;
+    margin: 16px;
     display: inline-block;
   }
 
