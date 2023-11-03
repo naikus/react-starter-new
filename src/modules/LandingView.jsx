@@ -1,7 +1,7 @@
 /* global */
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {useRouter} from "@components/router";
-import {Actions} from "@components/appbar/Appbar";
+import Actions from "@components/actionbar/Actions";
 import Overlay from "@components/overlay/Overlay";
 import {NotificationContext} from "@components/notifications";
 import Config from "@config";
@@ -79,7 +79,7 @@ const View = props => {
           }
         `}
       </style>
-      <Actions>
+      <Actions target=".app-bar">
         <button title="Sample Form" className="action" onClick={showForm}>
           <i className="icon icon-clipboard"></i>
         </button>

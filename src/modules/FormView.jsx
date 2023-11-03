@@ -2,7 +2,7 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 // import {useRouter} from "@components/router";
-import {Actions} from "@components/appbar/Appbar";
+import Actions from "@components/actionbar/Actions";
 import {NotificationContext} from "@components/notifications";
 import {
   Form,
@@ -62,7 +62,7 @@ const View = props => {
     <div className="view form-view">
       {/* eslint-disable-next-line react/no-unknown-property */}
 
-      <Actions>
+      <Actions target=".app-bar">
         <button title="Disabled if the form is invalid"
             className="action"
             onClick={() => notifications.show({

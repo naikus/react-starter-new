@@ -5,7 +5,6 @@ import {CSSTransition, SwitchTransition} from "react-transition-group";
 import "./App.less";
 
 import createRouter, {/*useRouter,*/ RouterProvider} from "@components/router";
-import {AppBar} from "@components/appbar/Appbar";
 import Progress from "@components/progress/Progress";
 import Config from "@config";
 import {Notifications, NotificationContext} from "@components/notifications";
@@ -34,6 +33,27 @@ function createViewWrapper(View) {
   };
   return Wrapper;
 }
+
+
+const AppBar = props => {
+  const {title = "App", logo, logoAltText = "Logo", children} = props;
+  return (
+    <div className={`actionbar app-bar`}>
+      <div className="branding">
+        <img className="logo" alt={logoAltText} src={logo} />
+        <h2 className="title">{title}</h2>
+      </div>
+      <div className="actions"></div>
+      <div className="actions global-actions">{children}</div>
+    </div>
+  );
+};
+AppBar.propTypes = {
+  title: PropTypes.string.isRequired,
+  logo: PropTypes.string,
+  logoAltText: PropTypes.string,
+  children: PropTypes.any
+};
 
 function App({appBarPosition = "left"}) {
   const routerRef = useRef(),

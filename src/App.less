@@ -9,23 +9,68 @@
   }
 }
 */
+.app-bar {
+  height: @appbar-height;
+  .branding {
+    flex: 1;
+    padding: 0 @padding-default;
+    display: flex;
+    align-items: center;
+    img.logo {
+      width: 45px;
+      height: 45px;
+    }
+    .title {
+      text-transform: uppercase;
+      padding-left: 10px;
+      font-weight: 300;
+      font-size: 1.1em;
+      letter-spacing: 0.1em;
+      // margin-top: 3px;
+    }
+  }
 
-.view {
-  // width: 100%;
-  // position: absolute;
-  // top: @appbar-height;
-  // bottom: 0;
-  // overflow: auto;
-  padding-left: 0;
-  padding-top: @appbar-width;
-
-  > .content {
-    box-sizing: border-box;
-    padding: @padding-container;
-    width: 100%;
+  .global-actions {
+    padding: 0;
+    padding-right: @padding-smaller;
   }
 }
+.appbar-left {
+  .app-bar {
+    align-items: unset;
+    // justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    width: @appbar-width;
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
 
+    .branding {
+      flex: unset;
+      flex-direction: column;
+      align-items: center;
+      padding: @padding-default 0;
+      // background-color: rgba(0, 0, 0, 0.03);
+
+      .title {
+        display: none;
+      }
+    }
+
+    .actions, .action-group {
+      flex-direction: column;
+      flex: 2;
+    }
+
+    .global-actions {
+      // flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      // flex-direction: column-reverse;
+      padding: 0;
+      padding-bottom: @padding-smaller;
+    }
+  }
+}
 .appbar-left {
   .view-wrapper {
     .view {
@@ -42,7 +87,6 @@
     }
   }
 }
-
 .appbar-left, .appbar-top {
   .view-wrapper {
     .view.no-appbar {
@@ -51,7 +95,42 @@
     }
   }
 }
+@media only screen and (max-width: 512px) {
+  .app-bar {
+    .branding {
+      .title {
+        font-size: 0.8em;
+      }
+    }
+    .actions {
+      .action {
+        padding: @padding-smaller;
+        .icon {
+          font-size: 1.1em;
+        }
+      }
+    }
+  }
+}
 
+
+
+
+.view {
+  // width: 100%;
+  // position: absolute;
+  // top: @appbar-height;
+  // bottom: 0;
+  // overflow: auto;
+  padding-left: 0;
+  padding-top: @appbar-width;
+
+  > .content {
+    box-sizing: border-box;
+    padding: @padding-container;
+    width: 100%;
+  }
+}
 .view-wrapper {
   width: 100%;
   position: absolute;
@@ -59,8 +138,6 @@
   bottom: 0;
   overflow: auto;
 }
-
-
 .fadeup-transitions {
   -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
   -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;

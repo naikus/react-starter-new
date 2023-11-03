@@ -4,27 +4,6 @@ import PropTypes from "prop-types";
 import "./styles.less";
 
 
-const AppBar = props => {
-  const {title = "App", logo, logoAltText = "Logo", children} = props;
-  return (
-    <div className={`app-bar`}>
-      <div className="branding">
-        <img className="logo" alt={logoAltText} src={logo} />
-        <h2 className="title">{title}</h2>
-      </div>
-      <div className="actions"></div>
-      <div className="actions global-actions">{children}</div>
-    </div>
-  );
-};
-AppBar.propTypes = {
-  title: PropTypes.string.isRequired,
-  logo: PropTypes.string,
-  logoAltText: PropTypes.string,
-  children: PropTypes.any
-};
-
-
 const Actions = props => {
   const {target = ".app-bar", className = ""} = props,
       element = useRef(document.createElement("div")),
@@ -45,8 +24,10 @@ const Actions = props => {
   return createPortal(props.children, current);
 };
 Actions.displayName = "Actions";
-
-export {
-  AppBar,
-  Actions
+Actions.propTypes = {
+  target: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.any
 };
+
+export default Actions;
