@@ -11,7 +11,7 @@ const Overlay = props => {
     [anim, setAnim] = useState(false),
     [mount, setMount] = useState(false),
     overlayRef = useRef(null),
-    {current} = overlayRef,
+    {current: overlayBackdropElem} = overlayRef,
     animationEndHandler = e => {
       if(e.animationName === "overlay_close") {
         setMount(false);
@@ -20,17 +20,16 @@ const Overlay = props => {
     };
 
   useEffect(() => {
-    if(!current) {
+    if(!overlayBackdropElem) {
       return;
     }
-    current.addEventListener("animationend", animationEndHandler);
+    overlayBackdropElem.addEventListener("animationend", animationEndHandler);
     return () => {
-      current.removeEventListener("animationend", animationEndHandler);
+      overlayBackdropElem.removeEventListener("animationend", animationEndHandler);
     };
-  }, [current]);
+  }, [overlayBackdropElem]);
 
-  // mount
-  // /*
+  // mount & unmount
   useEffect(() => {
     if(show) {
       setMount(true);
@@ -42,7 +41,7 @@ const Overlay = props => {
       }
     }
   }, [show]);
-  // */
+
   /*
   if(show !== prevShow && show) {
     console.log("Mounting...");
