@@ -80,7 +80,7 @@ const Notifications = props => {
     () => {
       unsub();
     };
-  });
+  }, []);
 
   return (
     <div className="notifications">
