@@ -57,7 +57,7 @@ function MultiValInput(props) {
 
       handleKeyEnter = e => {
         if(e.keyCode === 13) {
-          // e.preventDefault();
+          e.preventDefault();
           e.stopPropagation();
           addValues(e);
         }
