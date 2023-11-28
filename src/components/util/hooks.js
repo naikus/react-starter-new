@@ -7,6 +7,11 @@ function useOnMount(callback) {
     if(!current) {
       ref.current = callback() || (() => {});
     }
+    /**
+     * This is intntionally not returning a cleanup function the first time. We don't
+     * want that. The cleanup function will only be returned on subsequent call. (i.e.
+     * when the component is unmounted)
+     */
     return current;
   }, []);
 }
