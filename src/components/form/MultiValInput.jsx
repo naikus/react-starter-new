@@ -57,6 +57,8 @@ function MultiValInput(props) {
 
       handleKeyEnter = e => {
         if(e.keyCode === 13) {
+          // e.preventDefault();
+          e.stopPropagation();
           addValues(e);
         }
       };
@@ -79,7 +81,7 @@ function MultiValInput(props) {
     <div className={`multi-val-input`}>
       <div className="values">{values}</div>
       <input type="text" placeholder={placeholder} name="__input"
-          className="value-input" onBlur={addValues} onKeyUp={handleKeyEnter} disabled={disabled} />
+          className="value-input" onBlur={addValues} onKeyDown={handleKeyEnter} disabled={disabled} />
     </div>
   );
 }
