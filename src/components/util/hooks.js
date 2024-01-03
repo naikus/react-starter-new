@@ -70,8 +70,21 @@ function useAsyncCallImmediate(asyncCall, ...args) {
   ];
 }
 
+function useEffectOnce(fn, deps = []) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if(!ref.current) {
+      ref.current = fn;
+      return;
+    }else {
+      return ref.current();
+    }
+  }, deps);
+}
+
 
 export {
+  useEffectOnce,
   useOnMount,
   useAsyncCall,
   useAsyncCallImmediate

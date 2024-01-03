@@ -126,7 +126,10 @@ function App({appBarPosition = "left"}) {
             // position="top"
             title={Config.appName}
             logoAltText="Logo">
-            <button className="action" title={`About ${Config.appName}`} onClick={goAbout}>
+            <button className="action"
+                title={`About ${Config.appName}`}
+                onClick={goAbout}
+                aria-label="About">
               <i className="icon icon-info"></i>
             </button>
           </AppBar>

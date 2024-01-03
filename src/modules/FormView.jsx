@@ -69,7 +69,8 @@ const View = props => {
               type: "info",
               content: "The form is valid!"
             })}
-            disabled={!valid}>
+            disabled={!valid}
+            aria-label="Check Validity">
           <i className={`icon icon-message-square`}></i>
         </button>
       </Actions>

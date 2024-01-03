@@ -80,13 +80,13 @@ const View = props => {
         `}
       </style>
       <Actions target=".app-bar">
-        <button title="Sample Form" className="action" onClick={showForm}>
+        <button title="Sample Form" className="action" onClick={showForm} aria-label="Sample Form">
           <i className="icon icon-clipboard"></i>
         </button>
-        <button className="action" onClick={() => setShowOverlay(!showOverlay)}>
+        <button className="action" onClick={() => setShowOverlay(!showOverlay)} aria-label="Show Overlay">
           <i className="icon icon-eye"></i>
         </button>
-        <button className="action" onClick={() => toggleScheme()}>
+        <button className="action" onClick={() => toggleScheme()} aria-label="Toggle Theme">
           <i className="icon icon-sun"></i>
         </button>
         <button className="action" onClick={() => {
@@ -96,13 +96,16 @@ const View = props => {
               sticky: random(1, 0),
               timeout: 2000
             });
-          }}>
+          }} aria-label="Sample Notification">
           <i className="icon icon-bell"></i>
         </button>
       </Actions>
       <div className="content anim">
         <img style={{animationDuration: "30s"}}
-          className="spin" src={Config.logo} width="120" alt="logo" />
+          className="spin" src={Config.logo}
+          width="140"
+          height="140"
+          alt="logo" />
       </div>
       <Overlay className="modal alert" show={showOverlay}>
         <div className="title">
