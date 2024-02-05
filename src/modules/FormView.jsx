@@ -1,7 +1,7 @@
 /* global */
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import PropTypes from "prop-types";
-// import {useRouter} from "@components/router";
+import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
 import {NotificationContext} from "@components/notifications";
 import {
@@ -52,6 +52,7 @@ const View = props => {
   const {context: {formTitle}} = props, 
       notifications = useContext(NotificationContext),
       [valid, setValid] = useState(false),
+      router = useRouter(),
       [data, setData] = useState({
         name: "Dead Pool",
         sports: ["soccer", "hockey"],
@@ -144,8 +145,13 @@ const View = props => {
                 type: "success"
               });
             }}>
-            Submit
-          </button>
+              <i className="icon-save" /> Submit
+            </button>
+            <button onClick={() => (
+                router.back("/")
+              )}>
+              <i className="icon-home" /> Home
+            </button>
           </div>
         </Form>
       </div>
