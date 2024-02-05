@@ -44,6 +44,14 @@
   > .data {
     flex: 1;
     padding: @padding-container;
+
+    .action {
+      padding: @padding-smaller;
+      border-radius: @base-border-radius;
+      background-color: rgba(0,0,0,0.1);
+      color: var(--link-color);
+      align-self: flex-end;
+    }
   }
 
   &.show {

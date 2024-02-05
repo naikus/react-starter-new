@@ -247,7 +247,7 @@ const renderField = (field, model, props) => {
         typeRenderer = fieldTypes[type] || fieldTypes.input,
         formContext = useForm();
 
-    useOnMount(() => {
+    useOnMount(function addToFormContext() {
       if(formContext) {
         const {form, addField} = formContext,
             thisField = form.fields[name];
@@ -530,7 +530,7 @@ const formReducer = (state, action) => {
         }
       }, []);
 
-      useEffect(() => {
+      useEffect(function fireFormChanged() {
         if(initialized) {
           // console.debug("Form initialized with fields", form.fields);
           const {onChange} = props;
@@ -540,7 +540,7 @@ const formReducer = (state, action) => {
         }
       }, [initialized]);
 
-      useEffect(() => {
+      useEffect(function fireFormChange() {
         const {onChange} = props;
         // Only fire onchange if fields are set in state (not in fields ref, which means we are still loading)
         if(typeof onChange === "function"/* && !fieldsRef.current */) {

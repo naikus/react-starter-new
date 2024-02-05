@@ -34,6 +34,33 @@ function createViewWrapper(View) {
   return Wrapper;
 }
 
+/*
+const ActionMessage = props => {
+  const {message, actions = []} = props;
+  return (
+    <div className="action-message">
+      <div className="message">{message}</div>
+      <div className="actions">
+        {actions.map((action, index) => (
+          <button key={index} className="action" onClick={action.onClick}>
+            {action.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+ActionMessage.displayName = "ActionMessage";
+ActionMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
+  })).isRequired
+};
+*/
+
+
 
 const AppBar = props => {
   const {title = "App", logo, logoAltText = "Logo", children} = props;
@@ -82,7 +109,7 @@ function App({appBarPosition = "left"}) {
   */
 
   // Router setup
-  useOnMount(() => {
+  useOnMount(function setupRouter() {
     const router = createRouter(routes, {
           defaultRoute: "/",
           errorRoute: "/~error"
@@ -102,7 +129,11 @@ function App({appBarPosition = "left"}) {
           router.on("route-error", (event, error) => {
             setRouteLoading(false);
             notifications.show({
-              content: error.message,
+              content: (
+                <span>
+                  {error.message}. <button className="small" onClick={() => router.route("/")}>Home</button>
+                </span>
+              ),
               type: "error",
               sticky: true
             });

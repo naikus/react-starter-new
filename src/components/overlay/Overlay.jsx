@@ -19,7 +19,7 @@ const Overlay = props => {
       }
     };
 
-  useEffect(() => {
+  useEffect(function registerAnimListener() {
     if(!overlayBackdropElem) {
       return;
     }
@@ -30,7 +30,7 @@ const Overlay = props => {
   }, [overlayBackdropElem]);
 
   // mount & unmount
-  useEffect(() => {
+  useEffect(function showOverlay() {
     if(show) {
       setMount(true);
       setAnim(true);

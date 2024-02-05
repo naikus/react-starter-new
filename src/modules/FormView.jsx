@@ -90,24 +90,25 @@ const View = props => {
               setData(data);
             }}>
           
-            <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
-              <div className="row">
-                <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
-                <Field placeholder="Email" name="email" type="" />
-              </div>
-              <Field defaultValue={"option1"} type="radio-group" name="option" options={[
-                {label: "Option 1", value: "option1"},
-                {label: "Option 2", value: "option2"}
-              ]} />
-              <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
-            </FieldGroup>
-            <Field name="hobbies" 
-              placeholder="Enter multiple separated by comma"
-              type="multival"
-              label="Hobbies"
-              // disabled={true}
-              hint="Enter upto four"
-              defaultValue={["Walking", "Web Development"]} />
+          <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
+            <div className="row">
+              <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
+              <Field placeholder="Email" name="email" type="" />
+            </div>
+            <Field defaultValue={"option1"} type="radio-group" name="option" options={[
+              {label: "Option 1", value: "option1"},
+              {label: "Option 2", value: "option2"}
+            ]} />
+            <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
+          </FieldGroup>
+
+          <Field name="hobbies" 
+            placeholder="Enter multiple separated by comma"
+            type="multival"
+            label="Hobbies"
+            // disabled={true}
+            hint="Enter upto four"
+            defaultValue={["Walking", "Web Development"]} />
 
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"

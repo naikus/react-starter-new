@@ -9,7 +9,7 @@ const Actions = props => {
       element = useRef(document.createElement("div")),
       {current} = element;
 
-  useEffect(() => {
+  useEffect(function mountActionsOnTarget() {
     const targetElem = document.querySelector(`${target} > .actions`);
     targetElem.appendChild(current);
     return () => {

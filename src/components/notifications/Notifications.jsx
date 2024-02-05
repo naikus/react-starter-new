@@ -25,7 +25,7 @@ const Notification = props => {
         props.onDismiss && props.onDismiss();
       };
 
-  useEffect(() => {
+  useEffect(function show() {
     const delay = setTimeout(() => {
       setShow(true);
     }, 50);
@@ -45,9 +45,9 @@ const Notification = props => {
   return (
     <div className={`notification ${type} ${show ? "show" : ""}`} onClick={onDismiss}>
       {icon ? <i className={`icon ${icon}`} /> : null}
-      <span className="data">
+      <div className="data">
         {typeof (content) === "function" ? content(message) : content}
-      </span>
+      </div>
     </div>
   );
 };
@@ -73,7 +73,7 @@ const Notifications = props => {
         <Notification key={current.key} message={current.message} onDismiss={onDismiss} /> : 
         null;
 
-  useEffect(() => {
+  useEffect(function setCurrentMessage() {
     const unsub = onCurrent(message => {
       setCurrent(message);
     });

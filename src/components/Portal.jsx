@@ -9,7 +9,7 @@ const Portal = props => {
       targetRef = useRef(typeof target === "string" ? document.querySelector(target) : target),
       targetElem = targetRef.current;
 
-  useEffect(() => {
+  useEffect(function mountElementOnTarget() {
     if(replace) {
       const existing = targetElem.querySelector(replace);
       existing && existing.parentNode.removeChild(existing);

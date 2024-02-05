@@ -14,7 +14,7 @@ const View = props => {
   });
 
   return (
-    <div className="view about-view no-navbar">
+    <div className="view about-view">
       <style>
         {`
           .about-view .content {
