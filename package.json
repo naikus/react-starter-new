@@ -14,7 +14,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-transition-group": "^4.4.5",
-    "simple-router": "git+https://github.com/naikus/simple-router.git"
+    "simple-router": "git+https://github.com/naikus/simple-router.git",
+    "store2": "^2.14.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
