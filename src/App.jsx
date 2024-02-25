@@ -99,7 +99,7 @@ function App({appBarPosition = "left"}) {
 
   /*
   // Set theme based on system preference
-  useEffect(() => {
+  useOnMount(() => {
     if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       document.firstElementChild.dataset.theme = "dark";
     }else {

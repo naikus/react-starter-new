@@ -91,7 +91,7 @@ const VALID = {valid: true, message: ""},
           items = options.map((o, i) => {
             const {label, value, disabled} = o,
             rProps = {
-              tabIndex: 0,
+              // tabIndex: 0,
               name,
               value,
               disabled: groupDisabled || disabled,

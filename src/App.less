@@ -44,15 +44,24 @@
     width: @appbar-width;
     border-right: 1px solid rgba(0, 0, 0, 0.06);
 
+    // border-radius: 0 @base-border-radius @base-border-radius 0;
+
     .branding {
       flex: unset;
       flex-direction: column;
       align-items: center;
-      padding: @padding-default 0;
-      // background-color: rgba(0, 0, 0, 0.03);
+      padding: @padding-container 0 @padding-smaller;
+      // background-color: rgba(0, 0, 0, 0.06);
+
+      // border-radius: 0 @base-border-radius 0 0;
 
       .title {
         display: none;
+        /*
+        transform: rotate(90deg);
+        padding: @padding-container 0 @padding-default;
+        font-size: 0.75em;
+        */
       }
     }
 
