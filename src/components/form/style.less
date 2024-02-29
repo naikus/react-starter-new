@@ -405,6 +405,8 @@ form {
   min-height: 100px;
   overflow: auto;
   // padding: @padding-smaller !important;
+  display: flex;
+  flex-direction: column;
 
   > .multi-select-item {
     font-size: 0.95rem;
@@ -412,6 +414,9 @@ form {
     cursor: pointer;
     border-radius: @input-border-radius - 2;
     margin-bottom: @size_tiny + 0px;
+
+    display: flex;
+    align-items: center;
 
     &:hover {
       background-color: rgba(0,0,0,0.04);
@@ -451,6 +456,16 @@ form {
         opacity: @disabled-opacity;
       }
 
+    }
+  }
+
+  &.horizontal {
+    min-height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    > .multi-select-item {
+      margin: @padding-tiny;
+      flex: 1;
     }
   }
 }

@@ -114,6 +114,7 @@ const View = props => {
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
             // disabled={true}
+            // className="horizontal"
             defaultValue={data.sports}
             options={[
               {label: "Basketball", value: "basketball"},
