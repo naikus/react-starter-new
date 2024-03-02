@@ -1,5 +1,29 @@
 /* global */
+/**
+ * @typedef {import("./ns-emitter").EventListener} EventEmitter
+ * @typedef {import("./ns-emitter").NsEventListener} NsEventListener
+ * @typedef {import("./ns-emitter").NsEventEmitter} NsEventEmitter
+ */
 import createNsEmitter from "./ns-emitter";
+
+/**
+ * @typedef {Partial<{
+ *  serverUrl: string,
+ *  basePath: string,
+ *  params: Object<string, any>,
+ * }>} SocketClientOptions
+ */
+
+/**
+ * @typedef {Object} SocketClient
+ * @property {function} connect - Connect to the server
+ * @property {function} disconnect - Disconnect from the server
+ * @property {function} isConnected - Check if the client is connected
+ * @property {function(any):void} send - Send a message to the server
+ * @property {function(any, ?int)} request - Send a message to the server with an optional timeout
+ * @property {function(string, EventListener | NsEventListener):function} on - Subscribe to an event or a namespace
+ * @property {function(string, EventListener | NsEventListener):function} once - Subscribe to an event or a namespace once
+ */
 
 const ObjectToString = Object.prototype.toString,
     /**
@@ -188,6 +212,12 @@ const ObjectToString = Object.prototype.toString,
         return this.eventEmitter.once(event, handler);
       }
     },
+
+    /**
+     * Creates a new socket client
+     * @param {SocketClientOptions} options The options for the client
+     * @return {SocketClient} The new socket client
+     */
     create = options => {
       return Object.create(SocketClientProto, {
         options: {
@@ -196,6 +226,9 @@ const ObjectToString = Object.prototype.toString,
             options
           )
         },
+        /**
+         * @type {NsEventEmitter}
+         */
         eventEmitter: {
           value: createNsEmitter()
         }

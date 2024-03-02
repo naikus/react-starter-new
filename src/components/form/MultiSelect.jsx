@@ -10,6 +10,27 @@ function createEvent(value) {
   };
 }
 
+/**
+ * @typedef {{
+ *  label: string,
+ *  value: string,
+ *  disabled: boolean
+ * }} Option
+ */
+
+/**
+ * @param {{
+ *  comparator: fuction(value: string, option: Option): boolean,
+ *  name: string,
+ *  options: Array,
+ *  value: Array,
+ *  defaultValue: Array,
+ *  onChange: EventListener,
+ *  onInput: EventListener,
+ *  disabled: boolean,
+ *  className: string
+ * }} props 
+ */
 function MultiSelect(props) {
     const {
       comparator = (value, option) => value === option.value,

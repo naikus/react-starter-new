@@ -1,3 +1,43 @@
+/**
+ * @callback EventListener
+ * @param {...*} args The event arguments
+ * @returns {function} The unsubscriber function
+ */
+
+/**
+ * @typedef {Object} EventEmitter
+ * @property {function(string, EventListener)} on - Subscribe to an event
+ * @property {function(string, EventListener)} once - Subscribe to an event once
+ * @property {function(string, ...*)} emit - Emit an event
+ */
+
+/**
+ * @template {string} namespace A event namespace string, always ends with a separator e.g. ":", "/", etc
+ */
+
+/**
+ * A namespace event listener
+ * @callback NsEventListener
+ * @param {string} event The event name
+ * @param {...*} args The event arguments
+ * @returns {function} The unsubscriber function
+ * @example
+ * const emitter = nsEmitter(":");
+ * emitter.on("foo:", (event, data) => {
+ *  console.log(event, data);
+ * }
+ * emitter.emit("foo:bar", "baz");
+ * // will log 'bar', 'baz'
+ */
+
+/**
+ * @typedef {Object} NsEventEmitter
+ * @property {function(string|namespace, EventListener | NsEventListener)} on - Subscribe to an event or a namespace
+ * @property {function(string, EventListener)} on - Subscribe to an event or a namespace
+ * @property {function(string|namespace, EventListener | NsEventListener)} once - Subscribe to an event or a namespace once
+ * @property {function(string|namespace, ...*)} emit - Emit an event or a namespace 
+ * @property {function()} close - Close the event emitter and remove all listeners
+ */
 
 const EventEmitterProto = {
     on(event, handler) {
@@ -26,6 +66,9 @@ const EventEmitterProto = {
     }
   },
 
+  /**
+   * @returns {EventEmitter} A new event emitter
+   */
   createEventEmitter = () => {
     return Object.create(EventEmitterProto, {
       eventHandlers: {
@@ -53,8 +96,8 @@ const EventEmitterProto = {
    *  emitter.emit("bar:baz", "foo");
    *  // will log "foo"
    * </code>
-   * @param {String} separator The seperator for namespace. Default is ':' if not provided
-   * @return {Object} The event emitter
+   * @param {string} separator The seperator for namespace. Default is ':' if not provided
+   * @return {NsEventEmitter} The event emitter
    */
   nsEmitter = (separator = ":") => {
     const emitters = {},
@@ -84,6 +127,9 @@ const EventEmitterProto = {
 
     emitters[""] = createEventEmitter();
 
+    /**
+     * @type {NsEventEmitter}
+     */
     return {
       on(event, handler) {
         const emitter = getEmitter(event);

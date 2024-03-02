@@ -11,8 +11,16 @@ function createEvent(value) {
   };
 }
 
-function FileItem({file, onRemove}) {
-  const {name, size, type} = file;
+/**
+ * 
+ * @param {{
+ *  file: File,
+ *  onRemove: EventListener
+ * }} props
+ */
+function FileItem(props) {
+  const {file, onRemove} = props,
+      {name, size, type} = file;
   return (
     <div key={name} className="file-item">
       <i className="icon-file" />
@@ -35,6 +43,16 @@ FileItem.propTypes = {
 };
 
 
+/**
+ * @param {{
+ *  value: Array,
+ *  onChange: EventListener,
+ *  onInput: EventListener,
+ *  multiple: Boolean,
+ *  accept: String,
+ *  disabled: Boolean
+ * }} props
+ */
 function FileUpload(props) {
   const {value, onChange, onInput, multiple, accept, disabled} = props,
       inputRef = useRef(), 

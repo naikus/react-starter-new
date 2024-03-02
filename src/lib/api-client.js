@@ -4,6 +4,38 @@
 // Install whatwg-fetch for polyfilling and then uncomment this
 // require("whatwg-fetch");
 
+/**
+ * @typedef InterceptorContext
+ * @property {string} path The path to which the request is send or response was received
+ * @property {object} options The options passed to the fetch request
+ * @property {Request} request The Request object of the fetch api
+ * @property {Response} response The Response object (if available) of the fetch api
+ */
+
+/**
+ * @typedef ApiOptions
+ * @property {string} apiUrl The base URL for the API client
+ * @property {Record} headers The default headers for the API client
+ * @property {string} redirect The default redirect option for the API client: "follow"
+ * @property {[function(InterceptorContext):Promise]} [interceptors] An array of request or response interceptors
+ * 
+ */
+
+/**
+ * @template {string} path
+ * 
+ * @typedef ApiClient
+ * @property {function(path, ApiOptions):Promise} call The main function to call an API endpoint
+ * @property {function(path, ApiOptions):Promise} get A convenience function to call a GET API endpoint
+ * @property {function(path, ApiOptions):Promise} post A convenience function to call a POST API endpoint
+ * @property {function(path, ApiOptions):Promise} put A convenience function to call a PUT API endpoint
+ * @property {function(path, ApiOptions):Promise} delete A convenience function to call a DELETE API endpoint
+ * @property {function(string, any)} setOption A function to set an option for the API client
+ * @property {function(string, any)} setHeader A function to set a header for the API client
+ * @property {function(function(InterceptorContext):Promise)} interceptor A function to add a global interceptor
+ */
+
+
 const ObjectToString = Object.prototype.toString,
     /**
      * Determines if a given object is an array
@@ -103,6 +135,7 @@ const ObjectToString = Object.prototype.toString,
 
     /**
      * ApiClient prototype object used in create function
+     * @satisfies {ApiClient}
      */
     ApiClientProto = {
       /**

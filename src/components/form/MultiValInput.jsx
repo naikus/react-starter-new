@@ -12,10 +12,22 @@ function createEvent(value) {
   };
 }
 
+/**
+ * @param {{
+ *  value: Array,
+ *  onChange: EventListener,
+ *  onInput: EventListener,
+ *  placeholder: string,
+ *  delimiter: string,
+ *  disabled: Boolean
+ *  defaultValue: Array
+ * }} props
+ */
 function MultiValInput(props) {
   const {
     value, defaultValue, onChange, onInput, placeholder,
-    delimiter = "," /*"/\s|\n|\r\n/"*/, disabled
+    delimiter = "," /*"/\s|\n|\r\n/"*/,
+    disabled
   } = props;
   const [data, setData] = useState(value || defaultValue || []),
       removeValue = e => {

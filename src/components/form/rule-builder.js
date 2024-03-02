@@ -1,3 +1,8 @@
+/**
+ * @typedef {import("./Form").Field} Field
+ * @typedef {import("./Form").Validator} Field
+ */
+
 const stringValue = value => value === null || typeof(value) === "undefined" ? "" : String(value),
     invalid = message => ({valid: false, message}),
     rules = {
@@ -63,6 +68,13 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
         }
       }
     },
+
+    /**
+     * Builds a rule function from a rule name
+     * @param {String} name The name of the validator
+     * @param {Object} options The options for the validator All options are available on the this property
+     * of the validator function
+     */
     ruleBuilder = (name, options = {}) => {
       const r = rules[name];
       return (...args) => {

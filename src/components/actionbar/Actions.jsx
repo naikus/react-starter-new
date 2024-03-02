@@ -3,7 +3,14 @@ import {createPortal} from "react-dom";
 import PropTypes from "prop-types";
 import "./styles.less";
 
-
+/**
+ * Action component for AppBar
+ * @param {{
+ *  target: string=.app-bar,
+ *  className: string,
+ *  children: any
+ * }} props
+ */
 const Actions = props => {
   const {target = ".app-bar", className = ""} = props,
       element = useRef(document.createElement("div")),

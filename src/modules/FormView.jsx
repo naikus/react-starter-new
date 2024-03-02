@@ -14,7 +14,7 @@ import {
   FileUpload
 } from "@components/form";
 
-import {FieldGroup} from "../components/form/Form";
+import {FieldGroup} from "@components/form/Form";
 import "./style.less";
 
 const validationRules = {

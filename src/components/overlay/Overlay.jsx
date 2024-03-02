@@ -29,7 +29,16 @@ const FocusGrabber = () => {
 };
 */
 
-const Overlay = props => {
+/**
+ * @param {{
+ *   target: string,
+ *   className: string,
+ *   onClose: function,
+ *   children: any,
+ *   show: boolean,
+ * }} props
+ */
+function Overlay(props) {
   const {target = "body", show, className: clazz, onClose, children} = props,
     // [prevShow, setPrevShow] = useState(show),
     [wasShown, setWasShown] = useState(false),
@@ -103,7 +112,7 @@ const Overlay = props => {
       </div>
     </Portal>
   ) : null;
-};
+}
 Overlay.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func,
