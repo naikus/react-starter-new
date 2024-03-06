@@ -82,14 +82,14 @@ const View = props => {
           (<code>src/components/form</code>) for these components.
         </p>
         <Form title={formTitle}
-            rules={validationRules}
-            className="my-form"
-            onChange={form => {
-              // console.log(form);
-              const {valid, data} = form;
-              setValid(valid);
-              setData(data);
-            }}>
+          rules={validationRules}
+          className="my-form"
+          onChange={form => {
+            // console.log(form);
+            const {valid, data} = form;
+            setValid(valid);
+            setData(data);
+          }}>
           
           <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
             <div className="row">
@@ -104,11 +104,11 @@ const View = props => {
           </FieldGroup>
 
           <Field name="hobbies" 
-            placeholder="Enter multiple separated by comma"
-            type="multival"
-            label="Hobbies"
-            // disabled={true}
-            hint="Enter upto four"
+              placeholder="Enter multiple separated by comma"
+              type="multival"
+              label="Hobbies"
+              // disabled={true}
+              hint="Enter upto four"
             defaultValue={["Walking", "Web Development"]} />
 
           <Field name="sports" type="multiselect" label="Sports"
@@ -123,11 +123,11 @@ const View = props => {
             ]} />
 
           <Field name="files"
-              type="fileupload"
-              label="Basketball Files"
-              multiple={true}
-              defaultValue={data.files}
-              disabled={data.sports && data.sports.indexOf("basketball") === -1} />
+            type="fileupload"
+            label="Basketball Files"
+            multiple={true}
+            defaultValue={data.files}
+            disabled={data.sports && data.sports.indexOf("basketball") === -1} />
           
           <div className="row">
             <button className="my-button primary" disabled={!valid} onClick={() => {
@@ -143,7 +143,7 @@ const View = props => {
               );
               notifications.show({
                 content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
-                type: "success"
+                type: "toast"
               });
             }}>
               <i className="icon-save" /> Submit

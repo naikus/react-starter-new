@@ -77,6 +77,13 @@ const View = props => {
             padding-top: 100px;
             position: relative;
           }
+          kbd {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.8em;
+            padding: 4px 6px;
+          }
         `}
       </style>
       <Actions target=".app-bar">
@@ -113,7 +120,7 @@ const View = props => {
         </div>
         <div className="content">
           This is a sample alert message. You can close this by clicking the close button 
-          below or by pressing the escape key.
+          below or by pressing the <kbd>Esc</kbd> key.
         </div>
         <div className="actions">
           <button className="primary inline" onClick={() => setShowOverlay(!showOverlay)}>Close</button>
