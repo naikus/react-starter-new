@@ -4,35 +4,73 @@ import PropTypes from "prop-types";
 import Portal from "../Portal";
 import "./style.less";
 
+
+const FOCUSABLE_ELEMS = "[tabindex], input, button, a, select, textarea, [contenteditable]";
 /**
- * Grabs focus as soon as overlay is mounted
+ * Guards the focus within the overlay
  */
-/*
-const FocusGrabber = () => {
-  const focusGrabberRef = useRef(null);
+const FocusGuard = (props) => {
+  const fcGuard = useRef(null),
+      shiftKey = useRef(false),
+      focusFirstElem = () => {
+        const contextElem = fcGuard.current,
+            elems = contextElem.querySelectorAll(FOCUSABLE_ELEMS);
+        if(elems.length) {
+          elems[1].focus();
+        }
+      },
+      focusLastElem = () => {
+        if(shiftKey) {
+          const contextElem = fcGuard.current,
+              elems = contextElem.querySelectorAll(FOCUSABLE_ELEMS);
+          if(elems.length > 1) {
+            elems[elems.length - 2].focus();
+          }
+        }
+      };
+      
 
   useEffect(() => {
-    if(!focusGrabberRef.current) {
+    if(!fcGuard.current) {
       return;
     }
-    const tid = setTimeout(() => {
-      focusGrabberRef.current.focus();
-    }, 50);
-    return () => {
-      clearTimeout(tid);
+
+    const shiftKeyListener = e => {
+      if(e.key === "Tab" && e.shiftKey) {
+        shiftKey.current = true;
+      }else {
+        shiftKey.current = false;
+      }
     };
-  }, [focusGrabberRef.current]);
+
+    document.addEventListener("keydown", shiftKeyListener);
+    setTimeout(() => {
+      focusFirstElem(fcGuard.current);
+    }, 30);
+    return () => {
+      document.removeEventListener("keydown", shiftKeyListener);
+    };
+  }, []);
 
   return (
-    <span ref={focusGrabberRef} tabIndex={-1} />
+    <div ref={fcGuard} className="focus-guard">
+      <span className="fg-boundry" tabIndex={0} onFocus={focusLastElem} />
+      {props.children}
+      <span className="fg-boundry" tabIndex={0} onFocus={focusFirstElem} />
+    </div>
   );
 };
-*/
+FocusGuard.propTypes = {
+  onBlur: PropTypes.func,
+  children: PropTypes.any
+};
 
 /**
+ * Overlay comonent. Add the class "modal" to the overlay to make it a modal. Use the class
+ * "bottom" to position the overlay at the bottom of the screen.
  * @param {{
  *   target: string,
- *   className: string,
+ *   className: string?,
  *   onClose: function,
  *   children: any,
  *   show: boolean,
@@ -46,6 +84,7 @@ function Overlay(props) {
     [mount, setMount] = useState(false),
     overlayBackdropRef = useRef(null),
     {current: overlayBackdropElem} = overlayBackdropRef,
+    overlayRef = useRef(null),
     overlayCloseAnimHandler = e => {
       // console.log("Animation end", e);
       if(e.animationName === "overlay_close") {
@@ -104,12 +143,13 @@ function Overlay(props) {
 
   return mount ? (
     <Portal target={target}>
-      <div ref={overlayBackdropRef} className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
-        <div tabIndex={1} className={`overlay ${clazz}`}>
-          {/* <FocusGrabber /> */}
-          {children}
+      <FocusGuard>
+        <div ref={overlayBackdropRef} className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
+          <div ref={overlayRef} className={`overlay ${clazz}`}>
+            {children}
+          </div>
         </div>
-      </div>
+      </FocusGuard>
     </Portal>
   ) : null;
 }
