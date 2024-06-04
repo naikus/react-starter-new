@@ -34,7 +34,7 @@
   @primary-text-color: rgb(255, 255, 255);
   @link-color: rgb(27, 96, 224);
 
-  @input-bg-color: lighten(@bg-color, 5%);
+  @input-bg-color: lighten(@bg-color, 2%);
   @input-text-color: @text-color;
   @input-hint-color: desaturate(lighten(@text-color, 15%), 10%);
   @input-label-color: @text-color;
@@ -110,8 +110,8 @@
   --overlay-text-color: @alt-text-color;
 
 
-  --input-bg-color: lighten(@bg-color, 5%);
-  --input-text-color: @text-color;
+  --input-bg-color: @input-bg-color;
+  --input-text-color: @input-text-color;
   --input-hint-color: @input-hint-color;
   --input-placeholder-text-color: fadeout(@text-color, 50%);
   --input-disabled-bg-color: darken(@bg-color, 3%);

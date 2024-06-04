@@ -114,7 +114,7 @@ const View = props => {
           height="140"
           alt="logo" />
       </div>
-      <Overlay className="modal alert" show={showOverlay}>
+      <Overlay className="bottom modal alert" show={showOverlay}>
         <div className="title">
           <h4><i className="icon icon-alert-circle" /> Alert!</h4>
         </div>
