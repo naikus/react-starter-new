@@ -46,7 +46,7 @@ const FocusGuard = (props) => {
     document.addEventListener("keydown", shiftKeyListener);
     setTimeout(() => {
       focusFirstElem(fcGuard.current);
-    }, 30);
+    }, 600);
     return () => {
       document.removeEventListener("keydown", shiftKeyListener);
     };
