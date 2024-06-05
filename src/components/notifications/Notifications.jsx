@@ -34,10 +34,7 @@ const Notification = props => {
 
   return (
     <div className={`notification ${type} ${position} ${show ? "show" : ""}`} onClick={onDismiss}>
-      {/* icon ? <i className={`icon ${icon}`} /> : null */}
-      <div className="data">
-        {typeof (content) === "function" ? content(message) : content}
-      </div>
+      {typeof (content) === "function" ? content(message) : content}
     </div>
   );
 };
