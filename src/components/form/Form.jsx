@@ -22,6 +22,7 @@ import "./style.less";
  * @property {boolean} pristine Whether the field has been modified
  * @property {boolean} valid Whether the field is valid
  * @property {string?} message The validation message
+ * @property {boolean} disabled If the field is disabled
  */
 
 /**
@@ -255,7 +256,6 @@ VMessage.propTypes = {
  *  className: string,
  *  disabled: boolean,
  *  children: any
- *  disabled: boolean
  * }} props
  */
 function FieldGroup(props) {
@@ -322,6 +322,8 @@ function Field(props) {
         value = (defaultValue || defaultChecked),
         label,
         onInput,
+        disabled,
+        readonly,
         // onChange,
         type = "text"
       } = props,
@@ -338,7 +340,9 @@ function Field(props) {
           name, 
           value, 
           defaultValue, 
-          label: label || name
+          label: label || name,
+          disabled,
+          readonly
         });
       }
     }
@@ -351,14 +355,29 @@ function Field(props) {
     };
   });
 
+  useEffect(function updateModelWithNativeState() {
+    if(!formContext) {
+      return;
+    }
+    const fModel = formContext.getField(name);
+    // Field model not added yet
+    if(!fModel) {
+      return;
+    }
+    const {value} = fModel;
+    // console.log("Updating field", fModel, disabled);
+    formContext.updateField({name, value, disabled, readonly});
+  }, [disabled, readonly]);
+
   if(formContext) {
     const {form: {fields}, updateField, renderer} = formContext,
       fieldModel = fields[name] || {name, value, defaultValue, label},
       newProps = {
         ...props,
         onInput: e => {
-          const value = e.target.value, {name} = props;
+          const {target} = e, {value, disabled, readonly} = target, {name} = props;
           // console.log("Dispatching", name, value);
+          // console.log("On Input", name, target);
           updateField({name, value});
           onInput && onInput(e);
         }
@@ -397,6 +416,7 @@ function validateField(field, rules, allFields) {
   const {name, value} = field,
       fieldRules = rules[name];
 
+  // console.log("Validating", field);
   let result = VALID;
   if(!fieldRules) {
     return result;
@@ -462,7 +482,7 @@ function formReducer(state, action) {
     }
     case "add-field": {
       // console.debug("[reducer] add-field", payload.name);
-      const {name, value, label} = payload,
+      const {name, value, label, disabled} = payload,
           {valid, message} = validateField(payload, rules, fields);
       // console.log("[reducer] add-field", payload);
       newState = {
@@ -473,6 +493,7 @@ function formReducer(state, action) {
             name,
             label,
             value,
+            disabled,
             pristine: true,
             valid,
             message
@@ -484,7 +505,7 @@ function formReducer(state, action) {
     case "update-field": {
       // console.debug("[reducer] update-field", payload.name);
       const {fields} = state,
-        {name, value} = payload, // Here payload is field model
+        {name, value, disabled, readonly} = payload, // Here payload is field model
         fld = fields[name],
         {valid, message, revalidate} = validateField({...fld, value}, rules, fields),
         newFields = {
@@ -493,6 +514,8 @@ function formReducer(state, action) {
             ...fld,
             value,
             valid,
+            disabled,
+            readonly,
             message,
             pristine: false
           }
@@ -515,7 +538,8 @@ function formReducer(state, action) {
         }
 
         newState = {
-          valid: valid ? validateFields(newFields, rules) : false,
+          // valid: newValid, // valid ? validateFields(newFields, rules) : false,
+          valid: Object.values(newFields).filter(f => !f.valid).length === 0,
           pristine: false,
           fields: newFields,
           rules
@@ -586,7 +610,11 @@ function Form(props) {
         },
         */
         data: Object.keys(fields).reduce((acc, name) => {
-          acc[name] = fields[name].value;
+          // console.log(fields[name]);
+          const fld = fields[name], disabled = fld.disabled;
+          if(disabled !== true) {
+            acc[name] = fields[name].value;
+          }
           return acc;
         }, {})
       };
@@ -661,11 +689,9 @@ function Form(props) {
       updateField(field) {
         dispatch({type: "update-field", payload: field});
       },
-      /*
       getField(name) {
         return form.fields[name];
       },
-      */
       removeField(name) {
         // console.log("[formcontext] removeField", name);
         dispatch({type: "remove-field", payload: name});

@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 // import {registerFieldType} from "./Form";
 
 
-function createEvent(value) {
+function createEvent(value, ...targetAttrs) {
   return {
     target: {
-      value
+      value,
+      ...targetAttrs
     }
   };
 }
