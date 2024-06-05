@@ -3,19 +3,9 @@ import PropTypes from "prop-types";
 import {useNotifications} from "./Context";
 import "./style.less";
 
-const ICONS = {
-  error: "icon-alert-octagon",
-  success: "icon-check",
-  default: "icon-bell",
-  info: "icon-info",
-  warn: "icon-alert-triangle"
-};
-
-
-
 const Notification = props => {
   const {message} = props,
-      {timeout = 3000, sticky = false, type = "default", icon = ICONS[type], content} = message,
+      {timeout = 3000, sticky = false, type = "toast", position = "bottom", content} = message,
       [show, setShow] = useState(false),
       stickyTimer = useRef(null),
       onDismiss = e => {
@@ -43,8 +33,8 @@ const Notification = props => {
   }, []);
 
   return (
-    <div className={`notification ${type} ${show ? "show" : ""}`} onClick={onDismiss}>
-      {icon ? <i className={`icon ${icon}`} /> : null}
+    <div className={`notification ${type} ${position} ${show ? "show" : ""}`} onClick={onDismiss}>
+      {/* icon ? <i className={`icon ${icon}`} /> : null */}
       <div className="data">
         {typeof (content) === "function" ? content(message) : content}
       </div>

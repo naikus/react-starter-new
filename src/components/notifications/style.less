@@ -1,106 +1,93 @@
 @import "@less/vars.less";
 @import "@less/css-helpers.less";
 
+@notification-transition-duration: 300ms;
+
 .notification {
   display: flex;
-  align-items: stretch;
-  // min-height: 70px;
-  width: 90%;
-  left: 5%;
-  bottom: 5%;
+  // align-items: space-between;
+  position: absolute;
   margin: 1% auto;
-  position: fixed;
-  z-index: 110;
-  // background-color: fade(@info-color, 80%);
+  z-index: 100;
+
   background-color: var(--notification-bg-color);
   color: var(--notification-text-color);
+
+  border-radius: @base-border-radius;
+  padding: @padding-container;
+  box-sizing: border-box;
+  // border: 1px solid rgba(0,0,0,0.05);
+
+  // Initial state
   transform: translate3d(0, 50%, 0);
   opacity: 0;
-  transition: transform 200ms ease, opacity 200ms ease;
-  border-radius: @base-border-radius;
+  transition: transform @notification-transition-duration, opacity @notification-transition-duration;
 
-  // box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.03);
-  // border: 1px solid rgba(0,0,0,0.02);
-  /*
-  & when (@dark-theme = "true") {
-    
+  width: 90%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: @padding-smaller;
+    bottom: @padding-smaller;
+    left: @padding-smaller;
+    width: 6px;
+    // height: 70%;
+    border-radius: @base-border-radius;
+    background-color: var(--alt-bg-color);
+    z-index: -1;
   }
-  */
+  padding-left: @padding-container + @padding-smaller;
 
-  > .icon, > .data {
-    display: flex;
-    align-items: center;
-  }
-
-  > .icon {
-    border-radius: @base-border-radius 0 0 @base-border-radius;
-    font-size: 1.3rem;
-    font-weight: bold;
-    padding: @padding-container;
-    background-color: rgba(0,0,0,0.1);
-    color: var(--text-color);
+  &.bottom {
+    bottom: 5%;
+    left: 5%;
   }
 
-  > .data {
-    flex: 1;
-    padding: @padding-container;
-
-    .action {
-      padding: @padding-smaller;
-      border-radius: @base-border-radius;
-      background-color: rgba(0,0,0,0.1);
-      color: var(--link-color);
-      align-self: flex-end;
-    }
+  &.top {
+    transform: translate3d(0, -50%, 0);
+    top: 5%;
+    bottom: auto;
+    left: 5%;
   }
 
   &.show {
-    transform: none;
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 
-  &.error > .icon {
-    background-color: var(--error-color);
-  }
-  &.success > .icon {
-    background-color: var(--success-color);
-  }
-  &.info > .icon {
-    background-color: var(--info-color);
-  }
-  &.warn > .icon {
-    background-color: var(--warn-color);
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .notification {
-    width: 50%;
-    left: 25%;
-  }
-}
-
-// /*
-@media (prefers-color-scheme: dark) {
-  .notification {
-    // background-color: rgba(0,0,0,0.2);
-    // border: 1px solid rgba(0,0,0,0.2);
-  }
-}
-// */
-
-:root[data-theme="light"] {
-  .notification {
-    > .icon {
-      color: #fff;
+  &.toast {
+    &::after {
+      display: none;
     }
-    // background-color: var(--alt-bg-color); // rgba(0,0,0,0.05);
-    // border: 1px solid rgba(0,0,0,0.2);
+    padding-left: @padding-container;
   }
-}
-:root[data-theme="dark"] {
-  .notification {
-    // background-color: rgba(0,0,0,0.2);
-    // border: 1px solid rgba(0,0,0,0.2);
+  &.info {
+    // border: 1px solid var(--info-color);
+    // background-color: color-mix(in srgb, var(--info-color) 15%, var(--base-color));
+    &::after {
+      background-color: var(--info-color);
+    }
+  }
+  &.success {
+    // border: 1px solid var(--success-color);
+    // background-color: color-mix(in srgb, var(--success-color) 15%, var(--base-color));
+    &::after {
+      background-color: var(--success-color);
+    }
+  }
+  &.warn {
+    // border: 1px solid var(--warn-color);
+    // background-color: color-mix(in srgb, var(--warn-color) 15%, var(--base-color));
+    &::after {
+      background-color: var(--warn-color);
+    }
+  }
+  &.error {
+    // border: 1px solid var(--error-color);
+    // background-color: color-mix(in srgb, var(--error-color) 15%, var(--base-color));
+    &::after {
+      background-color: var(--error-color);
+    }
   }
 }
