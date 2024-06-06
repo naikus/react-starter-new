@@ -16,7 +16,7 @@
   border-radius: @base-border-radius;
   padding: @padding-container;
   box-sizing: border-box;
-  // border: 1px solid rgba(0,0,0,0.05);
+  // border: 1px solid 1px solid rgba(0,0,0,0.2);
 
   // Initial state
   transform: translate3d(0, 50%, 0);
@@ -88,6 +88,16 @@
     // background-color: color-mix(in srgb, var(--error-color) 15%, var(--base-color));
     &::after {
       background-color: var(--error-color);
+    }
+  }
+}
+
+
+@media only screen and (min-width: 600px) {
+  .notification {
+    width: 70%;
+    &.bottom, &.top {
+      left: 15%;
     }
   }
 }
