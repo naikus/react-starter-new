@@ -283,6 +283,36 @@ form {
     display: none;
   }
 
+  .action {
+    // display: inline;
+    width: auto;
+    padding: @padding-smaller;
+    margin: 0 2px;
+    cursor: pointer;
+    border: none;
+    // border-radius: @input-border-radius;
+    background-color: transparent;
+    // font-size: 1.1rem;
+    &:hover {
+      color: var(--accent-color);
+      // background-color: rgba(0,0,0,0.04);
+    }
+
+    &:focus {
+      background-color: var(--active-bg-color);
+      box-shadow: none;
+    }
+
+    &[disabled] {
+      opacity: @disabled-opacity;
+      cursor: not-allowed;
+      &:hover {
+        color: inherit;
+        background-color: inherit;
+      }
+    }
+  }
+
   > .fu-content {
     background-color: var(--input-bg-color);
     border-radius: @input-border-radius;
@@ -292,33 +322,6 @@ form {
       // flex-direction: row-reverse;
       justify-content: flex-end;
       border-bottom: 1px solid rgba(0,0,0,0.04);
-      > .action {
-        padding: @padding-smaller;
-        margin: 0 2px;
-        cursor: pointer;
-        border: none;
-        // border-radius: @input-border-radius;
-        background-color: transparent;
-        // font-size: 1.1rem;
-        &:hover {
-          color: var(--accent-color);
-          // background-color: rgba(0,0,0,0.04);
-        }
-
-        &:focus {
-          background-color: var(--active-bg-color);
-          box-shadow: none;
-        }
-
-        &[disabled] {
-          opacity: @disabled-opacity;
-          cursor: not-allowed;
-          &:hover {
-            color: inherit;
-            background-color: inherit;
-          }
-        }
-      }
     }
     > .files {
       padding: 0;

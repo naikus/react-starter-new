@@ -33,7 +33,7 @@ function FileItem(props) {
         </div>
       </div>
       
-      <i className="icon icon-trash" onClick={onRemove} />
+      <button className="action icon icon-x" onClick={onRemove} />
     </div>
   );
 }
@@ -108,8 +108,8 @@ function FileUpload(props) {
           disabled={disabled} />
       <div className="fu-content">
         <div className="actions">
-          <span className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
-          <span className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled} />
+          <button className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
+          <button className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled} />
         </div>
         <div className="files">
           {files}
