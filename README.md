@@ -17,3 +17,11 @@ A Reactjs starter written in ES with [Vite](https://vitejs.dev/) based build
 - Light and dark theme support
 - Custom branding (Logo, colors, etc)
 - [Feather](https://feathericons.com/) font icons
+
+### Screenshots
+Landing View
+![Main Landing View](screenshots/LandingView.png)
+
+
+About View
+![Form View](screenshots/AboutView.png)
