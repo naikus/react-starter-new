@@ -68,7 +68,9 @@ const View = props => {
             className="action"
             onClick={() => notifications.show({
               type: "info",
-              content: "The form is valid!"
+              content: "The form is valid!",
+              timeout: 1000,
+              position: "top"
             })}
             disabled={!valid}
             aria-label="Check Validity">
