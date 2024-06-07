@@ -29,16 +29,16 @@ const validationRules = {
   // Validation for MultiValInut "hobbies"
   hobbies: [(value, field, fields) => {
     if(!value || value.length < 1) {
-      return {valid: false, message: "At least one hobby is required"};
+      return {valid: false, message: "At least 1 hobby is required"};
     }
     if(value.length > 4) {
-      return {valid: false, message: "Only 4 hobbies allowed"};
+      return {valid: false, message: "A maximum of 4 hobbies are allowed"};
     }
   }],
   // Validation for MultiSelect "sports"
   sports: [(value, field, fields) => {
     if(!value || value.length !== 2) {
-      return {valid: false, message: "Choose any two sports"};
+      return {valid: false, message: "Choose any 2 sports"};
     }
   }]
 };

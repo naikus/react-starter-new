@@ -6,12 +6,14 @@ import Config from "@config";
 const View = props => {
   const router = useRouter();
 
+  /*
   useOnMount(() => {
     console.log("About view mounted");
     return () => {
       console.log("About view un-mounted");
     };
   });
+  */
 
   return (
     <div className="view about-view">
@@ -31,7 +33,6 @@ const View = props => {
           <i className="icon icon-arrow-left" /> Back
         </button>
       </div>
-
     </div>
   );
 };
