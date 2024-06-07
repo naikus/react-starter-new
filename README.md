@@ -1,24 +1,28 @@
 # React Starter
 A Reactjs starter written in ES with [Vite](https://vitejs.dev/) based build
 
-### Features
+## Features
 - SPA
-- Basic components 
+- Basic components
   - Portal component
   - Appbar (App bar top or left with global actions and route specific actions)
-  - Form with out of the box styling, validation (supports integration of custom components)
-  - MultiValInput (Supports form)
-  - MultiSelect (Supports form)
-  - FileUpload component (Supports form)
   - Notifications (toast, info, warn, success)
   - Overlay
   - Progress
-- [Routing](https://github.com/naikus/simple-router) (Hash based routing with custom views for routes)
+- Form component.
+  - Out of the box default styling
+  - Validation support (basic validators included)
+  - Integrate custom components
+  - MultiValInput (Supports form)
+  - MultiSelect (Supports form)
+  - FileUpload component (Supports form)
+- [Routing](https://github.com/naikus/simple-router) (Hash based routing with custom views per route)
 - Light and dark theme support
 - Custom branding (Logo, colors, etc)
 - [Feather](https://feathericons.com/) font icons
 
-### Screenshots
+
+## Screenshots
 Landing View
 ![Main Landing View](screenshots/LandingView.png)
 
