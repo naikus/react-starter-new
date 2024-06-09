@@ -3,7 +3,7 @@ import React, {useCallback, useContext, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
-import {NotificationContext} from "@components/notifications";
+import {useNotifications} from "@components/notifications";
 import {
   Form,
   Field,
@@ -50,7 +50,7 @@ registerFieldType("fileupload", FileUpload);
 
 const View = props => {
   const {context: {formTitle}} = props, 
-      notifications = useContext(NotificationContext),
+      notify = useNotifications(),
       [valid, setValid] = useState(false),
       router = useRouter(),
       [data, setData] = useState({
@@ -66,7 +66,7 @@ const View = props => {
       <Actions target=".app-bar">
         <button title="Disabled if the form is invalid"
             className="action"
-            onClick={() => notifications.show({
+            onClick={() => notify({
               type: "info",
               content: "The form is valid!",
               timeout: 1000,
@@ -143,7 +143,7 @@ const View = props => {
                 },
                 " "
               );
-              notifications.show({
+              notify({
                 content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
                 type: "toast"
               });

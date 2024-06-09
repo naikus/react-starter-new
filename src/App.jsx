@@ -7,7 +7,7 @@ import "./App.less";
 import createRouter, {/*useRouter,*/ RouterProvider} from "@components/router";
 import Progress from "@components/progress/Progress";
 import Config from "@config";
-import {Notifications, NotificationContext} from "@components/notifications";
+import {Notifications, useNotifications} from "@components/notifications";
 import {useOnMount} from "@components/util/hooks";
 import routes from "./routes";
 
@@ -92,7 +92,7 @@ function App({appBarPosition = "left"}) {
       {appBar = true} = config,
       transitionRef = useRef(null),
       transitionKey = route ? route.path : "root",
-      notifications = useContext(NotificationContext),
+      notify = useNotifications(),
       goAbout = useCallback(() => {
         routerRef.current.route("/about");
       }, []);
@@ -128,7 +128,7 @@ function App({appBarPosition = "left"}) {
           }),
           router.on("route-error", (event, error) => {
             setRouteLoading(false);
-            notifications.show({
+            notify({
               content: (
                 <span>
                   {error.message}. <button className="small" onClick={() => router.route("/")}>Home</button>

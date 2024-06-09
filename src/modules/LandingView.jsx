@@ -3,7 +3,7 @@ import React, {useCallback, useContext, useEffect, useState, useRef} from "react
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
 import Overlay from "@components/overlay/Overlay";
-import {NotificationContext} from "@components/notifications";
+import {useNotifications} from "@components/notifications";
 import Config from "@config";
 
 function random(max, min = 0) {
@@ -47,7 +47,7 @@ function useEscapeClose(show, onCancel) {
 
 
 const View = props => {
-  const notifications = useContext(NotificationContext),
+  const notify = useNotifications(),
       router = useRouter(), 
       toggleScheme = useCallback(() => {
         const root = document.firstElementChild,
@@ -97,7 +97,7 @@ const View = props => {
           <i className="icon icon-sun"></i>
         </button>
         <button className="action" onClick={() => {
-            notifications.show({
+            notify({
               content: (message) => `This is a ${message.type} message`,
               type: nTypes[random(nTypes.length - 1)],
               sticky: random(1, 0),
@@ -114,7 +114,15 @@ const View = props => {
           height="140"
           alt="logo" />
       </div>
-      <Overlay className={`top modal alert`} show={showOverlay}>
+      <Overlay className={`top modal alert`}
+          show={showOverlay}
+          onClose={() => {
+            notify({
+              type: "info",
+              content: "Overlay onClose callback",
+              timeout: 700
+            });
+          }}>
         <div className="title">
           <h4><i className="icon icon-alert-circle" /> Alert!</h4>
         </div>

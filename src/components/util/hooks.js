@@ -36,7 +36,6 @@ function useAsyncCall(asyncCall) {
   ];
 }
 
-
 function useAsyncCallImmediate(asyncCall, ...args) {
   const [busy, setBusy] = useState(true),
       [error, setError] = useState(null),
