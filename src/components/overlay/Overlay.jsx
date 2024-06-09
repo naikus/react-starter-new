@@ -5,7 +5,8 @@ import Portal from "../Portal";
 import "./style.less";
 
 
-const FOCUSABLE_ELEMS = "[tabindex], input, button, a, select, textarea, [contenteditable]";
+const FOCUSABLE_ELEMS = "[tabindex], input, button, a, select, textarea, [contenteditable]",
+    OVERLAY_FOCUS_DELAY = 300;
 /**
  * Guards the focus within the overlay
  */
@@ -46,7 +47,7 @@ const FocusGuard = (props) => {
     document.addEventListener("keydown", shiftKeyListener);
     setTimeout(() => {
       focusFirstElem(fcGuard.current);
-    }, 600);
+    }, OVERLAY_FOCUS_DELAY);
     return () => {
       document.removeEventListener("keydown", shiftKeyListener);
     };
