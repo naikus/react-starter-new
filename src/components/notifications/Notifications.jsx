@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import {useNotifications} from "./Context";
+import {useNotificationService} from "./Context";
 import "./style.less";
 
 const Notification = props => {
@@ -46,7 +46,7 @@ Notification.propTypes = {
 
 
 const Notifications = props => {
-  const {onCurrent, next} = useNotifications(),
+  const {onCurrent, next} = useNotificationService(),
       [current, setCurrent] = useState(null),
       // {current, next} = notifications,
       timer = useRef(null),

@@ -1,15 +1,15 @@
 import React from "react";
 
-const NotificationContext = React.createContext({
+const NotificationServiceContext = React.createContext({
   show: () => {},
   next: () => {},
   current: null,
   setCurrent: () => {}
 });
 
-const useNotifications = () => React.useContext(NotificationContext);
+const useNotificationService = () => React.useContext(NotificationServiceContext);
 
 export {
-  NotificationContext,
-  useNotifications
+  NotificationServiceContext,
+  useNotificationService
 };

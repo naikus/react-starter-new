@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {NotificationContext} from "./Context";
+import {NotificationServiceContext} from "./Context";
+
 
 function createNotificationService() {
   let current, handler;
@@ -15,12 +16,20 @@ function createNotificationService() {
           setCurrent(null);
         }
       },
+
+      /**
+       * @param {NotificationMessage} message
+       */
       enqueue = message => {
         messages.push(message);
         if(!current) {
           next();
         }
       },
+
+      /**
+       * @param {NotificationMessage} message
+       */
       setCurrent = message => {
         current = message;
         handler && handler(message);
@@ -34,13 +43,6 @@ function createNotificationService() {
       };
     },
     show: enqueue,
-    toast(message) {
-      enqueue({
-        timeout: 700,
-        // type: "info",
-        content: message
-      });
-    },
     next
   };
 }
@@ -50,9 +52,9 @@ const NotificationProvider = props => {
       notifications = createNotificationService();
 
   return (
-    <NotificationContext.Provider value={notifications}>
+    <NotificationServiceContext.Provider value={notifications}>
       {children}
-    </NotificationContext.Provider>
+    </NotificationServiceContext.Provider>
   );
 };
 NotificationProvider.displayName = "NotificationProvider";
