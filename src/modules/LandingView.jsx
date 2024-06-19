@@ -108,7 +108,7 @@ const View = props => {
         </button>
       </Actions>
       <div className="content anim">
-        <img style={{animationDuration: "30s"}}
+        <img style={{animationDuration: "10s"}}
           className="spin" src={Config.logo}
           width="140"
           height="140"

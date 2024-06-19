@@ -81,17 +81,10 @@ textarea {
   opacity: 0.9;
   color: var(--button-text-color);
   border: 1px solid rgba(0,0,0,0.03);
-  // border: none;
   border-radius: @form-component-border-radius;
-  // border-bottom-width: 3px;
-  border-bottom: 4px solid rgba(0,0,0,0.1);
+  border-bottom: 2px solid rgba(0,0,0,0.08);
   cursor: pointer;
   text-align: center;
-  // text-transform: uppercase;
-  // font-weight: bolder;
-
-  // margin: 8px;
-
   ._no-select;
 
   &:hover {
@@ -119,6 +112,13 @@ textarea {
 
   &.danger {
     background-color: var(--error-color);
+    color: #fff;
+    &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
+      opacity: .6;
+    }
+  }
+  &.warn {
+    background-color: var(--warn-color);
     color: #fff;
     &[disabled], &[disabled]:hover, &[disabled]:active, &[diabled].active {
       opacity: .6;
