@@ -11,7 +11,7 @@
   }
 }
 */
-.app-bar {
+.actionbar.app-bar {
   height: @appbar-height;
   .branding {
     flex: 1;
@@ -35,6 +35,13 @@
   .global-actions {
     padding: 0;
     padding-right: @padding-smaller;
+  }
+
+  .actions {
+    .action {
+      min-width: 45px;
+      min-height: 45px;
+    }
   }
 }
 .appbar-left {
@@ -115,21 +122,23 @@
   }
 }
 @media only screen and (max-width: 512px) {
-  .actionbar.app-bar {
-    .branding {
-      img.logo {
-        width: 35px;
-        height: 35px;
+  .appbar-top {
+    .actionbar.app-bar {
+      .branding {
+        img.logo {
+          width: 35px;
+          height: 35px;
+        }
+        .title {
+          font-size: 0.8em;
+        }
       }
-      .title {
-        font-size: 0.8em;
-      }
-    }
-    .actions {
-      .action {
-        // padding: @padding-smaller;
-        .icon {
-          font-size: 1.2rem;
+      .actions {
+        .action {
+          // padding: @padding-smaller;
+          .icon {
+            font-size: 1.2rem;
+          }
         }
       }
     }

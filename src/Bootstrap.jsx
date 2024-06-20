@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root"))
     .render(
       <React.StrictMode>
         <NotificationProvider>
-          <App appBarPosition="top" />
+          <App appBarPosition="left" />
         </NotificationProvider>
       </React.StrictMode>
     );
