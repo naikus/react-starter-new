@@ -1,5 +1,5 @@
 /* global */
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
@@ -57,7 +57,29 @@ const View = props => {
         name: "Dead Pool",
         sports: ["soccer", "hockey"],
         files: []
-      });
+      }),
+      properties = ["--accent-color", "--selection-bg-color", "--active-bg-color", "--primary-bg-color"],
+      [colors] = useState([
+        ["rgb(236, 64, 96)", "rgb(236, 64, 96)", "rgba(236, 64, 96, 0.3)", "rgb(236, 64, 96)"],
+        ["#eb7f31", "#eb7f31", "rgba(235, 127, 49, 0.3)", "#eb7f31"],
+        ["rgb(213, 176, 31)", "rgb(213, 176, 31)", "rgba(213, 176, 31, 0.3)", "rgb(213, 176, 31)"],
+        ["rgb(55, 181, 242)", "rgb(55, 181, 242)", "rgba(55, 181, 242, 0.3)", "rgb(55, 181, 242)"],
+        ["rgb(161, 90, 249)", "rgb(161, 90, 249)", "rgba(161, 90, 249, 0.3)", "rgb(161, 90, 249)"]
+      ]),
+      chooseColor = event => {
+        const style = document.documentElement.style,
+            propVals = event.target.getAttribute("data-color").split("|");
+        properties.forEach((prop, i) => {
+          style.setProperty(prop, propVals[i]);
+        });
+      },
+      resetColors = () => {
+        const style = document.documentElement.style;
+        properties.forEach(prop => {
+          style.removeProperty(prop);
+        });
+      };
+
 
   return (
     <div className="view form-view">
@@ -92,6 +114,23 @@ const View = props => {
             setValid(valid);
             setData(data);
           }}>
+
+          <FieldGroup className="color-chooser" label="Choose Accent Color">
+            {
+              colors.map((c, i) => (
+                <div className="swatch"
+                    key={`color-${i}`}
+                    style={{backgroundColor: c[0]}}
+                    data-color={c.join("|")} 
+                    onClick={chooseColor} />
+              ))
+            }
+            <div className="swatch"
+                title="Reset colors"
+                key={`color-reset`}
+                style={{backgroundColor: "black"}}
+                onClick={resetColors} />
+          </FieldGroup>
           
           <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
             <div className="row">

@@ -131,6 +131,7 @@ const View = props => {
           below or by pressing the <kbd>Esc</kbd> key.
         </div>
         <div className="actions">
+        <button className="inline">Dummy Button</button>
           <button className="primary inline" onClick={() => setShowOverlay(!showOverlay)}>Close</button>
         </div>
       </Overlay>

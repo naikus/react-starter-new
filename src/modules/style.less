@@ -26,12 +26,27 @@
   }
 
   .my-form {
-    background-color: var(--base-color);
+    // background-color: var(--base-color);
     // padding: @padding-smaller;
     border-radius: @base-border-radius * 2;
 
+    .color-chooser > .field-group-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      // justify-content: center;
+      .swatch {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 6px;
+      }
+    }
+
     > .field-container, .field-group {
-      margin: 12px;
+      background-color: var(--base-color);
+      margin: 12px 0;
     }
     .fu-content {
       > .files {
