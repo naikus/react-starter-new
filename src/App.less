@@ -1,16 +1,16 @@
 @import "@less/vars.less";
 @import "@less/css-helpers.less";
 
-/*
+// /*
 .progress.global {
   position: absolute;
-  top: @appbar-height;
+  // top: @appbar-height;
   height: 4px;
   > .progress-track {
     height: 4px;
   }
 }
-*/
+// */
 .actionbar.app-bar {
   height: @appbar-height;
   .branding {
@@ -108,7 +108,7 @@
   .actionbar.app-bar {
     .actions {
       &:last-child {
-        margin-right: @padding-smaller + 4;
+        margin-right: @padding-smaller + 2;
       }
     }
   }
@@ -171,10 +171,10 @@
   overflow: auto;
 }
 .fadeup-transitions {
-  -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
-  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
-  -o-transition: -o-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
-  -ms-transition: -ms-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  // -moz-transition: -moz-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  // -webkit-transition: -webkit-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  // -o-transition: -o-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
+  // -ms-transition: -ms-transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
   transition: transform 400ms cubic-bezier(0.19, 1, 0.22, 1), opacity 250ms ease;
 }
 .fadeup-enter {
@@ -228,7 +228,7 @@
     justify-content: flex-end;
     align-items: center;
     padding: @padding-default @padding-container;
-    background-color: rgba(0,0,0,0.07);
+    background-color: rgba(0,0,0,0.05);
     border-radius: 0 0 @base-border-radius @base-border-radius;
     > .button, button {
       margin: 0;
@@ -242,7 +242,7 @@
       // background-color: rgba(255,255,255,0.05);
     }
     > .actions {
-      background-color: rgba(0,0,0,0.2);
+      background-color: rgba(0,0,0,0.16);
     }
   }
 }
