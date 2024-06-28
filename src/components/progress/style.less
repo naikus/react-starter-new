@@ -1,7 +1,7 @@
 @import "@less/vars.less";
 @import "@less/css-helpers.less";
 
-
+/*
 @-moz-keyframes infinite-wait {
   0% {
       -moz-transform: translate3d(0, 0, 0);
@@ -24,6 +24,7 @@
       -webkit-transform: translate3d(0, 0, 0);
   }
 }
+*/
 @keyframes infinite-wait {
   0% {
       transform: translate3d(0, 0, 0);
@@ -48,7 +49,7 @@
   z-index: @progress-z-index; 
 
   > .progress-track {
-    background-color: var(--selection-bg-color);
+    background-color: var(--accent-color);
     height: @progress-tracker-height;
     border-radius: @input-border-radius;
     left: 0px;

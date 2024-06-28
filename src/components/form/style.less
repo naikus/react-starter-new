@@ -100,7 +100,7 @@ form {
   @disabled-opacity: 0.5;
   padding: @field-container-padding;
   border-radius: @input-border-radius;
-  background-color: var(--bg-color);
+  // background-color: var(--base-color);
   // margin-bottom: @base-unit + 4px;
   // overflow: auto; // Enabling this will clip focus ring on input fields
   display: flex;
@@ -125,6 +125,7 @@ form {
 }
 
 .field-group {
+  background-color: var(--base-color);
   &[disabled] {
     opacity: 0.6;
     * {
