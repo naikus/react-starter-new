@@ -38,8 +38,8 @@
   @input-text-color: @text-color;
   @input-hint-color: desaturate(lighten(@text-color, 15%), 10%);
   @input-label-color: @text-color;
-  @button-bg-color: darken(@base-color, 6%);
-  @button-text-color: @accent-color;
+  @button-bg-color: darken(@base-color, 12%);
+  @button-text-color: @text-color;
 
   @notification-bg-color: @alt-text-color;
   @notification-text-color: @base-color;
@@ -75,7 +75,7 @@
   @input-hint-color: desaturate(darken(@text-color, 20%), 10%);
   @input-label-color: @text-color;
   @button-bg-color: darken(@base-color, 6%);
-  @button-text-color: @accent-color;
+  @button-text-color: @text-color;
 
   @notification-bg-color: darken(@base-color, 2%);
   @notification-text-color: @text-color;
@@ -114,8 +114,8 @@
   --input-disabled-bg-color: darken(@bg-color, 3%);
   --input-disabled-text-color: darken(@text-color, 3%);
   --input-focus-ring-color: fade(@link-color, 60%);
-  --button-bg-color: darken(@bg-color, 10%);
-  --button-text-color: @text-color;
+  --button-bg-color: @button-bg-color;
+  --button-text-color: @button-text-color;
 
   --notification-bg-color: @notification-bg-color;
   --notification-text-color: @notification-text-color;
