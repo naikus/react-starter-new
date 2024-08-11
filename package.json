@@ -9,6 +9,7 @@
     "preview": "vite --host 0.0.0.0 preview"
   },
   "dependencies": {
+    "eslint-plugin-react-compiler": "^0.0.0-experimental-3cbe879-20240808",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
