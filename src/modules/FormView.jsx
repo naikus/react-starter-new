@@ -7,6 +7,7 @@ import {useNotifications} from "@components/notifications";
 import {
   Form,
   Field,
+  FieldGroup,
   registerFieldType,
   ruleBuilder as rb,
   MultiValInput,
@@ -14,7 +15,6 @@ import {
   FileUpload
 } from "@components/form";
 
-import {FieldGroup} from "@components/form/Form";
 import "./style.less";
 
 const validationRules = {
@@ -61,10 +61,10 @@ const View = props => {
       properties = ["--accent-color", "--selection-bg-color", "--active-bg-color", "--primary-bg-color"],
       [colors] = useState([
         ["rgb(236, 64, 96)", "rgb(236, 64, 96)", "rgba(236, 64, 96, 0.3)", "rgb(236, 64, 96)"],
-        ["rgb(221, 75, 45)", "rgb(221, 75, 45)", "rgba(221, 75, 45, 0.3)", "rgb(221, 75, 45)"],
+        ["rgb(248, 141, 77)", "rgb(248, 141, 77)", "rgba(248, 141, 77, 0.3)", "rgb(248, 141, 77)"],
         ["rgb(213, 176, 31)", "rgb(213, 176, 31)", "rgba(213, 176, 31, 0.3)", "rgb(213, 176, 31)"],
         ["rgb(55, 181, 242)", "rgb(55, 181, 242)", "rgba(55, 181, 242, 0.3)", "rgb(55, 181, 242)"],
-        ["rgb(161, 90, 249)", "rgb(161, 90, 249)", "rgba(161, 90, 249, 0.3)", "rgb(161, 90, 249)"]
+        ["rgb(103, 111, 222)", "rgb(103, 111, 222)", "rgba(103, 111, 222, 0.3)", "rgb(103, 111, 222)"]
       ]),
       chooseColor = event => {
         const style = document.documentElement.style,

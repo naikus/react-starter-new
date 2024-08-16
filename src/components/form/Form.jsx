@@ -436,6 +436,7 @@ function validateField(field, rules, allFields) {
   return result;
 }
 
+/*
 function validateFields(fields, rules) {
   let valid = true;
   Object.values(fields).some(f => {
@@ -447,6 +448,7 @@ function validateFields(fields, rules) {
   });
   return valid;
 }
+*/
 
 /**
  * @type {import("react").Reducer}
