@@ -6,7 +6,7 @@ import "./style.less";
  * @typedef {Object} FormModel
  * @property {boolean} valid
  * @property {boolean} pristine
- * @property {Object} data
+ * @property {any} data
  */
 
 /**
@@ -17,12 +17,14 @@ import "./style.less";
 /**
  * @typedef {Object} FieldModel
  * @property {string} name The field's name
- * @property {string} label The human friendly label
- * @property {any} value The field's value
- * @property {boolean} pristine Whether the field has been modified
- * @property {boolean} valid Whether the field is valid
- * @property {string?} message The validation message
- * @property {boolean} disabled If the field is disabled
+ * @property {string} [label] The human friendly label
+ * @property {any} [value=""] The field's value
+ * @property {any} [defaultValue=""] The field's default value
+ * @property {boolean} [pristine=true] Whether the field has been modified
+ * @property {boolean} [valid=true] Whether the field is valid
+ * @property {string} [message] The validation message
+ * @property {boolean} [disabled=false] If the field is disabled
+ * @property {boolean} [readonly=false] If the field is readonly
  */
 
 /**
@@ -35,18 +37,24 @@ import "./style.less";
 /**
  * @typedef {Object} FormContext
  * @property {object} form The form state
- * @property {function(FieldModel)} addField Adds a field to the form
- * @property {function(FieldModel)} updateField Updates a field in the form
- * @property {function(string)} removeField Removes a field from the form
+ * @property {(model: FieldModel) => void} addField Adds a field to the form
+ * @property {(model: FieldModel) => void} updateField Updates a field in the form
+ * @property {(name: string) => FieldModel} getField Get the field by name
+ * @property {(name: string) => void} removeField Removes a field from the form
  * @property {FieldRenderer} renderer The field renderer
+ */
+
+/**
+ * @typedef {import("react").Reducer<FormState, ReducerAction>} FormReducer
  */
 
 
 const VALID = {valid: true, message: ""},
     objToString = Object.prototype.toString,
-    isArray = that => objToString.call(that).slice(8, -1) === "Array",
+    // isArray = that => objToString.call(that).slice(8, -1) === "Array",
     isIos = () => /iPad|iPhone|iPod/.test(navigator.platform),
 
+    /** @type {Object.<string, (props: object, context: FormContext) => JSX.Element>} */
     fieldTypes = {
       input(props, context) {
         return (
@@ -162,13 +170,14 @@ const VALID = {valid: true, message: ""},
      * The form context
      * @type {React.Context<FormContext>}
      */
+    // @ts-ignore
     FormContext = React.createContext(),
 
     useForm = () => {
       return useContext(FormContext);
     },
 
-    useOnMount = (callback) => {
+    useOnMount = (/** @type {function} */ callback) => {
       const ref = useRef();
       useEffect(() => {
         const {current} = ref;
@@ -179,18 +188,21 @@ const VALID = {valid: true, message: ""},
       }, []);
     },
 
-    useStateCallback = initialstate => {
+    useStateCallback = (/** @type {any} */initialstate) => {
       const [state, setState] = useState(initialstate),
-        callbackRef = useRef(),
+        callbackRef = useRef(null),
         callbackSetState = useCallback((state, cb) => {
           callbackRef.current = cb;
           setState(state);
-        });
+        }, []);
 
       useEffect(() => {
+        // @ts-ignore
         const {current} = callbackRef;
         if(current) {
+          // @ts-ignore
           callbackRef.current = null;
+          // @ts-ignore
           current(state);
         }
       }, [state]);
@@ -200,20 +212,20 @@ const VALID = {valid: true, message: ""},
 
 
 /**
- * The FieldLabel component
  * @param {{
- *  label: string,
- *  hint: string,
- *  htmlFor: string,
+ *  label?: string,
+ *  hint?: string,
+ *  htmlFor?: string,
  *  value: any,
- *  type: string
+ *  type?: string
  * }} props 
+ * @returns {import("react").ReactNode}
  */
 function FieldLabel(props) {
   const {label, hint, htmlFor, value, type} = props;
-
+  let comp = null;
   if(label) {
-    return (
+    comp = (
       <label className="label" htmlFor={htmlFor}>
         <span className="title">{label}</span>
         {hint ? <span className="hint">{hint}</span> : null}
@@ -221,7 +233,7 @@ function FieldLabel(props) {
       </label>
     );
   }
-  return null;
+  return comp;
 }
 FieldLabel.displayName = "FieldLabel";
 FieldLabel.propTypes = {
@@ -262,6 +274,7 @@ function FieldGroup(props) {
   const {label, hint, className = "", children, disabled} = props;
   return (
     <fieldset className={`field-group ${className}`} disabled={disabled}>
+      {/* @ts-ignore */}
       <FieldLabel label={label} hint={hint} />
       <div className="field-group-content">
         {children}
@@ -281,23 +294,25 @@ FieldGroup.propTypes = {
 
 /**
  * @callback FieldRenderer renderer function
- * @param {Object} field The field component
+ * @param {JSX.Element} field The field component
  * @param {FieldModel} model The field model
  * @param {object} props The field props
  * @returns {JSX.Element}
  */
 function renderField(field, model, props) {
   const {name = "", type, label, hint, className = "", id} = props,
-    {valid = true, message, pristine = true, value=""} = model;
+    {valid = true, message, pristine = true, value = ""} = model;
 
   return (
     <div className={`field-container ${name} field-container-${type} pristine-${pristine} valid-${valid} ${className}`}>
+      {/* @ts-ignore */}
       <FieldLabel label={label}
           hint={hint}
           htmlFor={id}
           value={value}
           type={type} />
       {field}
+      {/* @ts-ignore */}
       <VMessage valid={valid} message={message} pristine={pristine} />
     </div>
   );
@@ -305,14 +320,20 @@ function renderField(field, model, props) {
 
 /**
  * @param {{
+ *  id?: string
  *  name: string,
- *  defaultValue: any,
- *  defaultChecked: boolean,
- *  value: any,
- *  label: string,
- *  onInput: EventListener,
- *  type: string
+ *  defaultValue?: any,
+ *  defaultChecked?: boolean,
+ *  value?: any,
+ *  disabled?: boolean,
+ *  readonly?: boolean,
+ *  label?: string,
+ *  onInput?: EventListener,
+ *  type?: string
+ *  placeholder?: string
+ *  hint?: string
  * }} props
+ * @returns {JSX.Element}
  */
 function Field(props) {
   const {
@@ -450,18 +471,41 @@ function validateFields(fields, rules) {
 }
 */
 
+
 /**
- * @type {import("react").Reducer}
+ * @typedef {"set-fields" | "add-field" | "update-field" | "remove-field"} ActionType
+ * 
+ * 
+ * @typedef ReducerAction
+ * @property {ActionType} type
+ * @property {any} [payload]
+ * 
+ * @typedef FormState
+ * @property {Object.<string, FieldModel>} fields
+ * @property {boolean} [valid=true]
+ * @property {boolean} [pristine=true]
+ * @property {boolean} [initialized=false]
+ * @property {Record<string, Validator>} rules
+ */
+
+/**
+ * @param {FormState} state 
+ * @param {ReducerAction} action 
+ * @returns {FormState} The new state
  */
 function formReducer(state, action) {
+  /** @type {ReducerAction} */
   const {type, payload} = action,
-      {fields, rules, initialized} = state;
+      {fields, rules} = state;
 
+  /** @type {FormState} */
   let newState;
   switch (type) {
     case "set-fields": {
       // console.debug("[reducer] set-fields");
-      let flds = {}, formValid = true;
+      /** @type {Object<string, FieldModel>} */
+      let flds = {},
+          formValid = true;
       Object.values(payload).forEach(f => {
         const {valid, message} = validateField(f, rules, payload), {name} = f;
         flds[name] = {
@@ -570,22 +614,28 @@ function formReducer(state, action) {
 }
 
 /**
- * 
  * @param {{
- *  rules: Record<string, [Validator]>,
+ *  rules?: Record<string, Array<Validator>>,
  *  children: any,
- *  fieldRenderer: function,
- *  className: string,
- *  name: string,
- *  title: string,
- *  onChange: FormChangeListener,
+ *  fieldRenderer?: FieldRenderer,
+ *  className?: string,
+ *  name?: string,
+ *  title?: string,
+ *  onChange?: FormChangeListener,
+ *  onSubmit?: function
  * }} props
  */
 function Form(props) {
   /**
    * The form state
-   */ 
-  const [form, dispatch] = useReducer(formReducer, {
+   */
+  const [
+    /** @type {FormState} */
+    form,
+    /** @type {ReducerAction} */
+    dispatch
+  // @ts-ignore
+  ] = useReducer(formReducer, {
       fields: {},
       valid: true,
       pristine: true,
@@ -598,6 +648,7 @@ function Form(props) {
      * A ref to the fields object that is used to set the fields when the form is mounted
      * This is used to track that all the fields have been added to the form. On mount, the
      * form will dispatch set-fields event to the reducer
+     * @type {any} 
      */
     fieldsRef = useRef({}),
 
@@ -650,6 +701,7 @@ function Form(props) {
     const {current} = fieldsRef;
     if(current) {
       fieldsRef.current = null;
+      // @ts-ignore
       dispatch({type: "set-fields", payload: current});
     }
   }, []);
@@ -677,11 +729,13 @@ function Form(props) {
   }, [form]);
 
   return (
-    <FormContext.Provider value={{
+    // @ts-ignore
+    <FormContext.Provider value={/** @type {FormContext} */{
       form, 
       addField(field) {
         if(!fieldsRef.current) {
           // console.log("Add dispatch field", field.name);
+          // @ts-ignore
           dispatch({type: "add-field", payload: field});
         }else {
           // console.log("Add fieldref field", field.name);
@@ -689,6 +743,7 @@ function Form(props) {
         }
       },
       updateField(field) {
+        // @ts-ignore
         dispatch({type: "update-field", payload: field});
       },
       getField(name) {
@@ -696,6 +751,7 @@ function Form(props) {
       },
       removeField(name) {
         // console.log("[formcontext] removeField", name);
+        // @ts-ignore
         dispatch({type: "remove-field", payload: name});
       },
       renderer: props.fieldRenderer || renderField

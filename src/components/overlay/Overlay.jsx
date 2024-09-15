@@ -11,10 +11,12 @@ const FOCUSABLE_ELEMS = "[tabindex], input, button, a, select, textarea, [conten
  * Guards the focus within the overlay
  */
 const FocusGuard = (props) => {
+  /** @typedef {{current: import("react").DOMElement}} */
   const fcGuard = useRef(null),
       shiftKey = useRef(false),
       focusFirstElem = () => {
         const contextElem = fcGuard.current,
+            // @ts-ignore
             elems = contextElem.querySelectorAll(FOCUSABLE_ELEMS);
         if(elems.length) {
           elems[1].focus();
@@ -23,6 +25,7 @@ const FocusGuard = (props) => {
       focusLastElem = () => {
         if(shiftKey) {
           const contextElem = fcGuard.current,
+              // @ts-ignore
               elems = contextElem.querySelectorAll(FOCUSABLE_ELEMS);
           if(elems.length > 1) {
             elems[elems.length - 2].focus();
@@ -46,7 +49,8 @@ const FocusGuard = (props) => {
 
     document.addEventListener("keydown", shiftKeyListener);
     setTimeout(() => {
-      focusFirstElem(fcGuard.current);
+      // focusFirstElem(fcGuard.current);
+      focusFirstElem();
     }, OVERLAY_FOCUS_DELAY);
     return () => {
       document.removeEventListener("keydown", shiftKeyListener);
@@ -83,6 +87,7 @@ function Overlay(props) {
     [wasShown, setWasShown] = useState(false),
     [anim, setAnim] = useState(false),
     [mount, setMount] = useState(false),
+    /** @type {import("react").MutableRefObject<HTMLDivElement|null>} */
     overlayBackdropRef = useRef(null),
     {current: overlayBackdropElem} = overlayBackdropRef,
     overlayRef = useRef(null),
@@ -143,7 +148,9 @@ function Overlay(props) {
   */
 
   return mount ? (
+    /* @ts-ignore */
     <Portal target={target}>
+      {/* @ts-ignore */}
       <FocusGuard>
         <div ref={overlayBackdropRef} className={`overlay-backdrop ${anim ? "__visible" : ""}`}>
           <div ref={overlayRef} className={`overlay ${clazz}`}>

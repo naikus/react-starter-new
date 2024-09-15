@@ -1,6 +1,5 @@
 import React from "react";
 import {useRouter} from "@components/router";
-import {useOnMount} from "@components/util/hooks";
 import Config from "@config";
 
 const View = props => {
@@ -29,7 +28,7 @@ const View = props => {
       </style>
       <div className="content _text-center">
         <pre>{Config.appName} ({Config.appVersion})</pre>
-        <button className="primary inline" onClick={() => router.back()}>
+        <button className="primary inline" onClick={() => router && router.back()}>
           <i className="icon icon-arrow-left" /> Back
         </button>
       </div>

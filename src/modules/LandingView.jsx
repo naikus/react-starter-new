@@ -1,5 +1,5 @@
 /* global */
-import React, {useCallback, useContext, useEffect, useState, useRef} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
 import Overlay from "@components/overlay/Overlay";
@@ -10,6 +10,7 @@ function random(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+/** @type {Array<import("@components/notifications").NotificationType>} */
 const nTypes = ["success", "info", "warn", "error", "toast"];
 
 
@@ -50,6 +51,8 @@ const View = props => {
   const notify = useNotifications(),
       router = useRouter(), 
       toggleScheme = useCallback(() => {
+        /** @type {HTMLElement} */
+        // @ts-ignore
         const root = document.firstElementChild,
             data = root.dataset,
             theme = data.theme;
@@ -60,7 +63,7 @@ const View = props => {
         }
       }, []),
       showForm = useCallback(() => {
-        router.route("/form");
+        router && router.route("/form");
       }, []),
       [showOverlay, setShowOverlay] = useState(false);
 
@@ -86,7 +89,8 @@ const View = props => {
           }
         `}
       </style>
-      <Actions target=".app-bar">
+      {/* @ts-ignore */}
+      <Actions target=".app-bar > .actions">
         <button title="Sample Form" className="action" onClick={showForm} aria-label="Sample Form">
           <i className="icon icon-clipboard"></i>
         </button>
@@ -100,7 +104,7 @@ const View = props => {
             notify({
               content: (message) => `This is a ${message.type} message`,
               type: nTypes[random(nTypes.length - 1)],
-              sticky: random(1, 0),
+              sticky: random(1, 0) > 0,
               timeout: 2000
             });
           }} aria-label="Sample Notification">
@@ -114,6 +118,7 @@ const View = props => {
           height="140"
           alt="logo" />
       </div>
+      {/* @ts-ignore */}
       <Overlay className={`top modal alert`}
           show={showOverlay}
           onClose={() => {

@@ -21,7 +21,7 @@ function createEvent(value, ...targetAttrs) {
 
 /**
  * @param {{
- *  comparator: fuction(value: string, option: Option): boolean,
+ *  comparator: (value: string, option: Option) => boolean,
  *  name: string,
  *  options: Array,
  *  value: Array,
@@ -66,7 +66,9 @@ function MultiSelect(props) {
       }
       setData(newData);
       // if we are part fo the form component, call the onInput prop function
+      // @ts-ignore
       onInput && onInput(createEvent(newData));
+      // @ts-ignore
       onChange && onChange(createEvent(newData));
     };
 
@@ -89,6 +91,7 @@ function MultiSelect(props) {
           onClick={toggleSelectItem}
           onKeyUp={toggleSelectItem}
           className={`multi-select-item${selected ? " selected" : ""}`}
+          // @ts-ignore
           disabled={disabled}>
         {option.label}
       </div>

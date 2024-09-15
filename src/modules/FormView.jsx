@@ -17,6 +17,9 @@ import {
 
 import "./style.less";
 
+/**
+ * @type {Record<string, Array<import("@components/form/rule-builder").ValidationRule>}
+ */
 const validationRules = {
   name: [
     rb("required", {message: "Name is required"})
@@ -83,9 +86,8 @@ const View = props => {
 
   return (
     <div className="view form-view">
-      {/* eslint-disable-next-line react/no-unknown-property */}
-
-      <Actions target=".app-bar">
+      {/* @ts-ignore */}
+      <Actions target=".app-bar > .actions">
         <button title="Disabled if the form is invalid"
             className="action"
             onClick={() => notify({
@@ -105,6 +107,7 @@ const View = props => {
           like MultiValInput, MultiSelect and FileUpload. See
           (<code>src/components/form</code>) for these components.
         </p>
+        {/* @ts-ignore */}
         <Form title={formTitle}
           rules={validationRules}
           className="my-form"
@@ -114,7 +117,7 @@ const View = props => {
             setValid(valid);
             setData(data);
           }}>
-
+          {/* @ts-ignore */}
           <FieldGroup className="color-chooser" label="Choose Accent Color">
             {
               colors.map((c, i) => (
@@ -131,19 +134,23 @@ const View = props => {
                 style={{backgroundColor: "black"}}
                 onClick={resetColors} />
           </FieldGroup>
-          
+          {/* @ts-ignore */}
           <FieldGroup label="Personal Info" className="name-email" hint="Name &amp; email">
             <div className="row">
+              {/* @ts-ignore */}
               <Field placeholder="Name" defaultValue={data.name} id="name" name="name" />
+              {/* @ts-ignore */}
               <Field placeholder="Email" name="email" type="" />
             </div>
+            {/* @ts-ignore */}
             <Field defaultValue={"option1"} type="radio-group" name="option" options={[
               {label: "Option 1", value: "option1"},
               {label: "Option 2", value: "option2"}
             ]} />
+            {/* @ts-ignore */}
             <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
           </FieldGroup>
-
+          {/* @ts-ignore */}
           <Field name="hobbies" 
               placeholder="Enter multiple separated by comma"
               type="multival"
@@ -151,21 +158,23 @@ const View = props => {
               // disabled={true}
               hint="Enter upto four"
             defaultValue={["Walking", "Web Development"]} />
-
+          {/* @ts-ignore */}
           <Field name="sports" type="multiselect" label="Sports"
             hint="Choose all that apply"
             // disabled={true}
             // className="horizontal"
             defaultValue={data.sports}
+            // @ts-ignore 
             options={[
               {label: "Basketball", value: "basketball"},
               {label: "Soccer", value: "soccer"},
               {label: "Hockey", value: "hockey", disabled: true}
             ]} />
-
+          {/* @ts-ignore */}
           <Field name="files"
             type="fileupload"
             label="Basketball Files"
+            // @ts-ignore
             multiple={true}
             defaultValue={data.files}
             disabled={data.sports && data.sports.indexOf("basketball") === -1} />
@@ -190,7 +199,7 @@ const View = props => {
               <i className="icon-save" /> Submit
             </button>
             <button onClick={() => (
-                router.back("/")
+                router && router.back("/")
               )}>
               <i className="icon-home" /> Home
             </button>

@@ -3,10 +3,24 @@ import PropTypes from "prop-types";
 import {useNotificationService} from "./Context";
 import "./style.less";
 
+/**
+ * @typedef {import("./index").NotificationMessage} NotificationMessage
+ * @typedef {import("./index").NotificationService} NotificationService
+ */
+
+/**
+ * 
+ * @param {{
+ *  message: NotificationMessage,
+ *  onDismiss: Function
+ *  children?: any
+ * }} props 
+ */
 const Notification = props => {
   const {message} = props,
       {timeout = 3000, sticky = false, type = "toast", position = "bottom", content} = message,
       [show, setShow] = useState(false),
+      /** @type {import("react").MutableRefObject} */
       stickyTimer = useRef(null),
       onDismiss = e => {
         e && e.stopPropagation();
@@ -44,19 +58,24 @@ Notification.propTypes = {
   onDismiss: PropTypes.func
 };
 
-
+/**
+ * @param {*} props 
+ */
 const Notifications = props => {
   const {onCurrent, next} = useNotificationService(),
+      // @ts-ignore
       [current, setCurrent] = useState(null),
       // {current, next} = notifications,
+      /** @type {{current: any}} */
       timer = useRef(null),
       onDismiss = () => {
-        clearTimeout(timer);
+        clearTimeout(timer.current);
         timer.current = setTimeout(() => {
           next();
         }, 200);
       },
-      notification = current ? 
+      notification = current ?
+        // @ts-ignore
         <Notification key={current.key} message={current.message} onDismiss={onDismiss} /> : 
         null;
 
@@ -75,5 +94,4 @@ const Notifications = props => {
     </div>
   );
 };
-
 export default Notifications;

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext, forwardRef, memo, useCallback} from "react";
+import React, {useRef, useState, forwardRef, memo, useCallback} from "react";
 import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 
@@ -11,21 +11,46 @@ import {Notifications, useNotifications} from "@components/notifications";
 import {useOnMount} from "@components/util/hooks";
 import routes from "./routes";
 
+/**
+ * @typedef {import("simple-router").Router} Router
+ * @typedef {import("simple-router").RouteInfo} RouteInfo
+ */
+
+/**
+ * @typedef RouteRuntimeContext
+ * @property {React.ReactNode} component
+ * @property {any?} config
+ * @property {RouteInfo} route
+ * @property {any?} data
+ */
+
+
 // import top level styles
 import "./index.less";
 
-
+/**
+ * @param {React.ComponentType} View 
+ * @returns {React.ComponentType} 
+ */
 function createViewWrapper(View) {
   /* eslint-disable react/display-name */
   // Forward ref is for CSSTransition
-  const Wrapper = forwardRef((props, ref) => {
-    const {className} = props;
-    return (
-      <div className={`view-wrapper ${className}`} ref={ref}>
-        {View ? <View context={props.context} /> : null}
-      </div>
-    );
-  });
+  const Wrapper = forwardRef(
+    /**
+     * @param {any} props 
+     * @param {import("react").LegacyRef<HTMLDivElement>} ref 
+     * @returns 
+     */
+    (props, ref) => {
+      const {className} = props;
+      return (
+        <div className={`view-wrapper ${className}`} ref={ref}>
+          {/* @ts-ignore */}
+          {View ? <View context={props.context} /> : null}
+        </div>
+      );
+    }
+  );
   Wrapper.displayName = `ViewWrapper(${View.displayName || View.name})`;
   Wrapper.propTypes = {
     className: PropTypes.string,
@@ -83,7 +108,10 @@ AppBar.propTypes = {
 };
 
 function App({appBarPosition = "left"}) {
+  /** @type {import("react").MutableRefObject<Router|undefined>} */
   const routerRef = useRef(),
+      /** @type {[RouteRuntimeContext, (state: RouteRuntimeContext) => void]} */
+      // @ts-ignore
       [routeContext = {
         config: {appBar: false}
       }, setRouteContext] = useState(),
@@ -94,7 +122,7 @@ function App({appBarPosition = "left"}) {
       transitionKey = route ? route.path : "root",
       notify = useNotifications(),
       goAbout = useCallback(() => {
-        routerRef.current.route("/about");
+        routerRef.current && routerRef.current.route("/about");
       }, []);
 
   /*
@@ -115,10 +143,10 @@ function App({appBarPosition = "left"}) {
           errorRoute: "/~error"
         }),
         subs = [
-          router.on("before-route", (event, data) => {
+          router.on("before-route", (data) => {
             setRouteLoading(true);
           }),
-          router.on("route", (event, context) => {
+          router.on("route", (context) => {
             // console.log("Setting route", context);
             if(context.component) {
               context.component = memo(createViewWrapper(context.component));
@@ -126,7 +154,7 @@ function App({appBarPosition = "left"}) {
             setRouteLoading(false);
             setRouteContext(context);
           }),
-          router.on("route-error", (event, error) => {
+          router.on("route-error", (error) => {
             setRouteLoading(false);
             notify({
               content: (
@@ -144,15 +172,17 @@ function App({appBarPosition = "left"}) {
     router.start();
     router.route(router.getBrowserRoute() || "/");
     return () => {
-      subs.forEach(sub => sub.dispose());
+      subs.forEach(sub => sub());
       router.stop();
     };
   });
 
   return (
+    // @ts-ignore
     <RouterProvider router={routerRef.current}>
       <div className={`app appbar-${appBarPosition}`}>
         {appBar ? 
+          // @ts-ignore
           <AppBar logo={Config.logo}
             // position="top"
             title={Config.appName}
@@ -167,21 +197,25 @@ function App({appBarPosition = "left"}) {
         : null}
 
         <SwitchTransition>
-          <CSSTransition 
-            classNames={"fadeup"}
+          {/* @ts-ignore */}
+          <CSSTransition classNames={"fadeup"}
             nodeRef={transitionRef} 
             key={transitionKey} 
             timeout={{enter: 400, exit: 10}}>
-            {View ? 
-              <View className={!appBar ? "no-appbar" : ""} context={data} ref={transitionRef} /> 
-            : <div />}
+            {/* @ts-ignore */}
+            {View
+              // @ts-ignore
+              ? <View className={!appBar ? "no-appbar" : ""} context={data} ref={transitionRef} /> 
+              : <div />
+            }
           </CSSTransition>
         </SwitchTransition>
 
         {isRouteLoading ? 
+          // @ts-ignore
           <Progress className="global" /> 
         : null}
-
+        {/* @ts-ignore */}
         <Notifications  />
       </div>
     </RouterProvider>

@@ -9,16 +9,17 @@
     "preview": "vite --host 0.0.0.0 preview"
   },
   "dependencies": {
-    "eslint-plugin-react-compiler": "^0.0.0-experimental-3cbe879-20240808",
-    "normalize.css": "^8.0.1",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-transition-group": "^4.4.5",
+    "normalize.css": "~8.0.1",
+    "prop-types": "~15.8.1",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-transition-group": "~4.4.5",
     "simple-router": "git+https://github.com/naikus/simple-router.git",
-    "store2": "^2.14.2"
+    "store2": "~2.14.2"
   },
   "devDependencies": {
+    "eslint-plugin-react-compiler": "^0.0.0-experimental-3cbe879-20240808",
+    "@tsconfig/vite-react": "^3.0.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-legacy": "^4.0.2",

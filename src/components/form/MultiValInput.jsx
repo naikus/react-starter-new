@@ -39,7 +39,9 @@ function MultiValInput(props) {
             event = createEvent(newData);
 
         setData(newData);
+        // @ts-ignore
         onInput && onInput(event); // This is for when this component is part of a form
+        // @ts-ignore
         onChange && onChange(event);
       },
 
@@ -62,7 +64,9 @@ function MultiValInput(props) {
               event = createEvent(newData);
           // console.log(newData);
           setData(newData);
+          // @ts-ignore
           onInput && onInput(event); // This is for when this component is part of a form
+          // @ts-ignore
           onChange && onChange(event);
         }
         target.value = "";

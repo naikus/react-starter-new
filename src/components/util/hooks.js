@@ -1,5 +1,10 @@
 import {useRef, useState, useEffect} from "react";
 
+/**
+ * @typedef {import("react").SetStateAction<Error|null|undefined>} SetErrorAction
+ * @typedef {import("react").Dispatch<SetErrorAction>} ErrorDispatch
+ */
+
 function useOnMount(callback) {
   const ref = useRef();
   useEffect(() => {
@@ -18,15 +23,15 @@ function useOnMount(callback) {
 
 function useAsyncCall(asyncCall) {
   const [busy, setBusy] = useState(false),
-      [error, setError] = useState(null);
+      [error, setError] = useState();
   return [
     async (...args) => {
       setBusy(true);
       try {
         return await asyncCall(...args);
       }catch(err) {
+        // @ts-ignore
         setError(err);
-        // throw err;
       }finally {
         setBusy(false);
       }
@@ -40,7 +45,7 @@ function useAsyncCallImmediate(asyncCall, ...args) {
   const [busy, setBusy] = useState(true),
       [error, setError] = useState(null),
       [result, setResult] = useState(null),
-      ref = useRef(),
+      ref = useRef(false),
       execute = async () => {
         if(ref.current) {
           return;
@@ -51,6 +56,7 @@ function useAsyncCallImmediate(asyncCall, ...args) {
           const res = await asyncCall(...args);
           setResult(res);
         }catch(err) {
+          // @ts-ignore
           setError(err);
           // throw err;
         }finally {
@@ -69,8 +75,14 @@ function useAsyncCallImmediate(asyncCall, ...args) {
   ];
 }
 
+/**
+ * Calls this effect only once (for the first time) and when the deps change
+ * @param {function} fn 
+ * @param {Array<any>} deps 
+ */
 function useEffectOnce(fn, deps = []) {
-  const ref = useRef(null);
+  /** @type {import("react").MutableRefObject<Function|undefined|null>} */
+  const ref = useRef();
   useEffect(() => {
     if(!ref.current) {
       ref.current = fn;

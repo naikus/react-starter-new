@@ -1,10 +1,11 @@
 import React from "react";
 
 const NotificationServiceContext = React.createContext({
-  show: () => {},
+  show: (message) => {},
   next: () => {},
-  current: null,
-  setCurrent: () => {}
+  onCurrent: (current) => {
+    return () => {};
+  }
 });
 
 const useNotificationService = () => React.useContext(NotificationServiceContext);

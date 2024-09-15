@@ -1,11 +1,27 @@
 /**
- * @typedef {import("./Form").Field} Field
- * @typedef {import("./Form").Validator} Field
+ * @typedef {import("./Form").FieldModel} Field
  */
 
-const stringValue = value => value === null || typeof(value) === "undefined" ? "" : String(value),
-    invalid = message => ({valid: false, message}),
-    rules = {
+/**
+ * @typedef ValidationMesage
+ * @property {boolean} valid
+ * @property {string} [message]
+ * @property {Array<string>} [revalidate]
+ */
+
+/**
+ * @typedef {Object.<any, any>} ValidationOptions
+ */
+
+/**
+ * 
+ * @typedef {(this: ValidationOptions, value: string, field: Field, otherFields: Array<Field>) => ValidationMesage|undefined} ValidationRule
+ */
+
+
+/** @type {Object.<string, ValidationRule>} */
+const rules = {
+      /** @type {ValidationRule} */
       required(value, field) {
         let val = stringValue(value), {trim = true} = this;
         if(trim) {
@@ -16,6 +32,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       },
+      /** @type {ValidationRule} */
       length(value, field) {
         const {min, max} = this,
             val = stringValue(value),
@@ -31,6 +48,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       },
+      /** @type {ValidationRule} */
       number(value, field) {
         const {min = Number.MIN_VALUE, max = Number.MAX_VALUE} = this,
             strVal = stringValue(value),
@@ -40,6 +58,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       },
+      /** @type {ValidationRule} */
       email(value, field) {
         const reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-zA-Z]{2,6}(?:\.[a-zA-Z]{2,3})?)$/,
             val = stringValue(value);
@@ -48,6 +67,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       },
+      /** @type {ValidationRule} */
       fieldCompare(value, field, fields) {
         const {field: fieldName} = this, other = fields[fieldName];
         if(!other) {
@@ -60,6 +80,7 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return {valid: true, revalidate: [fieldName]};
         }
       },
+      /** @type {ValidationRule} */
       pattern(value, field) {
         const regExp = this.pattern, val = stringValue(value);
         if(!regExp.test(val)) {
@@ -67,16 +88,28 @@ const stringValue = value => value === null || typeof(value) === "undefined" ? "
           return invalid(message);
         }
       }
-    },
+    };
+
+    /** @param {any} value */
+    function stringValue(value) {
+      return value === null || typeof(value) === "undefined" ? "" : String(value)
+    }
+
+    /** @param {string} message */
+    function invalid(message) {
+      return {valid: false, message}
+    };
 
     /**
      * Builds a rule function from a rule name
-     * @param {String} name The name of the validator
-     * @param {Object} options The options for the validator All options are available on the this property
-     * of the validator function
+     * @param {string} name The name of the validator
+     * @param {object} options The options for the rule. All options are available on the 'this' property
+     * of the validator rule function
+     * @return {ValidationRule}
      */
-    ruleBuilder = (name, options = {}) => {
+    function ruleBuilder(name, options = {}) {
       const r = rules[name];
+      /** @type {ValidationRule} */
       return (...args) => {
         return r.call(options, ...args);
       };

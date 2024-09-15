@@ -10,17 +10,23 @@ import Notifications from "./Notifications";
 /**
  * @typedef NotificationMessage
  * @property {NotificationType} type
- * @property {string | JSX.Element} content
- * @property {NotificationPosition} position
- * @property {number} timeout
- * @property {boolean} sticky
- * @property {() => void} onDismiss
- * @property {string} class
+ * @property {string} [message]
+ * @property {string | JSX.Element | function} [content]
+ * @property {NotificationPosition} [position="bottom"]
+ * @property {number} [timeout=0]
+ * @property {boolean} [sticky=false]
+ * @property {() => void} [onDismiss]
  */
 
 /**
- * @typedef {Function} Notify
- * @param {NotificationMessage} message
+ * @typedef NotificationService
+ * @property {(message: NotificationMessage) => void} show
+ * @property {() => void} next
+ * @property {(cb: (message: NotificationMessage) => void) => function} onCurrent The onCurrent handler
+ */
+
+/**
+ * @typedef {(message: NotificationMessage) => void} Notify
  * @property {Function} info
  * @property {Function} success
  * @property {Function} warn
@@ -28,14 +34,10 @@ import Notifications from "./Notifications";
  */
 
 /**
- * 
- * @returns 
+ * @returns {Notify}
  */
 function useNotifications() {
   const service = useNotificationService(),
-      /**
-       * @param {NotificationMessage} message
-       */
       notify = function(message) {
         service.show(message);
       };

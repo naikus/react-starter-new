@@ -2,6 +2,11 @@
 // import LandingView from "./modules/LandingView";
 // import FormView from "./modules/FormView";
 
+/**
+ * @typedef {import("simple-router").Router} Router
+ * @typedef {import("simple-router").RouteDefn} RouteDefn
+ */
+
 export default [
   /*
   {

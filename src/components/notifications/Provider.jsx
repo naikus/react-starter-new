@@ -1,8 +1,16 @@
-import React from "react";
 import PropTypes from "prop-types";
 import {NotificationServiceContext} from "./Context";
 
+/**
+ * @typedef {import("./index").NotificationMessage} NotificationMessage
+ * @typedef {import("./index").NotificationService} NotificationService
+ */
 
+
+/**
+ * Creates a notification service
+ * @returns {NotificationService}
+ */
 function createNotificationService() {
   let current, handler;
   const messages = [],
@@ -39,7 +47,7 @@ function createNotificationService() {
     onCurrent: cb => {
       handler = cb;
       return () => {
-        cb = null;
+        handler = null;
       };
     },
     show: enqueue,
@@ -47,11 +55,19 @@ function createNotificationService() {
   };
 }
 
+/**
+ * 
+ * @param {{
+ *   children: any
+ * }} props 
+ * @returns {JSX.Element}
+ */
 const NotificationProvider = props => {
   const {children} = props,
       notifications = createNotificationService();
 
   return (
+    // @ts-ignore
     <NotificationServiceContext.Provider value={notifications}>
       {children}
     </NotificationServiceContext.Provider>

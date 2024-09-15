@@ -22,8 +22,8 @@
   transform: translate3d(0, 50%, 0);
   opacity: 0;
   transition: transform @notification-transition-duration, opacity @notification-transition-duration;
-
   width: 90%;
+  padding-left: @padding-container * 2;
 
   &::after {
     content: "";
@@ -37,7 +37,6 @@
     background-color: var(--alt-bg-color);
     z-index: -1;
   }
-  padding-left: @padding-container + @padding-smaller;
 
   &.bottom {
     bottom: 5%;

@@ -21,11 +21,15 @@ function addListener(target, event, handler, once) {
  * resolve, reject and promise
  */
 function promiseWithResolver() {
-  let resolve, reject;
+  /** @type {(any) => void} */
+  let resolve,
+      /** @type {(any) => void} */
+      reject;
   const promise = new Promise((res, rej) => {
     resolve = res;
     reject = rej;
   });
+  // @ts-ignore
   return {resolve, reject, promise};
 }
 
