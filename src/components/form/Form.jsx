@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer, useContext, useRef, useCallback} from "react";
+import React, {useEffect, useReducer, useContext, useRef, useCallback} from "react";
 import PropTypes from "prop-types";
 import "./style.less";
 
@@ -50,19 +50,19 @@ import "./style.less";
 
 
 const VALID = {valid: true, message: ""},
-    objToString = Object.prototype.toString,
+    // objToString = Object.prototype.toString,
     // isArray = that => objToString.call(that).slice(8, -1) === "Array",
     isIos = () => /iPad|iPhone|iPod/.test(navigator.platform),
 
     /** @type {Object.<string, (props: object, context: FormContext) => JSX.Element>} */
     fieldTypes = {
-      input(props, context) {
+      input(props) {
         return (
           <input type={props.type} {...props} />
         );
       },
       // /*
-      checkbox(props, context) {
+      checkbox(props) {
         const onInput = props.onInput,
             handler = e => {
               onInput && onInput({
@@ -87,7 +87,7 @@ const VALID = {valid: true, message: ""},
           </span>
         );
       },
-      radio(props, context) {
+      radio(props) {
         const handler = e => props.onInput && props.onInput({
               target: {
                 value: e.target.checked
@@ -108,21 +108,21 @@ const VALID = {valid: true, message: ""},
         );
       },
       // */
-      button(props, context) {
+      button(props) {
         return (
           <button {...props}>
             {props.children}
           </button>
         );
       },
-      select(props, context) {
+      select(props) {
         return (
           <select {...props}>
             {props.children}
           </select>
         );
       },
-      textarea(props, context) {
+      textarea(props) {
         return (
           <textarea {...props}>
             {props.children}
@@ -186,9 +186,10 @@ const VALID = {valid: true, message: ""},
         }
         return current;
       }, []);
-    },
+    };
 
-    useStateCallback = (/** @type {any} */initialstate) => {
+    /*
+    useStateCallback = (initialstate) => {
       const [state, setState] = useState(initialstate),
         callbackRef = useRef(null),
         callbackSetState = useCallback((state, cb) => {
@@ -209,6 +210,7 @@ const VALID = {valid: true, message: ""},
 
       return [state, callbackSetState];
     };
+    */
 
 
 /**
@@ -396,9 +398,9 @@ function Field(props) {
       newProps = {
         ...props,
         onInput: e => {
-          const {target} = e, {value, disabled, readonly} = target, {name} = props;
-          // console.log("Dispatching", name, value);
-          // console.log("On Input", name, target);
+          const {target} = e, {value/*, disabled, readonly*/} = target, {name} = props;
+          // console.debug("Dispatching", name, value);
+          // console.debug("On Input", name, target);
           updateField({name, value});
           onInput && onInput(e);
         }

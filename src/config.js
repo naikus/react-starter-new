@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Brand directory is set at build time. See vite.config.js -> alias for how this works!
 import BrandConfig from  "@branding/index.js";
 import {version} from "../package.json";
