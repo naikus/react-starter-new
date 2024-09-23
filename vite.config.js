@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* global __dirname */
 /* global process */
 import { resolve } from "path";
@@ -7,6 +8,8 @@ import legacy from "@vitejs/plugin-legacy";
 
 // https://vitejs.dev/config/
 const APP_BRANDING = process.env.APP_BRANDING || "default";
+
+// const ReactCompilerConfig = {};
 
 export default defineConfig({
   root: "./src",
@@ -39,7 +42,15 @@ export default defineConfig({
     }
   },
   plugins: [
-    react(),
+    react({
+      /*
+      babel: {
+        plugins: [
+          ["babel-plugin-react-compiler", ReactCompilerConfig]
+        ]
+      }
+      */
+    }),
     legacy({
       targets: ["defaults", "IE 11"]
     })

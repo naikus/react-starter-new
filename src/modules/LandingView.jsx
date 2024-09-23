@@ -89,7 +89,6 @@ const View = props => {
           }
         `}
       </style>
-      {/* @ts-ignore */}
       <Actions target=".app-bar > .actions">
         <button title="Sample Form" className="action" onClick={showForm} aria-label="Sample Form">
           <i className="icon icon-clipboard"></i>
@@ -118,7 +117,6 @@ const View = props => {
           height="140"
           alt="logo" />
       </div>
-      {/* @ts-ignore */}
       <Overlay className={`top modal alert`}
           show={showOverlay}
           onClose={() => {

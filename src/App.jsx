@@ -12,8 +12,9 @@ import {useOnMount} from "@components/util/hooks";
 import routes from "./routes";
 
 /**
- * @typedef {import("simple-router").Router} Router
- * @typedef {import("simple-router").RouteInfo} RouteInfo
+ * @typedef {import("simple-router/src/types").Router} Router
+ * @typedef {import("simple-router/src/types").RouteInfo} RouteInfo
+ * @typedef {import("simple-router/src/types").create} createRouter 
  */
 
 /**
@@ -138,6 +139,8 @@ function App({appBarPosition = "left"}) {
 
   // Router setup
   useOnMount(function setupRouter() {
+    /** @type {Router} */
+    // @ts-ignore
     const router = createRouter(routes, {
           defaultRoute: "/",
           errorRoute: "/~error"

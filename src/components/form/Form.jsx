@@ -265,11 +265,11 @@ VMessage.propTypes = {
 
 /**
  * @param {{
- *  label: string,
- *  hint: string,
- *  className: string,
- *  disabled: boolean,
- *  children: any
+ *  label?: string,
+ *  hint?: string,
+ *  className?: string,
+ *  disabled?: boolean,
+ *  children: React.ReactNode
  * }} props
  */
 function FieldGroup(props) {

@@ -75,7 +75,7 @@ const Notifications = props => {
         }, 200);
       },
       notification = current ?
-        // @ts-ignore
+        // @ts-ignore "current" will not be null
         <Notification key={current.key} message={current.message} onDismiss={onDismiss} /> : 
         null;
 

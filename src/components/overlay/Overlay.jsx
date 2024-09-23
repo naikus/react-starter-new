@@ -5,7 +5,7 @@ import Portal from "../Portal";
 import "./style.less";
 
 
-const FOCUSABLE_ELEMS = "[tabindex], input, button, a, select, textarea, [contenteditable]",
+const FOCUSABLE_ELEMS = "[tabindex], input, button, a[href], select, textarea, [contenteditable]",
     OVERLAY_FOCUS_DELAY = 300;
 /**
  * Guards the focus within the overlay
@@ -74,10 +74,10 @@ FocusGuard.propTypes = {
  * Overlay comonent. Add the class "modal" to the overlay to make it a modal. Use the class
  * "bottom" to position the overlay at the bottom of the screen.
  * @param {{
- *   target: string,
- *   className: string?,
- *   onClose: function,
- *   children: any,
+ *   target?: string,
+ *   className?: string,
+ *   onClose?: function,
+ *   children: React.ReactNode,
  *   show: boolean,
  * }} props
  */

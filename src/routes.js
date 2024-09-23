@@ -8,64 +8,37 @@
  */
 
 export default [
-  /*
   {
     path: "/",
-    controller: context => {
-      // console.log(context);
+    controller: async () => {
       return {
-        // forward: "/route-error",
-        component: LandingView
+        forward: "/landing"
       };
     }
   },
+  // Example of loading a view and it's dependencies lazily
+  // Also how to pass query parameters e.g. "/landing?hello=world&world=hello"
   {
-    path: "/form",
-    controller: context => {
-      // console.log(context);
+    path: "/landing{\\?:query}",
+    controller: async context => {
+      const {route: {params}} = context,
+          {query = ""} = params,
+          queryParams = new URLSearchParams(query);
+
+      // console.log(queryParams.toString());
+      const LandingView = (await import("./modules/LandingView")).default;
       return {
         // forward: "/route-error",
-        component: FormView,
-        // data passed to form view (can be fetched from server)
+        component: LandingView,
         data: {
-          formTitle: "Hobby Form"
+          queryParams
         }
       };
     }
   },
   {
-    path: "/about",
-    controller: context => {
-      // const {route, state} = context;
-      // console.log(context);
-      return new Promise((res, rej) => {
-        setTimeout(() => {
-          res({
-            component: AboutView,
-            config: {
-              appBar: false
-            }
-          });
-        }, 1000);
-      });
-    }
-  }
-  */
-  // Example of loading a view and it's dependencies lazily
-  {
-    path: "/",
-    controller: async context => {
-      // console.log(context);
-      const LandingView = (await import("./modules/LandingView")).default;
-      return {
-        // forward: "/route-error",
-        component: LandingView
-      };
-    }
-  },
-  {
     path: "/form",
-    controller: async context => {
+    controller: async () => {
       const FormView = (await import("./modules/FormView")).default;
       return {
         // forward: "/route-error",
@@ -79,7 +52,7 @@ export default [
   },
   {
     path: "/about",
-    controller: async context => {
+    controller: async () => {
       const AboutView = (await import("./modules/AboutView")).default;
 
       return new Promise((res, rej) => {

@@ -32,7 +32,7 @@ function FileItem(props) {
           <span className="badge file-size">{size}b</span>
         </div>
       </div>
-      
+      {/* @ts-ignore */}
       <button className="action icon icon-x" onClick={onRemove} />
     </div>
   );
@@ -61,7 +61,9 @@ function FileUpload(props) {
       [data, setData] = useState(value || []),
       fireChange = useCallback(data => {
         const evt = createEvent(data);
+        // @ts-ignore
         onInput && onInput(evt);
+        // @ts-ignore
         onChange && onChange(evt);
       }, []),
       files = data.map(file => {
@@ -98,8 +100,10 @@ function FileUpload(props) {
       };
 
   return (
+    // @ts-ignore
     <div className="file-upload-input" disabled={disabled}>
       <input style={NO_DISPLAY} onChange={handleChange} 
+          // @ts-ignore
           ref={inputRef} 
           type="file" 
           className="file-input"
@@ -108,6 +112,7 @@ function FileUpload(props) {
           disabled={disabled} />
       <div className="fu-content">
         <div className="actions">
+          {/* @ts-ignore */}
           <button className="action icon-folder" onClick={() => inputRef.current.click()} disabled={disabled} />
           <button className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled} />
         </div>

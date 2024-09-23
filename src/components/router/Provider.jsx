@@ -26,7 +26,7 @@ function Provider(props) {
 }
 Provider.displayName = "RouterProvider";
 Provider.propTypes = {
-  value: PropTypes.object,
+  router: PropTypes.object,
   children: PropTypes.node
 };
 
