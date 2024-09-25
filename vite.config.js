@@ -14,6 +14,10 @@ const APP_BRANDING = process.env.APP_BRANDING || "default";
 export default defineConfig({
   root: "./src",
   publicDir: "../public",
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true, // also necessary
+  },
   envDir: "../",
   envPrefix: "APP_",
   assetsInclude: [
