@@ -46,6 +46,9 @@ export default [
         // data passed to form view (can be fetched from server)
         data: {
           formTitle: "Hobby Form"
+        },
+        config: {
+          requiresAuth: true
         }
       };
     }

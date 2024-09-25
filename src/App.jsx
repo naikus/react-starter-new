@@ -151,7 +151,27 @@ function App({appBarPosition = "left"}) {
           }),
           router.on("route", (context) => {
             // console.log("Setting route", context);
-            if(context.component) {
+            // notify.toast(`Setting route ${context.route.runtimePath}`);
+            const {component, config = {}, data = {}} = context;
+            /*
+            let {requiresAuth} = config, authEnabled = true;
+            if(authEnabled && requiresAuth) {
+              const authenticated = await authService.isAuthenticated();
+              if(!authenticated) {
+                // console.debug("Authentication required");
+                notify({
+                  content: "Please sign in to continue",
+                  type: "error"
+                });
+                return router.route("/auth", {
+                  // after authentication, forward to the original route
+                  forwardTo: context.route.runtimePath
+                });
+              }
+            }
+            */
+
+            if(component) {
               context.component = memo(createViewWrapper(context.component));
             }
             setRouteLoading(false);
@@ -162,7 +182,7 @@ function App({appBarPosition = "left"}) {
             notify({
               content: (
                 <span>
-                  {error.message}. <button className="small" onClick={() => router.route("/")}>Home</button>
+                  {error.message}. <a href="#/">Home</a>
                 </span>
               ),
               type: "error",
