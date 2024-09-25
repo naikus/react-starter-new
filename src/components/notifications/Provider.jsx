@@ -67,7 +67,6 @@ const NotificationProvider = props => {
       notifications = createNotificationService();
 
   return (
-    // @ts-ignore
     <NotificationServiceContext.Provider value={notifications}>
       {children}
     </NotificationServiceContext.Provider>

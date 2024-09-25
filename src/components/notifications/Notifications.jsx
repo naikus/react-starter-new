@@ -81,6 +81,7 @@ const Notifications = props => {
 
   useEffect(function setCurrentMessage() {
     const unsub = onCurrent(message => {
+      // @ts-ignore
       setCurrent(message);
     });
     () => {

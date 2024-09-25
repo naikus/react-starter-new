@@ -93,13 +93,15 @@ const View = props => {
         <button title="Sample Form" className="action" onClick={showForm} aria-label="Sample Form">
           <i className="icon icon-clipboard"></i>
         </button>
-        <button className="action" onClick={() => setShowOverlay(!showOverlay)} aria-label="Show Overlay">
+        <button title="Show Overlay" className="action"
+            onClick={() => setShowOverlay(!showOverlay)} aria-label="Show Overlay">
           <i className="icon icon-eye"></i>
         </button>
-        <button className="action" onClick={() => toggleScheme()} aria-label="Toggle Theme">
+        <button title="Toggle Light/Dark Mode" className="action"
+            onClick={() => toggleScheme()} aria-label="Toggle Theme">
           <i className="icon icon-sun"></i>
         </button>
-        <button className="action" onClick={() => {
+        <button title="Show Sample Notification" className="action" onClick={() => {
             notify({
               content: (message) => `This is a ${message.type} message`,
               type: nTypes[random(nTypes.length - 1)],

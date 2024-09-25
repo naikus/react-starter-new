@@ -1,9 +1,18 @@
 import React from "react";
 
-const NotificationServiceContext = React.createContext({
-  show: (message) => {},
-  next: () => {},
-  onCurrent: (current) => {
+/**
+ * @typedef {import(".").NotificationService} NotificationService
+ * @typedef {import("react").Context<NotificationService>} NotificationContext
+ */
+
+/**
+ * @type {NotificationContext}
+ */
+// @ts-ignore
+const NotificationServiceContext = React.createContext(/* @type {NotificationService} */{
+  show(message) {},
+  next() {},
+  onCurrent(callback) {
     return () => {};
   }
 });

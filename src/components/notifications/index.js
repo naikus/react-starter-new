@@ -26,34 +26,56 @@ import Notifications from "./Notifications";
  */
 
 /**
- * @typedef {(message: NotificationMessage) => void} Notify
- * @property {Function} info
- * @property {Function} success
- * @property {Function} warn
- * @property {Function} error
+ * @typedef Notify
+ * @property {(message?: string | JSX.Element | function) => void} info
+ * @property {(message?: string | JSX.Element | function) => void} success
+ * @property {(message?: string | JSX.Element | function, sticky?: boolean) => void} warn
+ * @property {(message?: string | JSX.Element | function, sticky?: boolean) => void} error
+ * @property {(message?: string | JSX.Element | function, sticky?: boolean) => void} toast
  */
 
 /**
- * @returns {Notify}
+ * @typedef {((message: NotificationMessage) => void) & Notify} NotifyFunction
+ */
+
+/**
+ * @returns {NotifyFunction}
  */
 function useNotifications() {
-  const service = useNotificationService(),
-      notify = function(message) {
-        service.show(message);
-      };
+  const service = useNotificationService();
 
+  /**
+   * @type {NotifyFunction}
+   */
+  function notify(message) {
+    service.show(message);
+  }
+
+  /**
+   * Show info message
+   * @param {string | JSX.Element | function} content 
+   */
   notify.info = (content) => {
     notify({
       type: "info",
       content
     });
   };
+  /**
+   * Show success message
+   * @param {string | JSX.Element | function} content 
+   */
   notify.success = (content) => {
     notify({
       type: "success",
       content
     });
   };
+  /**
+   * Show warning message
+   * @param {string | JSX.Element | function} content 
+   * @param {boolean} [sticky]
+   */
   notify.warn = (content, sticky) => {
     notify({
       type: "warn",
@@ -61,6 +83,11 @@ function useNotifications() {
       content
     });
   };
+  /**
+   * Show error message
+   * @param {string | JSX.Element | function} content 
+   * @param {boolean} [sticky]
+   */
   notify.error = (content, sticky) => {
     notify({
       type: "error",
@@ -68,12 +95,17 @@ function useNotifications() {
       content
     });
   };
+  /**
+   * Show a toast message
+   * @param {string | JSX.Element | function} content 
+   */
   notify.toast = (content) => {
     notify({
+      type: "toast",
       content
     });
   };
-
+  // @ts-ignore
   return notify;
 }
 
