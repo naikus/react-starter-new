@@ -3,14 +3,34 @@
 // import FormView from "./modules/FormView";
 
 /**
+ * @typedef RouteControllerData
+ * @property {string} [forward]
+ * @property {any} [component]
+ * @property {any} [data]
+ * @property {any} [config]
+ */
+
+/**
  * @typedef {import("simple-router").Router} Router
  * @typedef {import("simple-router").RouteDefn} RouteDefn
  */
 
+/**
+ * @typedef AppRouteDefn
+ * @property {string} path 
+ * @property {(context: any) => Promise<RouteControllerData>} controller
+ * @extends {RouteDefn}
+ */
+
+
+/**
+ * @type {AppRouteDefn[]}
+ */
 export default [
+  /** @type {AppRouteDefn} */
   {
     path: "/",
-    controller: async () => {
+    controller: async (context) => {
       return {
         forward: "/landing"
       };
@@ -20,7 +40,7 @@ export default [
   // Also how to pass query parameters e.g. "/landing?hello=world&world=hello"
   {
     path: "/landing{\\?:query}",
-    controller: async context => {
+    controller: async (context) => {
       const {route: {params}} = context,
           {query = ""} = params,
           queryParams = new URLSearchParams(query);

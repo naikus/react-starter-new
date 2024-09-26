@@ -13,7 +13,7 @@
   @alt-bg-color: rgb(255, 255, 255); // #314458; // #d4e3e0;
   @text-color: rgb(61, 67, 83);
   @alt-text-color: rgb(38, 41, 47);
-  @selection-bg-color: @accent-color;
+  @selection-bg-color: fadeout(@accent-color, 20%);
   @selection-text-color: @accent-text-color;
 
   /*
@@ -62,7 +62,7 @@
 
   @text-color: rgb(238, 238, 238);
   @alt-text-color: rgb(232, 228, 228);
-  @selection-bg-color: @accent-color;
+  @selection-bg-color: fadeout(@accent-color, 40%);
   @selection-text-color: rgb(255, 255, 255);
   // @selected-bg-color:rgba(0,0,0,0.06);
   
