@@ -87,7 +87,15 @@ ActionMessage.propTypes = {
 */
 
 
-
+/**
+ * Application wide nav bar
+ * @param {{
+ *  title?: string,
+ *  logo: string,
+ *  logoAltText?: string,
+ *  children?: React.ReactNode
+ * }} props 
+ */
 const AppBar = props => {
   const {title = "App", logo, logoAltText = "Logo", children} = props;
   return (
@@ -102,12 +110,23 @@ const AppBar = props => {
   );
 };
 AppBar.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   logo: PropTypes.string,
   logoAltText: PropTypes.string,
-  children: PropTypes.any
+  children: PropTypes.node
 };
 
+
+/**
+ * @typedef {"top" | "left"} AppBarPosition
+ */
+
+/**
+ * 
+ * @param {{
+ *  appBarPosition?: AppBarPosition
+ * }} props 
+ */
 function App({appBarPosition = "left"}) {
   /** @type {import("react").MutableRefObject<Router|undefined>} */
   const routerRef = useRef(),

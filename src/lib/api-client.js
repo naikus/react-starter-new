@@ -8,31 +8,33 @@
  * @typedef InterceptorContext
  * @property {string} path The path to which the request is send or response was received
  * @property {object} options The options passed to the fetch request
- * @property {Request} request The Request object of the fetch api
- * @property {Response} response The Response object (if available) of the fetch api
+ * @property {Request} [request] The Request object of the fetch api
+ * @property {Response} [response] The Response object (if available) of the fetch api
  */
 
 /**
  * @typedef ApiOptions
  * @property {string} apiUrl The base URL for the API client
- * @property {Record} headers The default headers for the API client
+ * @property {Record<string, string|number>} headers The default headers for the API client
  * @property {string} redirect The default redirect option for the API client: "follow"
  * @property {[function(InterceptorContext):Promise]} [interceptors] An array of request or response interceptors
  * 
  */
 
 /**
- * @template {string} path
+ * @typedef {(context:InterceptorContext) => void} Interceptor
  * 
  * @typedef ApiClient
- * @property {function(path, ApiOptions):Promise} call The main function to call an API endpoint
- * @property {function(path, ApiOptions):Promise} get A convenience function to call a GET API endpoint
- * @property {function(path, ApiOptions):Promise} post A convenience function to call a POST API endpoint
- * @property {function(path, ApiOptions):Promise} put A convenience function to call a PUT API endpoint
- * @property {function(path, ApiOptions):Promise} delete A convenience function to call a DELETE API endpoint
- * @property {function(string, any)} setOption A function to set an option for the API client
- * @property {function(string, any)} setHeader A function to set a header for the API client
- * @property {function(function(InterceptorContext):Promise)} interceptor A function to add a global interceptor
+ * @property {Array<Interceptor>} interceptors
+ * @property {ApiOptions} options
+ * @property {(path: string, opts: ApiOptions) => Promise} call The main function to call an API endpoint
+ * @property {(path: string, opts: ApiOptions) => Promise} get A convenience function to call a GET API endpoint
+ * @property {(path: string, opts: ApiOptions) => Promise} post A convenience function to call a POST API endpoint
+ * @property {(path: string, opts: ApiOptions) => Promise} put A convenience function to call a PUT API endpoint
+ * @property {(path: string, opts: ApiOptions) => Promise} delete A convenience function to call a DELETE API endpoint
+ * @property {(name: string, value: any) => void} setOption A function to set an option for the API client
+ * @property {(name: string, value: string|number) => void} setHeader A function to set a header for the API client
+ * @property {(interceptor: Interceptor) => void} interceptor A function to add a global interceptor
  */
 
 
@@ -47,7 +49,7 @@ const ObjectToString = Object.prototype.toString,
     },
     /**
      * Gets the type of a specified object 'that'
-     * @param {Any} that The object to check
+     * @param {any} that The object to check
      * @return {String} The type of 'that'
      */
     getTypeOf = that => {
@@ -58,7 +60,7 @@ const ObjectToString = Object.prototype.toString,
      * and recursively calls collectParams for the object and array. The collected params
      * are used in a URL's querystring.
      * @param {String} key or the param name
-     * @param {Any} val The value of the param
+     * @param {any} val The value of the param
      * @param {Array} collector The array into which to push the collected params
      */
     collectParams = (key, val, collector) => {
@@ -141,14 +143,15 @@ const ObjectToString = Object.prototype.toString,
       /**
        * Requests (http) the given 'path' with specified opts.
        * @param {String} path The path to request to
-       * @param {Object} opts The options object similar to http fetch API
+       * @param {object} opts The options object similar to http fetch API
        * @return {Promise} a Promise that resolves on successfull request.
        */
       call(path, opts) {
         const url = (opts.apiUrl || this.options.apiUrl) + path,
             xdr = url.indexOf("http://") === 0 || url.indexOf("https://") === 0,
             headers = Object.assign({}, this.options.headers, opts.headers || {}),
-            options = Object.assign({}, this.options, {
+            options = Object.assign({}, {
+              redirect: this.options.redirect,
               method: "GET",
               mode: xdr ? "cors" : "same-origin"
             }, opts);
@@ -174,6 +177,7 @@ const ObjectToString = Object.prototype.toString,
           // ctx = ctx || context;
           return fetch(request)
               .then(response => {
+                // @ts-ignore
                 context.response = response;
                 let resPromise = Promise.resolve();
                 resPromise.catch(err => {
@@ -212,7 +216,7 @@ const ObjectToString = Object.prototype.toString,
        *   request: The Request object of the fetch api
        *   response: The Response object (if available) of the fetch api
        * }
-       * @param {Function} func The interceptor function
+       * @param {Interceptor} func The interceptor function
        */
       interceptor(func) {
         if(typeof func === "function") {
@@ -235,50 +239,54 @@ const ObjectToString = Object.prototype.toString,
 
 /**
  * A factory function to create and instance of ApiClient
- * @param {Object} opts The options for ApiClient. This can contain all the fetch api options.
+ * @param {ApiOptions} opts The options for ApiClient. This can contain all the fetch api options.
  * In addition you can specify following options:
  * apiUrl The base URL for ApiClient. The path option is then appended to it to form the complete
  * URL
- * @return {ApiClient} and instance of ApiClient
+ * @returns {ApiClient} and instance of ApiClient
  */
-const createApiClient = opts => {
-    return Object.create(ApiClientProto, {
-      options: {
-        value: Object.assign(
-          {
-            apiUrl: "",
-            redirect: "follow"
-          },
-          {headers: {"Content-Type": "application/json"}},
-          opts
-        )
-      },
-      interceptors: {
-        value: []
-      }
-    });
-  },
-  responseAsJson = async (response) => {
-    if(response.status >= 200 && response.status < 400) {
-      return response.json();
-    }else {
-      return new Promise((_, reject) => {
-        response.json().then(json => {
-          const err = new Error(json.message);
-          err.code = json.code || json.statusCode;
-          err.status = response.status;
+function createApiClient(opts) {
+  return Object.create(ApiClientProto, {
+    options: {
+      value: Object.assign(
+        {
+          apiUrl: "",
+          redirect: "follow"
+        },
+        {headers: {"Content-Type": "application/json"}},
+        opts
+      )
+    },
+    interceptors: {
+      value: []
+    }
+  });
+}
+
+
+async function responseAsJson(response) {
+  if(response.status >= 200 && response.status < 400) {
+    return response.json();
+  }else {
+    return new Promise((_, reject) => {
+      response.json().then(json => {
+        const err = new Error(json.message);
+        // @ts-ignore
+        err.code = json.code || json.statusCode;
+        // @ts-ignore
+        err.status = response.status;
+        reject(err);
+      }).catch(error => {
+        return response.text().then(text => {
+          const err = new Error(text);
+          error.code = response.code || response.statusCode;
+          error.status = response.status;
           reject(err);
-        }).catch(error => {
-          return response.text().then(text => {
-            const err = new Error(text);
-            error.code = response.code || response.statusCode;
-            error.status = response.status;
-            reject(err);
-          });
         });
       });
-    }
-  };
+    });
+  }
+}
 
 export default createApiClient;
 

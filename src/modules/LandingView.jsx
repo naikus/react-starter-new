@@ -1,5 +1,5 @@
 /* global */
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState, useRef} from "react";
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
 import Overlay from "@components/overlay/Overlay";
@@ -20,28 +20,33 @@ const nTypes = ["success", "info", "warn", "error", "toast"];
  * @param {Function} onCancel 
  */
 function useEscapeClose(show, onCancel) {
-  const [wasShown, setWasShown] = React.useState(false),
-  close = e => {
-    if(e.key === "Escape") {
-      setTimeout(() => {
-        onCancel();
-      }, 30);
-    }
-  };
+  const wasShown = useRef(false),
+      close = useCallback(e => {
+        if(e.key === "Escape") {
+          setTimeout(() => {
+            onCancel();
+          }, 30);
+        }
+      }, []);
 
-  useEffect(() => {
+  useEffect(function addKeyListener() {
     if(show) {
       // console.log("Adding listener");
       document.addEventListener("keyup", close);
-      setWasShown(true);
+      wasShown.current = true;
     }else {
-      if(wasShown) {
+      if(wasShown.current) {
         // console.log("Removing listener");
         document.removeEventListener("keyup", close);
         setTimeout(() => {
           onCancel();
         }, 30);
       }
+    }
+
+    return () => {
+      wasShown.current = false;
+      document.removeEventListener("keyup", close);
     }
   }, [show]);
 }
