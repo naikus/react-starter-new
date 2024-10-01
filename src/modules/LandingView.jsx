@@ -75,7 +75,7 @@ const View = props => {
   useEscapeClose(showOverlay, () => setShowOverlay(false));
 
   // @ts-ignore
-  console.debug("Router", router.getCurrentRoute());
+  // console.debug("Router", router.getCurrentRoute());
   return (
     <div className="view landing-view">
       <style>

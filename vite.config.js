@@ -17,6 +17,8 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     emptyOutDir: true, // also necessary
+    // this will otherwise inline svg images as data url in image tags that does not work currently
+    assetsInlineLimit: 0
   },
   envDir: "../",
   envPrefix: "APP_",

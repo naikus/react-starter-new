@@ -44,6 +44,20 @@ function createViewWrapper(View) {
      */
     (props, ref) => {
       const {className} = props;
+      /*
+      useOnMount(function restoreScrollPosition() {
+        console.log("Restoring scroll postition...");
+        // @todo
+        // Restore it using the current route's path/runtimePath as key
+        // e.g.
+        // @ts-ignore
+        ref.current.scrollTop = 700;
+        return () => {
+          // Store the curent position using the current router's path as key and restore it
+        };
+      });
+      */
+
       return (
         <div className={`view-wrapper ${className}`} ref={ref}>
           {/* @ts-ignore */}
@@ -59,32 +73,6 @@ function createViewWrapper(View) {
   };
   return Wrapper;
 }
-
-/*
-const ActionMessage = props => {
-  const {message, actions = []} = props;
-  return (
-    <div className="action-message">
-      <div className="message">{message}</div>
-      <div className="actions">
-        {actions.map((action, index) => (
-          <button key={index} className="action" onClick={action.onClick}>
-            {action.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-ActionMessage.displayName = "ActionMessage";
-ActionMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
-  })).isRequired
-};
-*/
 
 
 /**
@@ -164,7 +152,7 @@ function App({appBarPosition = "left"}) {
           defaultRoute: "/",
           errorRoute: "/~error"
         }),
-        subs = [
+        unsubs = [
           router.on("before-route", (data) => {
             setRouteLoading(true);
           }),
@@ -213,8 +201,9 @@ function App({appBarPosition = "left"}) {
     routerRef.current = router;
     router.start();
     router.route(router.getBrowserRoute() || "/");
+
     return () => {
-      subs.forEach(sub => sub());
+      unsubs.forEach(unsub => unsub());
       router.stop();
     };
   });
