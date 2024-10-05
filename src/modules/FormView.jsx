@@ -185,7 +185,12 @@ const View = props => {
                 " "
               );
               notify({
-                content: () => <pre style={{fontSize: "0.7rem"}}>{json}</pre>,
+                content: () => <pre style={{
+                  width: "100%",
+                  fontSize: "0.7rem",
+                  maxHeight: "350px",
+                  overflowX: "auto"
+                }}>{json}</pre>,
                 type: "toast"
               });
             }}>
