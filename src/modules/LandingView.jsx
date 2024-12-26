@@ -53,7 +53,8 @@ function useEscapeClose(show, onCancel) {
 
 
 const View = props => {
-  const notify = useNotifications(),
+  const {context} = props, 
+      notify = useNotifications(),
       router = useRouter(), 
       toggleScheme = useCallback(() => {
         /** @type {HTMLElement} */
@@ -75,7 +76,8 @@ const View = props => {
   useEscapeClose(showOverlay, () => setShowOverlay(false));
 
   // @ts-ignore
-  // console.debug("Router", router.getCurrentRoute());
+  console.debug("Router", router.getCurrentRoute()?.params);
+  // console.debug("Context", context.queryParams.get("hello"));
   return (
     <div className="view landing-view">
       <style>
