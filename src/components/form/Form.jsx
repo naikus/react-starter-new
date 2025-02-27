@@ -278,9 +278,7 @@ function FieldGroup(props) {
     <fieldset className={`field-group ${className}`} disabled={disabled}>
       {/* @ts-ignore */}
       <FieldLabel label={label} hint={hint} />
-      
-        {children}
-      
+      {children}
     </fieldset>
   );
 }
