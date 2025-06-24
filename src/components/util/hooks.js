@@ -51,7 +51,7 @@ function useAsyncCallImmediate(asyncCall, ...args) {
           return;
         }
         ref.current = true;
-        // setBusy(true);
+        // setBusy(true); the default setBusy state is true
         try {
           const res = await asyncCall(...args);
           setResult(res);
