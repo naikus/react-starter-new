@@ -162,7 +162,7 @@ function App({appBarPosition = "left"}) {
           router.on("route", (context) => {
             // console.log("Setting route", context);
             // notify.toast(`Setting route ${context.route.runtimePath}`);
-            const {component, config = {}} = context;
+            const {component /*, config = {}, data */} = context;
             /*
             let {requiresAuth} = config, authEnabled = true;
             if(authEnabled && requiresAuth) {
