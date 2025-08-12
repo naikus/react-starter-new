@@ -213,6 +213,15 @@ const VALID = {valid: true, message: ""},
     */
 
 
+function debounce(fn, interval = 30, thisArg) {
+  let timeoutId;
+  const handler = thisArg ? fn.bind(thisArg) : fn;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(handler, interval, ...args);
+  }
+}
+
 /**
  * @param {{
  *  label?: string,
@@ -642,7 +651,7 @@ function Form(props) {
       rules: props.rules || {}
     }),
 
-    {initialized} = form,
+    // {initialized} = form,
 
     /**
      * A ref to the fields object that is used to set the fields when the form is mounted
@@ -707,14 +716,14 @@ function Form(props) {
   }, []);
 
   useEffect(function fireFormChanged() {
-    if(initialized) {
+    if(form.initialized) {
       // console.debug("Form initialized with fields", form.fields);
       const {onChange} = props;
       if(typeof onChange === "function") {
         onChange(getFormData(form));
       }
     }
-  }, [initialized]);
+  }, [form]);
 
   useEffect(function fireFormChange() {
     const {onChange} = props;
@@ -742,10 +751,10 @@ function Form(props) {
           fieldsRef.current[field.name] = field;
         }
       },
-      updateField(field) {
+      updateField: debounce(function updateField(field) {
         // @ts-ignore
         dispatch({type: "update-field", payload: field});
-      },
+      }, 200),
       getField(name) {
         return form.fields[name];
       },

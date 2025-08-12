@@ -120,7 +120,7 @@ AppBar.propTypes = {
  */
 function App({appBarPosition = "left"}) {
   /** @type {import("react").MutableRefObject<Router|undefined>} */
-  const routerRef = useRef(),
+  const [router, setRouter] = useState(null),
       /** @type {[RouteRuntimeContext, (state: RouteRuntimeContext) => void]} */
       // @ts-ignore
       [routeContext = {
@@ -133,8 +133,8 @@ function App({appBarPosition = "left"}) {
       transitionKey = route ? route.path : "root",
       notify = useNotifications(),
       goAbout = useCallback(() => {
-        routerRef.current && routerRef.current.route("/about");
-      }, []);
+        router && router.route("/about");
+      }, [router]);
 
   /*
   // Set theme based on system preference
@@ -203,19 +203,24 @@ function App({appBarPosition = "left"}) {
           })
         ];
 
-    routerRef.current = router;
+    setRouter(router);
     router.start();
     router.route(router.getBrowserRoute() || "/");
 
     return () => {
       unsubs.forEach(unsub => unsub());
       router.stop();
+      setRouter(null);
     };
   });
 
+  if(!router) {
+    return null;
+  }
+
   return (
     // @ts-ignore
-    <RouterProvider router={routerRef.current}>
+    <RouterProvider router={router}>
       <div className={`app appbar-${appBarPosition}`}>
         {appBar ? 
           // @ts-ignore

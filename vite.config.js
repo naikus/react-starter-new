@@ -3,7 +3,7 @@
 /* global process */
 import { resolve } from "path";
 import { defineConfig} from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import legacy from "@vitejs/plugin-legacy";
 
 // https://vitejs.dev/config/
@@ -52,7 +52,17 @@ export default defineConfig({
       /*
       babel: {
         plugins: [
-          ["babel-plugin-react-compiler", ReactCompilerConfig]
+          ["babel-plugin-react-compiler", {
+            target: "18",
+              logger: {
+                logEvent(filename, event) {
+                  if (event.kind === 'CompileError') {
+                    // console.log('Compiled:', filename);
+                    console.log("Logged", event, filename);
+                  }
+                }
+              }
+          }]
         ]
       }
       */
