@@ -593,7 +593,7 @@ function formReducer(state, action) {
         }
 
         newState = {
-          // valid: newValid, // valid ? validateFields(newFields, rules) : false,
+          ...state,
           valid: Object.values(newFields).filter(f => !f.valid).length === 0,
           pristine: false,
           fields: newFields,
@@ -631,6 +631,7 @@ function formReducer(state, action) {
  *  name?: string,
  *  title?: string,
  *  onChange?: FormChangeListener,
+ *  onInit?: FormChangeListener
  *  onSubmit?: function
  * }} props
  */
@@ -648,10 +649,11 @@ function Form(props) {
       fields: {},
       valid: true,
       pristine: true,
+      initialized: false,
       rules: props.rules || {}
     }),
 
-    // {initialized} = form,
+    {initialized} = form,
 
     /**
      * A ref to the fields object that is used to set the fields when the form is mounted
@@ -716,20 +718,21 @@ function Form(props) {
   }, []);
 
   useEffect(function fireFormChanged() {
-    if(form.initialized) {
+    if(initialized) {
       // console.debug("Form initialized with fields", form.fields);
-      const {onChange} = props;
-      if(typeof onChange === "function") {
-        onChange(getFormData(form));
+      const {onInit} = props;
+      if(typeof onInit === "function") {
+        // console.debug("Form initialized!");
+        onInit(getFormData(form));
       }
     }
-  }, [form]);
+  }, [initialized]);
 
   useEffect(function fireFormChange() {
     const {onChange} = props;
     // Only fire onchange if fields are set in state (not in fields ref, which means we are still loading)
     if(typeof onChange === "function"/* && !fieldsRef.current */) {
-      const {pristine} = form;
+      const {pristine, initialized} = form;
       // Only fire if the form is not pristine (i.e. don't fire on mount or initially)
       if(!pristine) {
         onChange(getFormData(form));

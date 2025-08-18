@@ -112,6 +112,11 @@ const View = props => {
         <Form title={formTitle}
           rules={validationRules}
           className="my-form"
+          onInit={form => {
+            const {valid, data} = form;
+            setValid(valid);
+            setData(data);
+          }}
           onChange={form => {
             // console.log(form);
             const {valid, data} = form;
