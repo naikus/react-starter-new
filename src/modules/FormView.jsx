@@ -11,7 +11,6 @@ import {
   Form,
   Field,
   FieldGroup,
-  registerFieldType,
   ruleBuilder as rb,
   MultiValInput,
   MultiSelect,
@@ -50,9 +49,9 @@ const validationRules = {
 };
 
 // Register these with Form (to support validation, form data)
-registerFieldType("multival", MultiValInput);
-registerFieldType("multiselect", MultiSelect);
-registerFieldType("fileupload", FileUpload);
+Form.registerFieldType("multival", MultiValInput);
+Form.registerFieldType("multiselect", MultiSelect);
+Form.registerFieldType("fileupload", FileUpload);
 
 const View = props => {
   const {context: {formTitle}} = props, 

@@ -213,7 +213,7 @@ const VALID = {valid: true, message: ""},
     */
 
 
-function debounce(fn, interval = 30, thisArg) {
+function debounce(fn, interval = 300, thisArg) {
   let timeoutId;
   const handler = thisArg ? fn.bind(thisArg) : fn;
   return function(...args) {
@@ -404,13 +404,13 @@ function Field(props) {
       fieldModel = fields[name] || {name, value, defaultValue, label},
       newProps = {
         ...props,
-        onInput: e => {
+        onInput: debounce(e => {
           const {target} = e, {value/*, disabled, readonly*/} = target, {name} = props;
           // console.debug("Dispatching", name, value);
           // console.debug("On Input", name, target);
           updateField({name, value});
           onInput && onInput(e);
-        }
+        }, 400)
         /*
         onChange: e => {
           const value = e.target.value, {name} = props;
@@ -754,10 +754,10 @@ function Form(props) {
           fieldsRef.current[field.name] = field;
         }
       },
-      updateField: debounce(function updateField(field) {
+      updateField: function updateField(field) {
         // @ts-ignore
         dispatch({type: "update-field", payload: field});
-      }, 200),
+      },
       getField(name) {
         return form.fields[name];
       },
@@ -785,7 +785,8 @@ Form.propTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func
 };
+Form.registerFieldType = registerFieldType;
 
 export {
-  Form, Field, FieldGroup, registerFieldType
+  Form, Field, FieldGroup
 };
