@@ -258,7 +258,7 @@ form {
       padding: @padding-smaller - 2 @padding-smaller;
       // min-width: 30px;
       background-color: var(--selection-bg-color);
-      border-radius: @base-border-radius - 4;
+      border-radius: @input-border-radius;
       color: var(--selection-text-color);
       opacity: 0.9;
 
@@ -428,13 +428,16 @@ form {
   // padding: @padding-smaller !important;
   display: flex;
   flex-direction: column;
+  padding: 0;
+  border-radius: @input-border-radius;
 
   > .multi-select-item {
     font-size: 0.95rem;
     padding: @padding-smaller - 2 @padding-smaller;
     cursor: pointer;
-    border-radius: @base-border-radius - 4;
-    margin-bottom: @size_tiny + 0px;
+    // border-radius: @base-border-radius - 4;
+    border-bottom: 1px solid transparent;
+    // margin-bottom: @size_tiny + 0px;
 
     display: flex;
     align-items: center;
@@ -449,6 +452,7 @@ form {
       &:hover {
         opacity: 1;
       }
+      border-bottom: 1px solid rgba(0,0,0,0.05);
     }
     &[disabled] {
       opacity: @disabled-opacity;
