@@ -410,7 +410,7 @@ function Field(props) {
           // console.debug("On Input", name, target);
           updateField({name, value});
           onInput && onInput(e);
-        }, 400)
+        }, 100)
         /*
         onChange: e => {
           const value = e.target.value, {name} = props;
