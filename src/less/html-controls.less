@@ -87,6 +87,16 @@ textarea {
   text-align: center;
   ._no-select;
 
+  &.ghost {
+    background-color: var(--bg-color);
+    border-color: transparent;
+    &:hover, &:focus {
+      background-color: var(--button-bg-color);
+      border-color: transparent;
+    }
+
+  }
+
   &:hover {
     // background-color: darken(@button-bg-color, 5%);
     // color: @alt-text-color;
