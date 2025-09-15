@@ -95,7 +95,7 @@ function MultiValInput(props) {
   });
 
   return (
-    <div className={`input multi-val-input`}>
+    <div className={`multi-val-input`}>
       <div className="values">{values}</div>
       <input type="text" placeholder={placeholder} name="__input"
           className="value-input" onBlur={addValues} onKeyDown={handleKeyEnter} disabled={disabled} />

@@ -101,7 +101,7 @@ function FileUpload(props) {
 
   return (
     // @ts-ignore
-    <div className="input file-upload-input" disabled={disabled}>
+    <div className="file-upload-input" disabled={disabled}>
       <input style={NO_DISPLAY} onChange={handleChange} 
           // @ts-ignore
           ref={inputRef} 
