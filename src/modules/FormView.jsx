@@ -89,6 +89,11 @@ const View = props => {
   return (
     <div className="view form-view">
       <Actions target=".app-bar > .actions">
+        <button className="back-button ghost"
+            onClick={() => (router && router.back())}
+            aria-label="Go Back">
+          <i className="icon-arrow-left" />
+        </button>
         <button title="Disabled if the form is invalid"
             className="action"
             onClick={() => notify({
