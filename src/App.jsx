@@ -1,5 +1,5 @@
 import React, {useRef, useState, forwardRef, memo, useCallback} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 
 import "./App.less";
@@ -38,7 +38,10 @@ function createViewWrapper(View) {
   // Forward ref is for CSSTransition
   const Wrapper = forwardRef(
     /**
-     * @param {any} props 
+     * @param {{
+     *  className?: string
+     *  context: object
+     * }} props 
      * @param {import("react").LegacyRef<HTMLDivElement>} ref 
      * @returns 
      */
@@ -67,10 +70,12 @@ function createViewWrapper(View) {
     }
   );
   Wrapper.displayName = `ViewWrapper(${View.displayName || View.name})`;
+  /*
   Wrapper.propTypes = {
     className: PropTypes.string,
     context: PropTypes.object
   };
+  */
   return React.memo(Wrapper, (prev, next) => {
     // console.debug("Context same?", prev.context === next.context);
     return prev.context === next.context;
@@ -100,12 +105,14 @@ const AppBar = props => {
     </div>
   );
 };
+/*
 AppBar.propTypes = {
   title: PropTypes.string,
   logo: PropTypes.string,
   logoAltText: PropTypes.string,
   children: PropTypes.node
 };
+*/
 
 
 /**
@@ -119,7 +126,7 @@ AppBar.propTypes = {
  * }} props 
  */
 function App({appBarPosition = "left"}) {
-  /** @type {import("react").MutableRefObject<Router|undefined>} */
+  /** @type {[Router, function(Router): void]} */
   const [router, setRouter] = useState(null),
       /** @type {[RouteRuntimeContext, (state: RouteRuntimeContext) => void]} */
       // @ts-ignore
@@ -206,6 +213,7 @@ function App({appBarPosition = "left"}) {
     setRouter(router);
     router.start();
     router.route(router.getBrowserRoute() || "/");
+    // window.router = router;
 
     return () => {
       unsubs.forEach(unsub => unsub());
@@ -263,8 +271,9 @@ function App({appBarPosition = "left"}) {
   );
 }
 App.displayName = "App";
+/*
 App.propTypes = {
   appBarPosition: PropTypes.oneOf(["top", "left"])
 };
-
+*/
 export default App;

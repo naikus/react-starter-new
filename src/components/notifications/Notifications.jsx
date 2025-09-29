@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {useNotificationService} from "./Context";
 import "./style.less";
 
@@ -20,7 +20,7 @@ const Notification = props => {
   const {message} = props,
       {timeout = 3000, sticky = false, type = "toast", position = "bottom", content} = message,
       [show, setShow] = useState(false),
-      /** @type {import("react").MutableRefObject} */
+      /** @type {import("react").RefObject} */
       stickyTimer = useRef(null),
       onDismiss = e => {
         e && e.stopPropagation();
@@ -53,13 +53,16 @@ const Notification = props => {
   );
 };
 Notification.displayName = "Notification";
+/*
 Notification.propTypes = {
   message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onDismiss: PropTypes.func
 };
-
+*/
 /**
- * @param {*} props 
+ * @param {{
+ *  children: any
+ * }} props 
  */
 const Notifications = props => {
   const {onCurrent, next} = useNotificationService(),

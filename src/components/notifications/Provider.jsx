@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {NotificationServiceContext} from "./Context";
 
 /**
@@ -73,8 +73,10 @@ const NotificationProvider = props => {
   );
 };
 NotificationProvider.displayName = "NotificationProvider";
+/*
 NotificationProvider.propTypes = {
   children: PropTypes.node
 };
+*/
 
 export default NotificationProvider;

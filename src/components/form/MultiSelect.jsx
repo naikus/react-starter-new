@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 // import {registerFieldType} from "./Form";
 
 function createEvent(value, ...targetAttrs) {
@@ -107,6 +107,7 @@ function MultiSelect(props) {
   );
 }
 MultiSelect.displayName = "MultiSelect";
+/*
 MultiSelect.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -123,7 +124,7 @@ MultiSelect.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string
 };
-
+*/
 // registerFieldType("multi-select", MultiSelect);
 
 export default MultiSelect;

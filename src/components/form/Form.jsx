@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer, useContext, useRef, useCallback} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import "./style.less";
 
 /**
@@ -247,6 +247,7 @@ function FieldLabel(props) {
   return comp;
 }
 FieldLabel.displayName = "FieldLabel";
+/*
 FieldLabel.propTypes = {
   htmlFor: PropTypes.string,
   label: PropTypes.string,
@@ -254,8 +255,17 @@ FieldLabel.propTypes = {
   value: PropTypes.any,
   type: PropTypes.string
 };
+*/
 
-
+/**
+ * VMessage Component
+ * @param {{
+ *  valid: boolean
+ *  message: string
+ *  pristine: boolean  
+ * }} props
+ * @returns {import("react").ReactNode}
+ */
 function VMessage(props) {
   const {valid, message, pristine} = props;
   if(!valid && !pristine) {
@@ -266,11 +276,13 @@ function VMessage(props) {
   return null;
 }
 VMessage.displayName = "VMessage";
+/*
 VMessage.propTypes = {
   valid: PropTypes.bool,
   message: PropTypes.string,
   pristine: PropTypes.bool
 };
+*/
 
 /**
  * @param {{
@@ -292,6 +304,7 @@ function FieldGroup(props) {
   );
 }
 FieldGroup.displayName = "FieldGroup";
+/*
 FieldGroup.propTypes = {
   label: PropTypes.string,
   hint: PropTypes.string,
@@ -299,7 +312,7 @@ FieldGroup.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.node
 };
-
+*/
 
 /**
  * @callback FieldRenderer renderer function
@@ -431,6 +444,7 @@ function Field(props) {
   }
 }
 Field.displayName = "Field";
+/*
 Field.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
@@ -439,6 +453,7 @@ Field.propTypes = {
   label: PropTypes.string,
   onInput: PropTypes.func
 };
+*/
 
 
 
@@ -776,6 +791,7 @@ function Form(props) {
   );
 }
 Form.displayName = "Form";
+/*
 Form.propTypes = {
   name: PropTypes.string,
   title: PropTypes.string,
@@ -785,6 +801,7 @@ Form.propTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func
 };
+*/
 Form.registerFieldType = registerFieldType;
 
 export {
