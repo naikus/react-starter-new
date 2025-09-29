@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // import {registerFieldType} from "./Form";
 
@@ -103,6 +103,7 @@ function MultiValInput(props) {
   );
 }
 MultiValInput.displayName = "MultiValInput";
+/*
 MultiValInput.propTypes = {
   delimiter: PropTypes.string,
   placeholder: PropTypes.string,
@@ -112,7 +113,7 @@ MultiValInput.propTypes = {
   onInput: PropTypes.func,
   disabled: PropTypes.bool
 };
-
+*/
 // registerFieldType("multi-val", MultiValInput);
 
 export default MultiValInput;

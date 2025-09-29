@@ -1,6 +1,6 @@
 /* global */
 import React, {useState, useEffect, useRef} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Portal from "../Portal";
 import "./style.less";
 
@@ -9,9 +9,12 @@ const FOCUSABLE_ELEMS = "[tabindex], input, button, a[href], select, textarea, [
     OVERLAY_FOCUS_DELAY = 300;
 /**
  * Guards the focus within the overlay
+ * @param {{
+ *  children: any
+ * }} props
  */
 const FocusGuard = (props) => {
-  /** @typedef {{current: import("react").DOMElement}} */
+  /** @type {React.RefObject<HTMLElement|null>} */
   const fcGuard = useRef(null),
       shiftKey = useRef(false),
       focusFirstElem = () => {
@@ -65,10 +68,12 @@ const FocusGuard = (props) => {
     </div>
   );
 };
+/*
 FocusGuard.propTypes = {
   onBlur: PropTypes.func,
   children: PropTypes.any
 };
+*/
 
 /**
  * Overlay comonent. Add the class "modal" to the overlay to make it a modal. Use the class
@@ -87,7 +92,7 @@ function Overlay(props) {
     [wasShown, setWasShown] = useState(false),
     [anim, setAnim] = useState(false),
     [mount, setMount] = useState(false),
-    /** @type {import("react").MutableRefObject<HTMLDivElement|null>} */
+    /** @type {import("react").RefObject<HTMLDivElement|null>} */
     overlayBackdropRef = useRef(null),
     {current: overlayBackdropElem} = overlayBackdropRef,
     overlayRef = useRef(null),
@@ -161,6 +166,7 @@ function Overlay(props) {
     </Portal>
   ) : null;
 }
+/*
 Overlay.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func,
@@ -168,5 +174,5 @@ Overlay.propTypes = {
   className: PropTypes.string,
   children: PropTypes.any
 };
-
+*/
 export default Overlay;

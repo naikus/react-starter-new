@@ -3,7 +3,7 @@
 /** @typedef {import("@components/form/rule-builder").ValidationRule} ValidationRule */
 
 import React, {useState} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {useRouter} from "@components/router";
 import Actions from "@components/actionbar/Actions";
 import {useNotifications} from "@components/notifications";
@@ -219,8 +219,10 @@ const View = props => {
   );
 };
 View.displayName = "FormView";
+/*
 View.propTypes = {
   context: PropTypes.object
 };
+*/
 
 export default View;

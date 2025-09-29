@@ -1,5 +1,5 @@
 import React from  "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Context from "./Context";
 
 /**
@@ -25,9 +25,10 @@ function Provider(props) {
   );
 }
 Provider.displayName = "RouterProvider";
+/*
 Provider.propTypes = {
   router: PropTypes.object,
   children: PropTypes.node
 };
-
+*/
 export default Provider;

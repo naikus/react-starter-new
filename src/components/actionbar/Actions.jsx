@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import "./styles.less";
 
 /**
@@ -36,10 +36,11 @@ const Actions = props => {
   return createPortal(props.children, element.current);
 };
 Actions.displayName = "Actions";
+/*
 Actions.propTypes = {
   target: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.any
 };
-
+*/
 export default Actions;

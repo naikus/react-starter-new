@@ -1,5 +1,5 @@
 import React, {useCallback, useRef, useState} from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // import {registerFieldType} from "./Form";
 
@@ -38,10 +38,12 @@ function FileItem(props) {
   );
 }
 FileItem.displayName = "FileItem";
+/*
 FileItem.propTypes = {
   file: PropTypes.object.isRequired,
   onRemove: PropTypes.func
 };
+*/
 
 
 /**
@@ -124,6 +126,7 @@ function FileUpload(props) {
   );
 }
 FileUpload.displayName = "FileUpload";
+/*
 FileUpload.propTypes = {
   accept: PropTypes.string,
   multiple: PropTypes.bool,
@@ -132,7 +135,7 @@ FileUpload.propTypes = {
   onInput: PropTypes.func,
   disabled: PropTypes.bool
 };
-
+*/
 // registerFieldType("file-upload", FileUpload);
 
 export default FileUpload;
