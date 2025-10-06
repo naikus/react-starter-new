@@ -54,7 +54,7 @@ Form.registerFieldType("multiselect", MultiSelect);
 Form.registerFieldType("fileupload", FileUpload);
 
 const View = props => {
-  const {context: {formTitle}} = props, 
+  const {context: {config, data: {formTitle = "Sample Form"}}} = props, 
       notify = useNotifications(),
       [valid, setValid] = useState(false),
       router = useRouter(),
