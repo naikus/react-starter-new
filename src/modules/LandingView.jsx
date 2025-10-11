@@ -57,7 +57,7 @@ function useEscapeClose(show, onCancel) {
 const View = props => {
   const {context} = props, 
       notify = useNotifications(),
-      router = useRouter(), 
+      {route, router} = useRouter(), 
       toggleScheme = useCallback(() => {
         /** @type {HTMLElement} */
         // @ts-ignore
@@ -79,7 +79,7 @@ const View = props => {
   useGlobalKeyListener(showOverlay, "Escape", () => setShowOverlay(false));
 
   // @ts-ignore
-  // console.debug("Router", router.getCurrentRoute().params);
+  // console.debug("Router", route.params);
   // console.debug("Context", context.queryParams.get("hello"));
   return (
     <div className="view landing-view">
