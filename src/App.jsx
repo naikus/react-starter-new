@@ -12,17 +12,11 @@ import {useOnMount} from "@components/util/hooks";
 import routes from "./routes";
 
 /**
- * @typedef {import("simple-router/src/types").Router} Router
- * @typedef {import("simple-router/src/types").RouteInfo} RouteInfo
- * @typedef {import("simple-router/src/types").create} createRouter 
- */
-
-/**
- * @typedef RouteRuntimeContext
- * @property {React.ReactNode} component
- * @property {any?} config
- * @property {RouteInfo} route
- * @property {any?} data
+ * @typedef {import("simple-router").Router} Router
+ * @typedef {import("simple-router").RouteInfo} RouteInfo
+ * @typedef {import("simple-router").create} createRouter 
+ * @typedef {import("./components/notifications/index").NotifyFunction} NotifyFunction
+ * @typedef {import("./routes").RouteControllerData} RouteControllerData
  */
 
 
@@ -178,13 +172,13 @@ function RouteLoadingIndicator(props) {
     }
 
     const unsubs = [
-      router.on("before-route", (data) => {
+      router.on("before-route", event => {
         setRouteLoading(true);
       }),
-      router.on("route", async (context) => {
+      router.on("route", event => {
         setRouteLoading(false);
       }),
-      router.on("route-error", (error) => {
+      router.on("route-error", event => {
         setRouteLoading(false);
       })
     ];
@@ -212,8 +206,7 @@ RouteLoadingIndicator.displayName = "RouteLoadingIndicator";
 function App({appBarPosition = "left"}) {
   /** @type {import("react").MutableRefObject<Router|undefined>} */
   const [router, setRouter] = useState(null),
-      /** @type {[RouteRuntimeContext, (state: RouteRuntimeContext) => void]} */
-      // @ts-ignore
+      /** @type {[RouteControllerData, (state: RouteControllerData) => void]} */
       [routeContext = {
         config: {appBar: false}
       }, setRouteContext] = useState(),
@@ -243,10 +236,12 @@ function App({appBarPosition = "left"}) {
           errorRoute: "/~error"
         }),
         unsubs = [
-          router.on("route", (context) => {
+          router.on("route", event => {
             // console.log("Setting route", context);
             // notify.toast(`Setting route ${context.route.runtimePath}`);
-            const {component /*, config = {}, data */} = context;
+            /** @type {RouteControllerData} */
+            const context = event.detail,
+                {component /*, config = {}, data */} = context;
             /*
             let {requiresAuth} = config, authEnabled = true;
             if(authEnabled && requiresAuth) {
@@ -272,11 +267,15 @@ function App({appBarPosition = "left"}) {
             }
             setRouteContext(context);
           }),
-          router.on("route-error", (error) => {
+          router.on("route-error", event => {
+            const {detail: {path, error}} = event;
+            if(error && error.type === "abort") {
+              return;
+            }
             notify({
               content: (
                 <span>
-                  {error.message}. <a href="#/">Home</a>
+                  {`${path}: ${error.message || error}`}. <a href="#/">Home</a>
                 </span>
               ),
               type: "error",
