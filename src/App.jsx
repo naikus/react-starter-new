@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState, forwardRef, useCallback} from "react";
+import React, {useRef, useState, forwardRef, useEffect, useCallback} from "react";
 import PropTypes from "prop-types";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 
@@ -14,10 +14,12 @@ import routes from "./routes";
 /**
  * @typedef {import("simple-router").Router} Router
  * @typedef {import("simple-router").RouteInfo} RouteInfo
+ * @typedef {import("simple-router").RouteContext} RouteContext
  * @typedef {import("simple-router").create} createRouter 
  * @typedef {import("./components/notifications/index").NotifyFunction} NotifyFunction
  * @typedef {import("./routes").RouteControllerData} RouteControllerData
  */
+
 
 
 // import top level styles
@@ -113,10 +115,10 @@ const AppBar = props => {
         </div>
         <div className="actions">
           {
-          /*
-          * Actions used Views or anywhere else will appear here 
-          * Each view can define actions using the <Actions> component and those will appear here
-          */
+            /*
+             * Actions used Views or anywhere else will appear here 
+             * Each view can define actions using the <Actions> component and those will appear here
+             */
           }
         </div>
         <div className="actions global-actions">
@@ -196,7 +198,6 @@ RouteLoadingIndicator.displayName = "RouteLoadingIndicator";
 /**
  * @typedef {"top" | "left"} AppBarPosition
  */
-
 /**
  * 
  * @param {{
@@ -204,16 +205,20 @@ RouteLoadingIndicator.displayName = "RouteLoadingIndicator";
  * }} props 
  */
 function App({appBarPosition = "left"}) {
-  /** @type {import("react").MutableRefObject<Router|undefined>} */
+  /** @type {[Router, function(Router)]} */
   const [router, setRouter] = useState(null),
       /** @type {[RouteControllerData, (state: RouteControllerData) => void]} */
-      [routeContext = {
+      [routeContext, setRouteContext] = useState({
         config: {appBar: false}
-      }, setRouteContext] = useState(),
-      {component: View, config = {}, route, data} = routeContext,
+      }),
+      {config = {}, route, data} = routeContext,
+      [View, setView] = useState(),
+
       {appBar = true} = config,
       transitionRef = useRef(null),
-      transitionKey = route ? route.path : "root",
+      transitionKey = route ? route.routePath : "root",
+      
+      /** @type {NotifyFunction} */
       notify = useNotifications();
 
   /*
@@ -239,14 +244,14 @@ function App({appBarPosition = "left"}) {
           router.on("route", event => {
             // console.log("Setting route", context);
             // notify.toast(`Setting route ${context.route.runtimePath}`);
-            /** @type {RouteControllerData} */
+            /** @type {RouteContext} */
             const context = event.detail,
-                {component /*, config = {}, data */} = context;
+                {route, component /*, config = {}, data */} = context;
             /*
             let {requiresAuth} = config, authEnabled = true;
             if(authEnabled && requiresAuth) {
-              const authenticated = await authService.isAuthenticated();
-              if(!authenticated) {
+              const auth = await authService.getAuth();
+              if(!auth.user) {
                 // console.debug("Authentication required");
                 notify({
                   content: "Please sign in to continue",
@@ -261,9 +266,13 @@ function App({appBarPosition = "left"}) {
             */
 
             if(component) {
-              // console.debug("Creating wrapper", component.displayName);
-              // A wrapper needs to be created every time as views are not cached
-              context.component = createViewWrapper(context.component);
+              const {from = {}} = route;
+              // Set the View only of the routes are different
+              if(from.routePath !== route.routePath) {
+                // console.debug("Creating wrapper", component.displayName);
+                // A wrapper needs to be created every time as views are not cached
+                setView(createViewWrapper(component));
+              }
             }
             setRouteContext(context);
           }),
@@ -306,14 +315,12 @@ function App({appBarPosition = "left"}) {
     // @ts-ignore
     <RouterProvider router={router}>
       <div className={`app appbar-${appBarPosition}`}>
-        {appBar ? 
+        {appBar 
           // @ts-ignore
-          <AppBar logo={Config.logo}
-              // position="top"
-              title={Config.appName}
-              logoAltText="Logo" />
-        : null}
-
+          ? <AppBar logo={Config.logo} title={Config.appName} logoAltText="Logo" />
+          : null
+        }
+ 
         <SwitchTransition>
           {/* @ts-ignore */}
           <CSSTransition classNames={"fadeup"}

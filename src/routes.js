@@ -13,6 +13,7 @@
 /**
  * @typedef {import("simple-router").Router} Router
  * @typedef {import("simple-router").RouteDefn} RouteDefn
+ * @typedef {import("simple-router").Route} Route
  */
 
 /**
