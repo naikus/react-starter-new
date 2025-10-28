@@ -37,16 +37,17 @@ export default [
       };
     }
   },
-  // Example of loading a view and it's dependencies lazily
-  // Also how to pass query parameters e.g. "/landing?hello=world&world=hello"
+  // How to pass query parameters e.g. "/landing?hello=world&world=hello"
   {
-    path: "/landing{\\?:query}",
+    path: "/landing{\\?*query}",
     controller: async (context) => {
       const {route: {params}} = context,
           {query = ""} = params,
           queryParams = new URLSearchParams(query);
 
       // console.log(queryParams.toString());
+      
+      // Example of loading a view and it's dependencies lazily
       const LandingView = (await import("./modules/LandingView")).default;
       return {
         // forward: "/route-error",
