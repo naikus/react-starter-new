@@ -276,7 +276,12 @@ function App({appBarPosition = "left"}) {
             if(component) {
               const {from = {}} = route;
               // Set the View only of the routes are different
-              console.log("Route path", route);
+              // console.log("Route path", route);
+              
+              // @todo this check fails in cases when multiple calls to the same
+              // route is made. When this happens the from.routePath is same as routePath
+              // causing vie component to not change but data is set below in setRouteContext
+
               // if(from.routePath !== route.routePath) {
                 // console.debug("Creating wrapper", component.displayName);
                 // A wrapper needs to be created every time as views are not cached
