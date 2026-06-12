@@ -166,6 +166,8 @@ AppBar.propTypes = {
  */
 function RouteLoadingIndicator(props) {
   const {router} = props,
+      /** @type {NotifyFunction} */
+      notify = useNotifications(),
       [isRouteLoading, setRouteLoading] = useState(false);
 
   useEffect(() => {
@@ -175,6 +177,15 @@ function RouteLoadingIndicator(props) {
 
     const unsubs = [
       router.on("before-route", event => {
+        /*
+        if(event.detail === "/about") {
+          // Abort this route
+          event.preventDefault();
+          notify.error("Now allowed :(");
+          router.back();
+          return;
+        }
+        */
         setRouteLoading(true);
       }),
       router.on("route", event => {
@@ -236,11 +247,7 @@ function App({appBarPosition = "left"}) {
   // useOnMount(function setupRouter() {
   useEffect(function setupRouter() {
     /** @type {Router} */
-    // @ts-ignore
-    const router = createRouter(routes, {
-          defaultRoute: "/",
-          errorRoute: "/~error"
-        }),
+    const router = createRouter(routes),
         unsubs = [
           router.on("route", event => {
             // console.log("Setting route", context);
@@ -269,19 +276,19 @@ function App({appBarPosition = "left"}) {
             if(component) {
               const {from = {}} = route;
               // Set the View only of the routes are different
-              if(from.routePath !== route.routePath) {
+              console.log("Route path", route);
+              // if(from.routePath !== route.routePath) {
                 // console.debug("Creating wrapper", component.displayName);
                 // A wrapper needs to be created every time as views are not cached
                 setView(createViewWrapper(component));
-              }
+              // }
             }
+            // console.log("setting route context", context);
             setRouteContext(context);
           }),
           router.on("route-error", event => {
             const {detail: {path, error}} = event;
-            if(error && error.type === "abort") {
-              return;
-            }
+            console.error(error);
             notify({
               content: (
                 <span>
@@ -291,14 +298,22 @@ function App({appBarPosition = "left"}) {
               type: "error",
               sticky: true
             });
+          }),
+          router.on("route-abort", event => {
+            const {path, reason: {name, data}} = event.detail;
+            notify.warn(`Route ${path} aborted. Reason: ${name}:${data}`);
           })
         ];
 
     setRouter(router);
     router.start();
+
+    // const timeoutId = setTimeout(() => {
     router.route(router.getBrowserRoute() || "/");
+    // }, 10);
 
     return () => {
+      // clearTimeout(timeoutId);
       unsubs.forEach(unsub => unsub());
       router.stop();
       setRouter(null);

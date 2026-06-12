@@ -3,7 +3,16 @@ import {useRouter} from "@components/router";
 import Config from "@config";
 
 const View = props => {
-  const {router} = useRouter();
+  const {router} = useRouter(),
+      goBack = () => {
+        const r = router.getCurrentRoute(), {from} = r;
+        if(from && from.path !== r.path) {
+          router.back();
+        }else {
+          // router.route("/landing?message=Hello+World");
+          router.route("/");
+        }
+      };
 
   /*
   useOnMount(() => {
@@ -28,7 +37,7 @@ const View = props => {
       </style>
       <div className="content _text-center">
         <pre>{Config.appName} ({Config.appVersion})</pre>
-        <button className="primary inline" onClick={() => router && router.back()}>
+        <button className="primary inline" onClick={goBack}>
           <i className="icon icon-arrow-left" /> Back
         </button>
       </div>
