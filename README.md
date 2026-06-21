@@ -27,6 +27,10 @@ Landing View
 ![Main Landing View](screenshots/LandingView.png)
 
 
+Form View
+![Main Landing View](screenshots/FormView.png)
+
+
 About View
 ![Form View](screenshots/AboutView.png)
 
@@ -36,23 +40,14 @@ About View
 # Form Component Issues and Improvements
 
 1. **Validation Timing**: The `onChange` event only fires when the form is not pristine, potentially missing initial validation errors.
-
 2. **Field Removal**: When removing a field, the form's `valid` state isn't recalculated.
-
 3. **Async Validation**: No support for asynchronous validation (e.g., server-side checks).
-
 4. **Deep Object Handling**: Lack of built-in support for deeply nested object structures in form data.
-
 5. **Array Field Handling**: No specific support for array fields (e.g., dynamic list of inputs).
-
 6. **Performance for Large Forms**: The `useEffect` hook for form changes runs on every update, potentially causing performance issues in large forms.
-
 7. **Reset Functionality**: Lack of a built-in way to reset all fields to their initial state.
-
 8.  **Field Focus Management**: No built-in way to manage field focus for accessibility and user experience.
-
 9.  **Custom Field Validation Timing**: Always validates on every change, with no way to customize (e.g., validate on blur).
-
 10. **Error Boundary**: No error boundary to catch and handle runtime errors gracefully.
 
 ## Potential Improvements

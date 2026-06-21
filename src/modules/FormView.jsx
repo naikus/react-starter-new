@@ -242,11 +242,11 @@ const MyForm = props => {
           <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
         </FieldGroup>
         <Field name="hobbies"
-            placeholder="Enter multiple separated by comma"
-            type="multival"
-            label="Hobbies"
-            // disabled={true}
-            hint="Enter upto four"
+          placeholder="Enter multiple separated by comma"
+          type="multival"
+          label="Hobbies"
+          // disabled={true}
+          hint="Enter upto four"
           defaultValue={["Walking", "Web Development"]} />
         <Field name="sports" type="multiselect" label="Sports"
           hint="Choose all that apply"
