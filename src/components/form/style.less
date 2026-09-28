@@ -20,6 +20,7 @@ form {
       opacity: 0.0;
       position: absolute;
       cursor: pointer;
+      z-index: 1;
     }
     .indicator {
       display: flex;
@@ -240,6 +241,20 @@ form {
   }
 }
 
+
+.range-input {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  .value {
+    min-width: 30px;
+    text-align: center;
+    padding: @padding-tiny;
+    margin: @padding-tiny;
+    background-color: var(--bg-color);
+    border-radius: @input-border-radius;
+  }
+}
 
 .multi-val-input {
   @disabled-opacity: 0.5;

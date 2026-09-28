@@ -1,4 +1,7 @@
-import React, {useEffect, useReducer, useContext, useRef, useCallback, startTransition} from "react";
+import React, {
+  useState, useEffect, useReducer, useContext, useRef,
+  useCallback, startTransition, Fragment
+} from "react";
 import PropTypes from "prop-types";
 import "./style.less";
 
@@ -59,6 +62,35 @@ const VALID = {valid: true, message: ""},
       input(props) {
         return (
           <input type={props.type} {...props} />
+        );
+      },
+      range(props) {
+        const {value, defaultValue, format = o => o} = props,
+            [val, setVal] = useState(value || defaultValue),
+            inputRef = useRef(),
+            changeListener = e => {
+              // e.preventDefault();
+              // e.stopPropagation();
+              const {value} = e.target;
+              setVal(format(value));
+            },
+            newProps = {
+              ...props
+            };
+
+        delete newProps.format;
+
+        useOnMount(function registerChangeListener() {
+          const {current} = inputRef;
+          current.addEventListener("input", changeListener);
+          return () => current.removeEventListener("input", changeListener);
+        });
+            
+        return (
+          <span className="range-input">
+            <span className="value">{val}</span>
+            <input ref={inputRef} type="range" {...newProps} />
+          </span>
         );
       },
       // /*
@@ -240,7 +272,7 @@ function FieldLabel(props) {
       <label className="label" htmlFor={htmlFor}>
         <span className="title">{label}</span>
         {hint ? <span className="hint">{hint}</span> : null}
-        {type === "range" ? <span className="value">{value}</span> : null}
+        {/*type === "range" ? <span className="value">{value}</span> : null */}
       </label>
     );
   }
@@ -402,17 +434,22 @@ function Field(props) {
   if(formContext) {
     const {form: {fields}, updateField, renderer} = formContext,
       fieldModel = fields[name] || {name, value, defaultValue, label},
+      // We need to cache the debounce between re-renders since debounce
+      // relies on the setTimeout's id. Some components like sliders update
+      // to quickly where we want to send an update only when the user stops
+      // interaction with the slider.
+      debouncedUpdateField = useCallback(debounce(updateField, 100), []),
       newProps = {
         ...props,
-        onInput: debounce(e => {
+        onInput: e => {
           const {target} = e, {value/*, disabled, readonly*/} = target, {name} = props;
-          // console.debug("Dispatching", name, value);
-          // console.debug("On Input", name, target);
+          // console.log("Dispatching", name, target, value);
           startTransition(() => {
-            updateField({name, value});
+            // updateField({name, value});
+            debouncedUpdateField({name, value});
             onInput && onInput(e);
           });
-        }, 100)
+        }// , 1000)
         /*
         onChange: e => {
           const value = e.target.value, {name} = props;
@@ -513,7 +550,7 @@ function formReducer(state, action) {
   let newState;
   switch (type) {
     case "set-fields": {
-      // console.debug("[reducer] set-fields");
+      // console.log("[reducer] set-fields");
       /** @type {Object<string, FieldModel>} */
       let flds = {},
           formValid = true;
@@ -538,7 +575,7 @@ function formReducer(state, action) {
       break;
     }
     case "add-field": {
-      // console.debug("[reducer] add-field", payload.name);
+      // console.log("[reducer] add-field", payload.name);
       const {name, value, label, disabled} = payload,
           {valid, message} = validateField(payload, rules, fields);
       // console.log("[reducer] add-field", payload);
@@ -560,7 +597,7 @@ function formReducer(state, action) {
       break;
     }
     case "update-field": {
-      // console.debug("[reducer] update-field", payload.name);
+      // console.log("[reducer] update-field", payload.name);
       const {fields} = state,
         {name, value, disabled, readonly} = payload, // Here payload is field model
         fld = fields[name],
@@ -604,7 +641,7 @@ function formReducer(state, action) {
       break;
     }
     case "remove-field": {
-      // console.debug("[reducer] remove-field", payload);
+      // console.log("[reducer] remove-field", payload);
       // here payload is the name of the field
       const {fields} = state, name = payload,
         newFields = {...fields};
@@ -758,6 +795,7 @@ function Form(props) {
       },
       updateField: function updateField(field) {
         // @ts-ignore
+        // console.debug("updateField", field);
         dispatch({type: "update-field", payload: field});
       },
       getField(name) {

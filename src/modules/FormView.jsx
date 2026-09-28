@@ -240,6 +240,14 @@ const MyForm = props => {
             {label: "Option 2", value: "option2"}
           ]} />
           <Field id="subs" label="Subscribe to my newsletter" name="subscribe" type="checkbox" />
+          <Field id="temperature" name="temperature" label="Temperature" 
+            defaultValue={5.5}
+            type="range"
+            min="0.0"
+            max="10.0"
+            step="0.1"
+            // list="temperature_list"
+            format={(o) => parseFloat(o).toFixed(1)} />
         </FieldGroup>
         <Field name="hobbies"
           placeholder="Enter multiple separated by comma"
