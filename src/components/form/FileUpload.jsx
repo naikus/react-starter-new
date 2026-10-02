@@ -114,7 +114,7 @@ function FileUpload(props) {
         <div className="actions">
           {/* @ts-ignore */}
           <button className="action" onClick={() => inputRef.current.click()} disabled={disabled}>Browse</button>
-          <button className="action icon-trash" onClick={removeAll} disabled={data.length === 0 || disabled}>Remove All</button>
+          <button className="action" onClick={removeAll} disabled={data.length === 0 || disabled}>Remove All</button>
         </div>
         <div className="files">
           {files}
