@@ -329,7 +329,7 @@ const View = props => {
       </Actions>
       <div className="content">
         <Tabs>
-          <Tabs.Nav activeTab="messages"
+          <Tabs.Nav activeTab="form"
               onChange={(curr, prev) => {
                 if(curr === "nav:about") {
                   router.route("/about");
